@@ -91,6 +91,13 @@ export const uti: Condition = {
   },
   tools: [
     {
+      id: 'uti-diagnostic',
+      name: 'UTI Diagnostic & Treatment Algorithm',
+      description: 'Complete diagnostic workflow from symptoms to treatment plan',
+      type: 'assessment',
+      component: 'UTIDiagnostic'
+    },
+    {
       id: 'uti-assessment',
       name: 'UTI Classification Tool',
       description: 'Determine if UTI is simple, complicated, or pyelonephritis',

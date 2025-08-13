@@ -95,6 +95,13 @@ export const depression: Condition = {
   },
   tools: [
     {
+      id: 'depression-treatment',
+      name: 'Depression Treatment Decision Tree',
+      description: 'Evidence-based treatment selection based on PHQ-9 scores and patient factors',
+      type: 'assessment',
+      component: 'DepressionTreatment'
+    },
+    {
       id: 'phq9-assessment',
       name: 'PHQ-9 Depression Screening',
       description: 'Standardized tool for depression screening and monitoring',
@@ -144,6 +151,27 @@ export const depression: Condition = {
       description: 'Schedule pleasant activities to improve mood',
       type: 'education',
       component: 'BehavioralActivation'
+    },
+    {
+      id: 'medication-interaction-checker',
+      name: 'Medication Interaction Checker',
+      description: 'Check for drug interactions with antidepressants',
+      type: 'reference',
+      component: 'MedicationInteractionChecker'
+    },
+    {
+      id: 'patient-education',
+      name: 'Patient Education Center',
+      description: 'Interactive learning modules for depression management and mental health',
+      type: 'education',
+      component: 'PatientEducation'
+    },
+    {
+      id: 'self-management',
+      name: 'Self-Management Tools',
+      description: 'Goal setting, mood tracking, and mental health self-care',
+      type: 'education',
+      component: 'SelfManagement'
     }
   ],
   resources: [

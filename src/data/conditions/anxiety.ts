@@ -145,6 +145,20 @@ export const anxiety: Condition = {
       description: 'Emergency contacts and crisis intervention resources',
       type: 'reference',
       component: 'CrisisResources'
+    },
+    {
+      id: 'patient-education',
+      name: 'Patient Education Center',
+      description: 'Interactive learning modules for anxiety management and coping skills',
+      type: 'education',
+      component: 'PatientEducation'
+    },
+    {
+      id: 'self-management',
+      name: 'Self-Management Tools',
+      description: 'Goal setting, anxiety tracking, and self-care strategies',
+      type: 'education',
+      component: 'SelfManagement'
     }
   ],
   resources: [

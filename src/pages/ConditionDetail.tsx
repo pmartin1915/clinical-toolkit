@@ -6,6 +6,21 @@ import { GAD7Assessment } from '../components/tools/GAD7Assessment';
 import { ASCVDCalculator } from '../components/tools/ASCVDCalculator';
 import { PHQ9Assessment } from '../components/tools/PHQ9Assessment';
 import { BPTracker } from '../components/tools/BPTracker';
+import { TriglycerideCalculator } from '../components/tools/TriglycerideCalculator';
+import { UTIAssessment } from '../components/tools/UTIAssessment';
+import { UTIDiagnostic } from '../components/tools/UTIDiagnostic';
+import { SinusitisAssessment } from '../components/tools/SinusitisAssessment';
+import { SinusitisDiagnostic } from '../components/tools/SinusitisDiagnostic';
+import { HypertensionManagement } from '../components/tools/HypertensionManagement';
+import { DiabetesTreatment } from '../components/tools/DiabetesTreatment';
+import { DepressionTreatment } from '../components/tools/DepressionTreatment';
+import { MedicationInteractionChecker } from '../components/tools/MedicationInteractionChecker';
+import { RiskStratification } from '../components/tools/RiskStratification';
+import { PatientEducation } from '../components/tools/PatientEducation';
+import { SelfManagement } from '../components/tools/SelfManagement';
+import { COPDAssessment } from '../components/tools/COPDAssessment';
+import { AsthmaControlTest } from '../components/tools/AsthmaControlTest';
+import { NYHAClassification } from '../components/tools/NYHAClassification';
 
 interface ConditionDetailProps {
   condition: Condition;
@@ -35,14 +50,44 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
     switch (toolId) {
       case 'a1c-converter':
         return <A1CConverter />;
+      case 'diabetes-treatment':
+        return <DiabetesTreatment />;
       case 'gad7-assessment':
         return <GAD7Assessment />;
       case 'ascvd-calculator':
         return <ASCVDCalculator />;
       case 'phq9-assessment':
         return <PHQ9Assessment />;
+      case 'depression-treatment':
+        return <DepressionTreatment />;
       case 'bp-tracker':
         return <BPTracker />;
+      case 'hypertension-management':
+        return <HypertensionManagement />;
+      case 'triglyceride-calculator':
+        return <TriglycerideCalculator />;
+      case 'uti-assessment':
+        return <UTIAssessment />;
+      case 'uti-diagnostic':
+        return <UTIDiagnostic />;
+      case 'sinusitis-assessment':
+        return <SinusitisAssessment />;
+      case 'sinusitis-diagnostic':
+        return <SinusitisDiagnostic />;
+      case 'medication-interaction-checker':
+        return <MedicationInteractionChecker />;
+      case 'risk-stratification':
+        return <RiskStratification />;
+      case 'patient-education':
+        return <PatientEducation condition={condition.id} />;
+      case 'self-management':
+        return <SelfManagement condition={condition.id} />;
+      case 'copd-assessment':
+        return <COPDAssessment />;
+      case 'asthma-control-test':
+        return <AsthmaControlTest />;
+      case 'nyha-classification':
+        return <NYHAClassification />;
       default:
         return (
           <div className="text-center py-8 text-gray-500">
@@ -70,30 +115,54 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
         <p className="text-lg text-gray-600">{condition.shortDescription}</p>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs - Mobile Optimized */}
       <div className="border-b border-gray-200 mb-6">
-        <nav className="-mb-px flex space-x-8">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  setSelectedTool(null);
-                }}
-                className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
-                  activeTab === tab.id
-                    ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+        <nav className="-mb-px overflow-x-auto scrollbar-hide scroll-smooth touch-pan-x">
+          <div className="flex space-x-2 sm:space-x-8 min-w-max px-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setSelectedTool(null);
+                  }}
+                  className={`py-3 px-3 sm:px-4 border-b-2 font-medium text-sm flex items-center space-x-2 whitespace-nowrap flex-shrink-0 transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-primary-500 text-primary-600 bg-primary-50'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </nav>
+        
+        {/* Mobile Tab Indicator Dots */}
+        <div className="sm:hidden mt-3 flex justify-center space-x-2">
+          {tabs.map((tab) => (
+            <button
+              key={`dot-${tab.id}`}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setSelectedTool(null);
+              }}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                activeTab === tab.id ? 'bg-primary-500' : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Switch to ${tab.label} tab`}
+            />
+          ))}
+        </div>
+        
+        {/* Mobile Swipe Hint */}
+        <div className="sm:hidden mt-1 text-center">
+          <span className="text-xs text-gray-400">← Swipe to see all tabs →</span>
+        </div>
       </div>
 
       {/* Tab Content */}

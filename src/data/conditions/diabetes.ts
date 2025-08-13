@@ -78,6 +78,13 @@ export const diabetes: Condition = {
   },
   tools: [
     {
+      id: 'diabetes-treatment',
+      name: 'Diabetes Treatment Algorithm',
+      description: 'Evidence-based treatment selection based on A1C, comorbidities, and patient factors',
+      type: 'assessment',
+      component: 'DiabetesTreatment'
+    },
+    {
       id: 'a1c-converter',
       name: 'A1C to Average Glucose Converter',
       description: 'Convert A1C percentage to estimated average glucose',
@@ -114,6 +121,27 @@ export const diabetes: Condition = {
       description: 'Step-by-step emergency treatment for low blood sugar',
       type: 'education',
       component: 'HypoglycemiaAction'
+    },
+    {
+      id: 'risk-stratification',
+      name: 'Risk Stratification Assessment',
+      description: 'Comprehensive risk assessment including cardiovascular, VTE, and frailty risk',
+      type: 'calculator',
+      component: 'RiskStratification'
+    },
+    {
+      id: 'patient-education',
+      name: 'Patient Education Center',
+      description: 'Interactive learning modules for diabetes management and self-care',
+      type: 'education',
+      component: 'PatientEducation'
+    },
+    {
+      id: 'self-management',
+      name: 'Self-Management Tools',
+      description: 'Goal setting, blood sugar tracking, and diabetes management',
+      type: 'education',
+      component: 'SelfManagement'
     }
   ],
   resources: [

@@ -80,6 +80,13 @@ export const rhinosinusitis: Condition = {
   },
   tools: [
     {
+      id: 'sinusitis-diagnostic',
+      name: 'Sinusitis Diagnostic Algorithm',
+      description: 'Complete diagnostic workflow from viral vs bacterial determination to treatment plan',
+      type: 'assessment',
+      component: 'SinusitisDiagnostic'
+    },
+    {
       id: 'sinusitis-diagnostic-tool',
       name: 'ABRS Diagnostic Criteria',
       description: 'Assess likelihood of bacterial vs. viral sinusitis',

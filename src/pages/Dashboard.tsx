@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, ArrowUpDown } from 'lucide-react';
 import { ConditionCard } from '../components/ui/ConditionCard';
 import { hypertension } from '../data/conditions/hypertension';
 import { diabetes } from '../data/conditions/diabetes';
@@ -8,7 +8,22 @@ import { depression } from '../data/conditions/depression';
 import { hypertriglyceridemia } from '../data/conditions/hypertriglyceridemia';
 import { rhinosinusitis } from '../data/conditions/rhinosinusitis';
 import { uti } from '../data/conditions/uti';
+import { copd } from '../data/conditions/copd';
+import { heartFailure } from '../data/conditions/heart-failure';
 import type { Condition } from '../types';
+
+// Prevalence data (approximate annual incidence/prevalence per 100,000)
+const prevalenceData: Record<string, number> = {
+  'hypertension': 45000, // 45% of adults
+  'diabetes': 11000, // 11% of adults
+  'anxiety': 18000, // 18% of adults (GAD)
+  'depression': 8500, // 8.5% of adults annually
+  'copd': 6300, // 6.3% of adults
+  'heart-failure': 2300, // 2.3% of adults
+  'uti': 12000, // 12% of women annually
+  'rhinosinusitis': 12000, // 12% of adults annually
+  'hypertriglyceridemia': 25000, // 25% of adults
+};
 
 const conditions: Condition[] = [
   hypertension,
@@ -18,6 +33,8 @@ const conditions: Condition[] = [
   hypertriglyceridemia,
   rhinosinusitis,
   uti,
+  copd,
+  heartFailure,
 ];
 
 interface DashboardProps {
@@ -27,13 +44,25 @@ interface DashboardProps {
 export const Dashboard = ({ onConditionSelect }: DashboardProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'name' | 'prevalence'>('name');
 
-  const filteredConditions = conditions.filter(condition => {
-    const matchesSearch = condition.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         condition.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || condition.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredAndSortedConditions = conditions
+    .filter(condition => {
+      const matchesSearch = condition.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           condition.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === 'all' || condition.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'name') {
+        return a.title.localeCompare(b.title);
+      } else {
+        // Sort by prevalence (highest to lowest)
+        const aPrevalence = prevalenceData[a.id] || 0;
+        const bPrevalence = prevalenceData[b.id] || 0;
+        return bPrevalence - aPrevalence;
+      }
+    });
 
   const categories = [
     { value: 'all', label: 'All Conditions' },
@@ -69,26 +98,40 @@ export const Dashboard = ({ onConditionSelect }: DashboardProps) => {
           />
         </div>
 
-        <div className="flex items-center space-x-2">
-          <Filter className="text-gray-400 w-4 h-4" />
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-          >
-            {categories.map(category => (
-              <option key={category.value} value={category.value}>
-                {category.label}
-              </option>
-            ))}
-          </select>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <Filter className="text-gray-400 w-4 h-4" />
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            >
+              {categories.map(category => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <ArrowUpDown className="text-gray-400 w-4 h-4" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'name' | 'prevalence')}
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            >
+              <option value="name">Sort A-Z</option>
+              <option value="prevalence">Sort by Prevalence</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Conditions Grid */}
-      {filteredConditions.length > 0 ? (
+      {filteredAndSortedConditions.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredConditions.map(condition => (
+          {filteredAndSortedConditions.map(condition => (
             <ConditionCard
               key={condition.id}
               condition={condition}

@@ -69,6 +69,13 @@ export const hypertension: Condition = {
   },
   tools: [
     {
+      id: 'hypertension-management',
+      name: 'Hypertension Management Algorithm',
+      description: 'Interactive clinical decision support for hypertension treatment',
+      type: 'assessment',
+      component: 'HypertensionManagement'
+    },
+    {
       id: 'bp-tracker',
       name: 'Blood Pressure Tracker',
       description: 'Log and track blood pressure readings over time',
@@ -113,6 +120,34 @@ export const hypertension: Condition = {
       description: 'Rapid assessment tool for hypertensive emergencies',
       type: 'assessment',
       component: 'HypertensiveEmergency'
+    },
+    {
+      id: 'medication-interaction-checker',
+      name: 'Medication Interaction Checker',
+      description: 'Check for drug interactions with BP medications',
+      type: 'reference',
+      component: 'MedicationInteractionChecker'
+    },
+    {
+      id: 'risk-stratification',
+      name: 'Risk Stratification Assessment',
+      description: 'Comprehensive risk assessment including cardiovascular, fall, and frailty risk',
+      type: 'calculator',
+      component: 'RiskStratification'
+    },
+    {
+      id: 'patient-education',
+      name: 'Patient Education Center',
+      description: 'Interactive learning modules for blood pressure management and self-care',
+      type: 'education',
+      component: 'PatientEducation'
+    },
+    {
+      id: 'self-management',
+      name: 'Self-Management Tools',
+      description: 'Goal setting, progress tracking, and personal health management',
+      type: 'education',
+      component: 'SelfManagement'
     }
   ],
   resources: [

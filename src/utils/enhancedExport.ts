@@ -1,6 +1,5 @@
 // Enhanced export utilities with better PDF reports and email integration
 import jsPDF from 'jspdf';
-import Papa from 'papaparse';
 import { format } from 'date-fns';
 import type {
   ExportData,

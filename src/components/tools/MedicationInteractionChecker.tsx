@@ -302,7 +302,7 @@ export const MedicationInteractionChecker = () => {
         const med2 = selectedMedications[j];
         
         // Check both directions
-        let interaction = interactionDatabase[med1.id]?.[med2.id] || 
+        const interaction = interactionDatabase[med1.id]?.[med2.id] || 
                          interactionDatabase[med2.id]?.[med1.id];
         
         if (interaction) {

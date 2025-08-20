@@ -189,7 +189,7 @@ export const ASCVDCalculator = () => {
     let color: string;
     let bg: string;
     let ldlTarget: string;
-    let bpTarget: string = '<130/80 mmHg';
+    const bpTarget: string = '<130/80 mmHg';
     
     const lifestyle = [
       'Heart-healthy diet (Mediterranean or DASH)',

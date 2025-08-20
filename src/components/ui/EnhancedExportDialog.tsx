@@ -4,7 +4,7 @@ import {
   Download, 
   Mail, 
   FileText, 
-  Settings, 
+ 
   User, 
   Calendar,
   Activity,

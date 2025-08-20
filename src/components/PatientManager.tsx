@@ -20,8 +20,7 @@ import { EnhancedExportDialog } from './ui/EnhancedExportDialog';
 import { PatientCDSIntegration } from './ui/PatientCDSIntegration';
 import { QuickVitalsEntry } from './ui/QuickVitalsEntry';
 import { CDSHistoryPanel } from './ui/CDSHistoryPanel';
-import type { PatientProfile, VitalSigns } from '../types/storage';
-import type { CDSAlert } from '../utils/cdsEngine';
+import type { PatientProfile } from '../types/storage';
 import { CDSHistoryManager } from '../utils/cdsHistory';
 import { format } from 'date-fns';
 
@@ -73,7 +72,7 @@ export const PatientManager = () => {
           setSelectedPatient(null);
         }
         showMessage('success', 'Patient deleted successfully');
-      } catch (error) {
+      } catch {
         showMessage('error', 'Failed to delete patient');
       }
     }
@@ -91,7 +90,7 @@ export const PatientManager = () => {
           blob = await ExportManager.generatePatientReport(data);
           filename = ExportManager.generateFilename(patient, 'pdf');
           break;
-        case 'csv':
+        case 'csv': {
           // Create a combined CSV with all data types
           const csvData = {
             assessments: ExportManager.generateAssessmentsCSV(data.assessments),
@@ -102,6 +101,7 @@ export const PatientManager = () => {
           blob = csvData.assessments;
           filename = ExportManager.generateFilename(patient, 'csv', 'assessments');
           break;
+        }
         case 'json':
           blob = ExportManager.generateJSONExport(data);
           filename = ExportManager.generateFilename(patient, 'json');
@@ -157,7 +157,6 @@ export const PatientManager = () => {
         }
       }
     );
-    const [currentAlerts, setCurrentAlerts] = useState<CDSAlert[]>([]);
     const [showCDSWarning, setShowCDSWarning] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -194,7 +193,7 @@ export const PatientManager = () => {
         onSave(patientData);
         loadPatients();
         showMessage('success', patient ? 'Patient updated successfully' : 'Patient created successfully');
-      } catch (error) {
+      } catch {
         showMessage('error', 'Failed to save patient');
       }
     };
@@ -333,7 +332,7 @@ export const PatientManager = () => {
         </div>
 
         {/* CDS Integration */}
-        {(formData.currentMedications?.length > 0 || formData.allergies?.length > 0 || formData.conditions?.length > 0) && (
+        {((formData.currentMedications?.length || 0) > 0 || (formData.allergies?.length || 0) > 0 || (formData.conditions?.length || 0) > 0) && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Safety Check
@@ -342,7 +341,6 @@ export const PatientManager = () => {
               patientData={formData}
               isRealTime={true}
               onAlertsChange={(alerts) => {
-                setCurrentAlerts(alerts);
                 setShowCDSWarning(alerts.some(alert => alert.priority === 'critical' || alert.priority === 'high'));
               }}
             />
@@ -480,7 +478,7 @@ export const PatientManager = () => {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'list' | 'profile' | 'export' | 'settings')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600'

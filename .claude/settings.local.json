@@ -31,7 +31,10 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:tools.acc.org)",
       "WebFetch(domain:cran.r-project.org)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

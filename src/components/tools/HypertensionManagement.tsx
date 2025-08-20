@@ -100,7 +100,7 @@ export const HypertensionManagement = () => {
     ];
 
     // Determine medication strategy
-    let medicationRecs: string[] = [];
+    const medicationRecs: string[] = [];
     let reasoning = '';
 
     if (sbp < 130 && dbp < 80) {
@@ -156,10 +156,10 @@ export const HypertensionManagement = () => {
     }
 
     const allRecommendations = [
-      'ƒâ€â™‚ LIFESTYLE MODIFICATIONS:',
+      'ï¿½â€â™‚ LIFESTYLE MODIFICATIONS:',
       ...lifestyleRecs,
       '',
-      'Š PHARMACOLOGIC THERAPY:',
+      'ï¿½ PHARMACOLOGIC THERAPY:',
       ...medicationRecs
     ];
 
@@ -309,10 +309,10 @@ export const HypertensionManagement = () => {
             </p>
             
             {[
-              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: '˜' },
-              { key: 'hasDiabetes', label: 'Diabetes Mellitus', icon: '¸' },
+              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: 'ï¿½' },
+              { key: 'hasDiabetes', label: 'Diabetes Mellitus', icon: 'ï¿½' },
               { key: 'hasHF', label: 'Heart Failure', icon: '' },
-              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease', icon: '€' }
+              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease', icon: 'ï¿½' }
             ].map(({ key, label, icon }) => (
               <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <input
@@ -407,7 +407,7 @@ export const HypertensionManagement = () => {
           <h4 className="font-semibold text-gray-900">Treatment Recommendations:</h4>
           <div className="bg-gray-50 p-4 rounded-lg">
             {recommendation.recommendations.map((rec, index) => (
-              <div key={index} className={`${rec.startsWith('ƒâ€â™‚') || rec.startsWith('Š') ? 'font-semibold text-gray-900 mt-4 first:mt-0' : 'text-gray-700 ml-4'} ${rec === '' ? 'mb-2' : ''}`}>
+              <div key={index} className={`${rec.startsWith('ï¿½â€â™‚') || rec.startsWith('ï¿½') ? 'font-semibold text-gray-900 mt-4 first:mt-0' : 'text-gray-700 ml-4'} ${rec === '' ? 'mb-2' : ''}`}>
                 {rec && (rec.startsWith('â€¢') ? (
                   <div className="flex items-start space-x-2">
                     <span className="text-primary-600 mt-1">â€¢</span>

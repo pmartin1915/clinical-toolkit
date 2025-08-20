@@ -235,7 +235,7 @@ export const EnhancedASCVDCalculator = () => {
     let color: string;
     let bg: string;
     let ldlTarget: string;
-    let bpTarget: string = '<130/80 mmHg';
+    const bpTarget: string = '<130/80 mmHg';
     
     const lifestyle = [
       'Mediterranean or DASH diet',

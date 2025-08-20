@@ -10,11 +10,11 @@ interface eGFRResult {
   drugAdjustments: string[];
 }
 
-export const eGFRCalculator = () => {
+export const EGFRCalculator = () => {
   const [creatinine, setCreatinine] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<'male' | 'female'>('male');
-  const [race, setRace] = useState<'african-american' | 'other'>('other');
+  const race = 'other'; // Using race-free CKD-EPI 2021 equation
   const [units, setUnits] = useState<'mg/dL' | 'μmol/L'>('mg/dL');
   
   const [result, setResult] = useState<eGFRResult | null>(null);

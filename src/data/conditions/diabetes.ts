@@ -148,7 +148,7 @@ export const diabetes: Condition = {
       name: 'eGFR Calculator & CKD Staging',
       description: 'Estimated glomerular filtration rate using CKD-EPI equation with drug dosing adjustments',
       type: 'calculator',
-      component: 'eGFRCalculator'
+      component: 'EGFRCalculator'
     },
     {
       id: 'enhanced-ascvd-calculator',

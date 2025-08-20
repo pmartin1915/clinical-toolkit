@@ -1,11 +1,10 @@
-import { storageManager } from './storage';
 
 interface SyncQueueItem {
   id: string;
   timestamp: number;
   action: 'create' | 'update' | 'delete';
   type: 'patient' | 'assessment' | 'vital' | 'goal';
-  data: any;
+  data: unknown;
 }
 
 class SyncManager {

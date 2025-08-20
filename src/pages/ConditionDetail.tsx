@@ -25,7 +25,7 @@ import { COPDAssessment } from '../components/tools/COPDAssessment';
 import { AsthmaControlTest } from '../components/tools/AsthmaControlTest';
 import { NYHAClassification } from '../components/tools/NYHAClassification';
 import { CHA2DS2VAScCalculator } from '../components/tools/CHA2DS2VAScCalculator';
-import { eGFRCalculator as EGFRCalculator } from '../components/tools/eGFRCalculator';
+import { EGFRCalculator } from '../components/tools/eGFRCalculator';
 import { OttawaAnkleRules } from '../components/tools/OttawaAnkleRules';
 import { DrugDosingCalculator } from '../components/tools/DrugDosingCalculator';
 import { WellsScore } from '../components/tools/WellsScore';

@@ -178,7 +178,7 @@ export const DepressionTreatment = () => {
     const preference = patientData.treatmentPreference;
 
     let primaryRecommendation: TreatmentOption;
-    let alternativeOptions: TreatmentOption[] = [];
+    const alternativeOptions: TreatmentOption[] = [];
     let reasoning = '';
     let followUp = '';
 
@@ -603,18 +603,18 @@ export const DepressionTreatment = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
-                  { key: 'isPregnant', label: 'Currently pregnant', icon: '°' },
-                  { key: 'isBreastfeeding', label: 'Currently breastfeeding', icon: '±' },
+                  { key: 'isPregnant', label: 'Currently pregnant', icon: 'ï¿½' },
+                  { key: 'isBreastfeeding', label: 'Currently breastfeeding', icon: 'ï¿½' },
                   { key: 'hasWeightConcerns', label: 'Weight gain concerns', icon: 'âš–' },
-                  { key: 'hasFatigue', label: 'Fatigue/apathy predominant', icon: '´' },
-                  { key: 'hasAnxiety', label: 'Co-occurring anxiety', icon: '°' },
-                  { key: 'hasNeuropathicPain', label: 'Neuropathic pain/fibromyalgia', icon: '´' },
-                  { key: 'hasSexualSideEffectConcerns', label: 'Sexual side effect concerns', icon: '‘' },
-                  { key: 'hasInsomnia', label: 'Insomnia predominant', icon: '™' },
-                  { key: 'hasLowAppetite', label: 'Low appetite/weight loss', icon: '½' },
-                  { key: 'hasAdherenceConcerns', label: 'Adherence concerns', icon: 'Š' },
-                  { key: 'substanceUseHistory', label: 'History of substance use', icon: '«' },
-                  { key: 'costConcerns', label: 'Cost/insurance concerns', icon: '°' }
+                  { key: 'hasFatigue', label: 'Fatigue/apathy predominant', icon: 'ï¿½' },
+                  { key: 'hasAnxiety', label: 'Co-occurring anxiety', icon: 'ï¿½' },
+                  { key: 'hasNeuropathicPain', label: 'Neuropathic pain/fibromyalgia', icon: 'ï¿½' },
+                  { key: 'hasSexualSideEffectConcerns', label: 'Sexual side effect concerns', icon: 'ï¿½' },
+                  { key: 'hasInsomnia', label: 'Insomnia predominant', icon: 'ï¿½' },
+                  { key: 'hasLowAppetite', label: 'Low appetite/weight loss', icon: 'ï¿½' },
+                  { key: 'hasAdherenceConcerns', label: 'Adherence concerns', icon: 'ï¿½' },
+                  { key: 'substanceUseHistory', label: 'History of substance use', icon: 'ï¿½' },
+                  { key: 'costConcerns', label: 'Cost/insurance concerns', icon: 'ï¿½' }
                 ].map(({ key, label, icon }) => (
                   <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                     <input

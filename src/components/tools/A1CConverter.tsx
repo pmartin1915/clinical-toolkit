@@ -18,12 +18,6 @@ export const A1CConverter = () => {
     setResult(avgGlucose);
   };
 
-  const getInterpretation = (glucose: number) => {
-    if (glucose < 154) return { level: 'Good', color: 'text-green-600', bg: 'bg-green-50' };
-    if (glucose < 183) return { level: 'Fair', color: 'text-yellow-600', bg: 'bg-yellow-50' };
-    if (glucose < 212) return { level: 'Poor', color: 'text-orange-600', bg: 'bg-orange-50' };
-    return { level: 'Very Poor', color: 'text-red-600', bg: 'bg-red-50' };
-  };
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6">

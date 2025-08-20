@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AlertTriangle, Shield, Bell, X, CheckCircle } from 'lucide-react';
+import { AlertTriangle, Shield, X, CheckCircle } from 'lucide-react';
 import { CDSEngine, type PatientContext, type CDSAlert } from '../../utils/cdsEngine';
 import type { PatientProfile, VitalSigns, AssessmentResult } from '../../types/storage';
 

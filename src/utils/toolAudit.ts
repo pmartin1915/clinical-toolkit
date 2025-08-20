@@ -184,7 +184,7 @@ export const TOOL_AUDIT_RESULTS: Record<string, ToolAuditResult> = {
     id: 'egfr-calculator',
     name: 'eGFR Calculator',
     status: 'partial',
-    component: 'eGFRCalculator',
+    component: 'EGFRCalculator',
     notes: 'Component exists but needs testing'
   },
   'drug-dosing-calculator': {

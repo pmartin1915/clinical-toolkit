@@ -446,6 +446,31 @@ class StorageManager {
   public generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
+
+  // First-time visit tracking
+  public isFirstVisit(): boolean {
+    return !localStorage.getItem('clinical-toolkit-welcomed');
+  }
+
+  public markWelcomed(): void {
+    localStorage.setItem('clinical-toolkit-welcomed', 'true');
+    localStorage.setItem('clinical-toolkit-welcomed-date', new Date().toISOString());
+  }
+
+  // Guided tour tracking
+  public hasCompletedTour(): boolean {
+    return localStorage.getItem('clinical-toolkit-tour-completed') === 'true';
+  }
+
+  public markTourCompleted(): void {
+    localStorage.setItem('clinical-toolkit-tour-completed', 'true');
+    localStorage.setItem('clinical-toolkit-tour-completed-date', new Date().toISOString());
+  }
+
+  public shouldShowTour(): boolean {
+    // Show tour if user has been welcomed but hasn't completed the tour
+    return !this.isFirstVisit() && !this.hasCompletedTour();
+  }
 }
 
 export const storageManager = StorageManager.getInstance();

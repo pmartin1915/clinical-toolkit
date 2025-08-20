@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Activity, Plus, Trash2, TrendingUp } from 'lucide-react';
+import { HealthIndicator, getBPLevel } from '../ui/HealthIndicator';
 
 interface BPReading {
   id: string;
@@ -189,32 +190,49 @@ export const BPTracker = () => {
         </div>
       )}
 
-      {/* Statistics */}
+      {/* Visual Health Indicators */}
       {averages && (
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-primary-50 rounded-lg p-4">
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-primary-600" />
-              <span className="text-sm font-medium text-primary-900">Average (Last 10)</span>
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <HealthIndicator
+            level={getBPLevel(averages.avgSystolic, averages.avgDiastolic)}
+            value={`${averages.avgSystolic}/${averages.avgDiastolic}`}
+            label="Average Blood Pressure"
+            description={`Based on your last ${Math.min(readings.length, 10)} readings`}
+            unit="mmHg"
+            showChart={true}
+            ranges={{
+              normal: "< 120/80 mmHg",
+              caution: "120-129/<80 mmHg", 
+              warning: "130-139/80-89 mmHg",
+              critical: "≥180/≥120 mmHg"
+            }}
+          />
+          
+          <div className="space-y-4">
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <div className="flex items-center space-x-2 mb-2">
+                <TrendingUp className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-gray-900">Reading Summary</span>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="text-lg font-bold text-gray-900">{readings.length}</div>
+                  <div className="text-xs text-gray-500">Total readings</div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-gray-900">{Math.min(readings.length, 10)}</div>
+                  <div className="text-xs text-gray-500">Used for average</div>
+                </div>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-primary-600 mt-1">
-              {averages.avgSystolic}/{averages.avgDiastolic}
+            
+            <div className="bg-blue-50 rounded-lg border border-blue-200 p-4">
+              <div className="text-sm font-medium text-blue-900 mb-2">� Quick Tip</div>
+              <div className="text-xs text-blue-800">
+                Take readings at the same time each day for better tracking. 
+                Ideal blood pressure is less than 120/80 mmHg.
+              </div>
             </div>
-            <div className="text-xs text-primary-700">mmHg</div>
-          </div>
-
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="text-sm font-medium text-gray-900">Total Readings</div>
-            <div className="text-2xl font-bold text-gray-600 mt-1">{readings.length}</div>
-            <div className="text-xs text-gray-500">recorded</div>
-          </div>
-
-          <div className={`rounded-lg p-4 ${averages ? getBPCategory(averages.avgSystolic, averages.avgDiastolic).bg : 'bg-gray-50'}`}>
-            <div className="text-sm font-medium text-gray-900">Current Status</div>
-            <div className={`text-lg font-bold mt-1 ${averages ? getBPCategory(averages.avgSystolic, averages.avgDiastolic).color : 'text-gray-500'}`}>
-              {averages ? getBPCategory(averages.avgSystolic, averages.avgDiastolic).category : 'No Data'}
-            </div>
-            <div className="text-xs text-gray-600">based on average</div>
           </div>
         </div>
       )}

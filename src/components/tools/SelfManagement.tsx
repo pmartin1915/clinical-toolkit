@@ -293,12 +293,12 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'medication': return 'ğŸ’Š';
-      case 'exercise': return 'ğŸƒ';
-      case 'diet': return 'ğŸ¥—';
-      case 'monitoring': return 'ğŸ“Š';
-      case 'lifestyle': return 'ğŸŒŸ';
-      default: return 'ğŸ“';
+      case 'medication': return 'Š';
+      case 'exercise': return 'ƒ';
+      case 'diet': return '—';
+      case 'monitoring': return 'Š';
+      case 'lifestyle': return 'Ÿ';
+      default: return '';
     }
   };
 
@@ -415,7 +415,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
             <p className="text-gray-600 text-sm mb-3">{goal.target}</p>
 
             {goal.reminder && (
-              <p className="text-gray-500 text-xs mb-3">ğŸ’¡ {goal.reminder}</p>
+              <p className="text-gray-500 text-xs mb-3">¡ {goal.reminder}</p>
             )}
 
             <div className="mb-3">

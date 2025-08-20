@@ -11,8 +11,29 @@
       "Bash(git init:*)",
       "Bash(git remote add:*)",
       "Bash(git add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(gh repo view:*)",
+      "Bash(git checkout:*)",
+      "Bash(git fetch:*)",
+      "Bash(git branch:*)",
+      "Bash(curl:*)",
+      "Bash(npx @vite-pwa/assets-generator:*)",
+      "Bash(copy pwa-192x192.png pwa-512x512.png)",
+      "Bash(cp:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(sed:*)",
+      "Bash(npx tsc:*)",
+      "WebSearch",
+      "WebFetch(domain:clincalc.com)",
+      "WebFetch(domain:www.ahajournals.org)",
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:tools.acc.org)",
+      "WebFetch(domain:cran.r-project.org)",
+      "Bash(rm:*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

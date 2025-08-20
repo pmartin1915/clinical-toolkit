@@ -156,10 +156,10 @@ export const HypertensionManagement = () => {
     }
 
     const allRecommendations = [
-      '🏃‍♂️ LIFESTYLE MODIFICATIONS:',
+      '�‍♂ LIFESTYLE MODIFICATIONS:',
       ...lifestyleRecs,
       '',
-      '💊 PHARMACOLOGIC THERAPY:',
+      '� PHARMACOLOGIC THERAPY:',
       ...medicationRecs
     ];
 
@@ -309,10 +309,10 @@ export const HypertensionManagement = () => {
             </p>
             
             {[
-              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: '🫘' },
-              { key: 'hasDiabetes', label: 'Diabetes Mellitus', icon: '🩸' },
-              { key: 'hasHF', label: 'Heart Failure', icon: '❤️' },
-              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease', icon: '🫀' }
+              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: '�' },
+              { key: 'hasDiabetes', label: 'Diabetes Mellitus', icon: '�' },
+              { key: 'hasHF', label: 'Heart Failure', icon: '' },
+              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease', icon: '�' }
             ].map(({ key, label, icon }) => (
               <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <input
@@ -407,7 +407,7 @@ export const HypertensionManagement = () => {
           <h4 className="font-semibold text-gray-900">Treatment Recommendations:</h4>
           <div className="bg-gray-50 p-4 rounded-lg">
             {recommendation.recommendations.map((rec, index) => (
-              <div key={index} className={`${rec.startsWith('🏃‍♂️') || rec.startsWith('💊') ? 'font-semibold text-gray-900 mt-4 first:mt-0' : 'text-gray-700 ml-4'} ${rec === '' ? 'mb-2' : ''}`}>
+              <div key={index} className={`${rec.startsWith('�‍♂') || rec.startsWith('�') ? 'font-semibold text-gray-900 mt-4 first:mt-0' : 'text-gray-700 ml-4'} ${rec === '' ? 'mb-2' : ''}`}>
                 {rec && (rec.startsWith('•') ? (
                   <div className="flex items-start space-x-2">
                     <span className="text-primary-600 mt-1">•</span>

@@ -142,6 +142,20 @@ export const diabetes: Condition = {
       description: 'Goal setting, blood sugar tracking, and diabetes management',
       type: 'education',
       component: 'SelfManagement'
+    },
+    {
+      id: 'egfr-calculator',
+      name: 'eGFR Calculator & CKD Staging',
+      description: 'Estimated glomerular filtration rate using CKD-EPI equation with drug dosing adjustments',
+      type: 'calculator',
+      component: 'eGFRCalculator'
+    },
+    {
+      id: 'enhanced-ascvd-calculator',
+      name: 'Enhanced ASCVD Risk Calculator',
+      description: 'Comprehensive cardiovascular risk assessment with 2022 AHA/ACC guidelines, risk enhancers, and treatment recommendations',
+      type: 'calculator',
+      component: 'EnhancedASCVDCalculator'
     }
   ],
   resources: [

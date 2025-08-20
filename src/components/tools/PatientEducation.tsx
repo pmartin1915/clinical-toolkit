@@ -534,7 +534,7 @@ export const PatientEducation = ({ condition }: PatientEducationProps) => {
             )}
 
             <div className="flex items-center justify-between pt-4 border-t">
-              <span className="text-sm text-gray-500">⏱️ {module.duration}</span>
+              <span className="text-sm text-gray-500">Duration: {module.duration}</span>
               <button
                 onClick={() => markModuleComplete(module.id)}
                 disabled={completedModules.has(module.id)}
@@ -622,7 +622,7 @@ export const PatientEducation = ({ condition }: PatientEducationProps) => {
                       <h5 className="font-semibold text-gray-900 mb-1">{module.title}</h5>
                       <p className="text-gray-600 text-sm mb-2">{module.content.overview}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500">⏱️ {module.duration}</span>
+                        <span className="text-xs text-gray-500">Duration: {module.duration}</span>
                         {completedModules.has(module.id) && (
                           <CheckCircle className="w-4 h-4 text-green-600" />
                         )}

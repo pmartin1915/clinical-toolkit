@@ -9,11 +9,20 @@ import {
   Upload,
   AlertCircle,
   CheckCircle,
-  Database
+  Database,
+  History,
+  AlertTriangle
 } from 'lucide-react';
 import { storageManager } from '../utils/storage';
+import { syncManager } from '../utils/syncManager';
 import { ExportManager } from '../utils/export';
-import type { PatientProfile } from '../types/storage';
+import { EnhancedExportDialog } from './ui/EnhancedExportDialog';
+import { PatientCDSIntegration } from './ui/PatientCDSIntegration';
+import { QuickVitalsEntry } from './ui/QuickVitalsEntry';
+import { CDSHistoryPanel } from './ui/CDSHistoryPanel';
+import type { PatientProfile, VitalSigns } from '../types/storage';
+import type { CDSAlert } from '../utils/cdsEngine';
+import { CDSHistoryManager } from '../utils/cdsHistory';
 import { format } from 'date-fns';
 
 export const PatientManager = () => {
@@ -24,6 +33,9 @@ export const PatientManager = () => {
   const [activeTab, setActiveTab] = useState<'list' | 'profile' | 'export' | 'settings'>('list');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [enhancedExportPatient, setEnhancedExportPatient] = useState<PatientProfile | null>(null);
+  const [showCDSHistory, setShowCDSHistory] = useState(false);
+  const [cdsHistoryPatientId, setCDSHistoryPatientId] = useState<string | null>(null);
 
   useEffect(() => {
     loadPatients();
@@ -48,6 +60,14 @@ export const PatientManager = () => {
     if (window.confirm('Are you sure you want to delete this patient? This action cannot be undone.')) {
       try {
         await storageManager.deletePatient(patientId);
+        
+        // Add to sync queue for offline sync
+        syncManager.addToSyncQueue({
+          action: 'delete',
+          type: 'patient',
+          data: { id: patientId }
+        });
+        
         loadPatients();
         if (selectedPatient?.id === patientId) {
           setSelectedPatient(null);
@@ -137,6 +157,8 @@ export const PatientManager = () => {
         }
       }
     );
+    const [currentAlerts, setCurrentAlerts] = useState<CDSAlert[]>([]);
+    const [showCDSWarning, setShowCDSWarning] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -161,6 +183,14 @@ export const PatientManager = () => {
         };
 
         await storageManager.savePatient(patientData);
+        
+        // Add to sync queue for offline sync
+        syncManager.addToSyncQueue({
+          action: patient ? 'update' : 'create',
+          type: 'patient',
+          data: patientData
+        });
+        
         onSave(patientData);
         loadPatients();
         showMessage('success', patient ? 'Patient updated successfully' : 'Patient created successfully');
@@ -231,10 +261,17 @@ export const PatientManager = () => {
           <input
             type="text"
             value={formData.conditions?.join(', ') || ''}
-            onChange={(e) => setFormData({ 
-              ...formData, 
-              conditions: e.target.value.split(',').map(c => c.trim()).filter(c => c) 
-            })}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Split on commas and clean up, but keep empty strings for ongoing typing
+              const conditions = value.split(',').map(c => c.trim());
+              // Only filter out empty strings if the last character isn't a comma (still typing)
+              const filteredConditions = value.endsWith(',') ? conditions : conditions.filter(c => c);
+              setFormData({ 
+                ...formData, 
+                conditions: filteredConditions
+              });
+            }}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder="e.g., hypertension, diabetes, depression"
           />
@@ -247,21 +284,96 @@ export const PatientManager = () => {
           <input
             type="text"
             value={formData.allergies?.join(', ') || ''}
-            onChange={(e) => setFormData({ 
-              ...formData, 
-              allergies: e.target.value.split(',').map(a => a.trim()).filter(a => a) 
-            })}
+            onChange={(e) => {
+              const value = e.target.value;
+              const allergies = value.split(',').map(a => a.trim());
+              const filteredAllergies = value.endsWith(',') ? allergies : allergies.filter(a => a);
+              setFormData({ 
+                ...formData, 
+                allergies: filteredAllergies
+              });
+            }}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder="e.g., penicillin, shellfish"
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Current Medications (comma-separated)
+          </label>
+          <input
+            type="text"
+            value={formData.currentMedications?.map(med => med.name).join(', ') || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              const medicationNames = value.split(',').map(m => m.trim());
+              const filteredMedicationNames = value.endsWith(',') ? medicationNames : medicationNames.filter(m => m);
+              
+              const medications = filteredMedicationNames.map((name, index) => ({
+                id: `med-${index}`,
+                name: name,
+                genericName: name, // For now, use the same as name
+                dosage: 'As prescribed',
+                frequency: 'As directed',
+                prescribedDate: new Date().toISOString().split('T')[0],
+                active: true
+              }));
+              setFormData({ 
+                ...formData, 
+                currentMedications: medications
+              });
+            }}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            placeholder="e.g., lisinopril, metformin, sertraline"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Enter medication names separated by commas. CDS alerts will check for interactions and contraindications.
+          </p>
+        </div>
+
+        {/* CDS Integration */}
+        {(formData.currentMedications?.length > 0 || formData.allergies?.length > 0 || formData.conditions?.length > 0) && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Safety Check
+            </label>
+            <PatientCDSIntegration
+              patientData={formData}
+              isRealTime={true}
+              onAlertsChange={(alerts) => {
+                setCurrentAlerts(alerts);
+                setShowCDSWarning(alerts.some(alert => alert.priority === 'critical' || alert.priority === 'high'));
+              }}
+            />
+          </div>
+        )}
+
+        {/* CDS Warning */}
+        {showCDSWarning && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div className="flex items-center space-x-2">
+              <AlertTriangle className="w-5 h-5 text-yellow-600" />
+              <div>
+                <h4 className="font-medium text-yellow-800">Safety Alert</h4>
+                <p className="text-sm text-yellow-700">
+                  Critical or high-priority safety alerts have been detected. Please review the recommendations above before saving.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex space-x-4">
           <button
             type="submit"
-            className="flex-1 bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition-colors"
+            className={`flex-1 py-2 px-4 rounded-lg transition-colors ${
+              showCDSWarning 
+                ? 'bg-yellow-600 text-white hover:bg-yellow-700 border border-yellow-600' 
+                : 'bg-primary-600 text-white hover:bg-primary-700'
+            }`}
           >
-            {patient ? 'Update Patient' : 'Create Patient'}
+            {showCDSWarning ? 'Save Despite Alerts' : (patient ? 'Update Patient' : 'Create Patient')}
           </button>
           <button
             type="button"
@@ -462,25 +574,20 @@ export const PatientManager = () => {
 
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => handleExportPatient(patient, 'pdf')}
-                        className="flex-1 bg-blue-100 text-blue-800 py-1 px-2 rounded text-xs hover:bg-blue-200 transition-colors"
+                        onClick={() => setEnhancedExportPatient(patient)}
+                        className="flex-1 bg-primary-100 text-primary-800 py-2 px-3 rounded-md text-sm font-medium hover:bg-primary-200 transition-colors flex items-center justify-center space-x-1"
                         disabled={loading}
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Enhanced Export</span>
+                      </button>
+                      <button
+                        onClick={() => handleExportPatient(patient, 'pdf')}
+                        className="bg-gray-100 text-gray-700 py-2 px-2 rounded text-xs hover:bg-gray-200 transition-colors"
+                        disabled={loading}
+                        title="Quick PDF"
                       >
                         PDF
-                      </button>
-                      <button
-                        onClick={() => handleExportPatient(patient, 'csv')}
-                        className="flex-1 bg-green-100 text-green-800 py-1 px-2 rounded text-xs hover:bg-green-200 transition-colors"
-                        disabled={loading}
-                      >
-                        CSV
-                      </button>
-                      <button
-                        onClick={() => handleExportPatient(patient, 'json')}
-                        className="flex-1 bg-purple-100 text-purple-800 py-1 px-2 rounded text-xs hover:bg-purple-200 transition-colors"
-                        disabled={loading}
-                      >
-                        JSON
                       </button>
                     </div>
                   </div>
@@ -510,13 +617,59 @@ export const PatientManager = () => {
           )}
 
           {selectedPatient && (
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Edit Patient</h2>
-              <PatientForm
-                patient={selectedPatient}
-                onSave={() => setSelectedPatient(null)}
-                onCancel={() => setSelectedPatient(null)}
-              />
+            <div className="space-y-6">
+              {/* Patient CDS Overview */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {selectedPatient.firstName} {selectedPatient.lastName} - Safety Overview
+                  </h2>
+                  <button
+                    onClick={() => {
+                      setCDSHistoryPatientId(selectedPatient.id);
+                      setShowCDSHistory(true);
+                    }}
+                    className="flex items-center space-x-2 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium"
+                  >
+                    <History className="w-4 h-4" />
+                    <span>Alert History</span>
+                  </button>
+                </div>
+                <PatientCDSIntegration
+                  patientData={selectedPatient}
+                  isRealTime={false}
+                  onAlertsChange={(alerts) => {
+                    // Save alerts to history when they're triggered
+                    alerts.forEach(alert => {
+                      CDSHistoryManager.saveAlertToHistory(selectedPatient.id, alert);
+                    });
+                  }}
+                />
+              </div>
+
+              {/* Quick Vitals Entry */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Vitals Entry</h3>
+                <QuickVitalsEntry
+                  patientId={selectedPatient.id}
+                  onVitalsAdded={(vitals) => {
+                    // In a real app, save these to storage
+                    console.log('New vitals:', vitals);
+                    showMessage('success', `Added ${vitals.length} vital sign(s)`);
+                    // Trigger CDS re-evaluation would happen here
+                  }}
+                />
+              </div>
+
+              {/* Edit Patient Form */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-6">Edit Patient Information</h2>
+                <PatientForm
+                  patient={selectedPatient}
+                  onSave={() => setSelectedPatient(null)}
+                  onCancel={() => setSelectedPatient(null)}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -572,6 +725,27 @@ export const PatientManager = () => {
             <span className="text-gray-900">Processing...</span>
           </div>
         </div>
+      )}
+
+      {/* Enhanced Export Dialog */}
+      {enhancedExportPatient && (
+        <EnhancedExportDialog
+          isOpen={true}
+          onClose={() => setEnhancedExportPatient(null)}
+          patient={enhancedExportPatient}
+        />
+      )}
+
+      {/* CDS History Panel */}
+      {showCDSHistory && cdsHistoryPatientId && (
+        <CDSHistoryPanel
+          patientId={cdsHistoryPatientId}
+          isOpen={showCDSHistory}
+          onClose={() => {
+            setShowCDSHistory(false);
+            setCDSHistoryPatientId(null);
+          }}
+        />
       )}
     </div>
   );

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { ArrowLeft, Book, Calculator, Target, FileText, GraduationCap } from 'lucide-react';
 import type { Condition } from '../types';
+import { PlainLanguageSummary } from '../components/ui/PlainLanguageSummary';
+import { useSwipeGesture } from '../hooks/useSwipeGesture';
 import { A1CConverter } from '../components/tools/A1CConverter';
 import { GAD7Assessment } from '../components/tools/GAD7Assessment';
 import { ASCVDCalculator } from '../components/tools/ASCVDCalculator';
+import { EnhancedASCVDCalculator } from '../components/tools/EnhancedASCVDCalculator';
 import { PHQ9Assessment } from '../components/tools/PHQ9Assessment';
 import { BPTracker } from '../components/tools/BPTracker';
 import { TriglycerideCalculator } from '../components/tools/TriglycerideCalculator';
@@ -21,6 +24,11 @@ import { SelfManagement } from '../components/tools/SelfManagement';
 import { COPDAssessment } from '../components/tools/COPDAssessment';
 import { AsthmaControlTest } from '../components/tools/AsthmaControlTest';
 import { NYHAClassification } from '../components/tools/NYHAClassification';
+import { CHA2DS2VAScCalculator } from '../components/tools/CHA2DS2VAScCalculator';
+import { eGFRCalculator as EGFRCalculator } from '../components/tools/eGFRCalculator';
+import { OttawaAnkleRules } from '../components/tools/OttawaAnkleRules';
+import { DrugDosingCalculator } from '../components/tools/DrugDosingCalculator';
+import { WellsScore } from '../components/tools/WellsScore';
 
 interface ConditionDetailProps {
   condition: Condition;
@@ -46,6 +54,26 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
     { id: 'resources', label: 'Resources', icon: GraduationCap }
   ] as const;
 
+  const navigateTab = (direction: 'next' | 'prev') => {
+    const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
+    let newIndex;
+    
+    if (direction === 'next') {
+      newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+    } else {
+      newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+    }
+    
+    setActiveTab(tabs[newIndex].id);
+    setSelectedTool(null);
+  };
+
+  const swipeRef = useSwipeGesture({
+    onSwipeLeft: () => navigateTab('next'),
+    onSwipeRight: () => navigateTab('prev'),
+    threshold: 100
+  });
+
   const renderTool = (toolId: string) => {
     switch (toolId) {
       case 'a1c-converter':
@@ -56,6 +84,8 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
         return <GAD7Assessment />;
       case 'ascvd-calculator':
         return <ASCVDCalculator />;
+      case 'enhanced-ascvd-calculator':
+        return <EnhancedASCVDCalculator />;
       case 'phq9-assessment':
         return <PHQ9Assessment />;
       case 'depression-treatment':
@@ -88,6 +118,16 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
         return <AsthmaControlTest />;
       case 'nyha-classification':
         return <NYHAClassification />;
+      case 'cha2ds2-vasc-calculator':
+        return <CHA2DS2VAScCalculator />;
+      case 'egfr-calculator':
+        return <EGFRCalculator />;
+      case 'ottawa-ankle-rules':
+        return <OttawaAnkleRules />;
+      case 'drug-dosing-calculator':
+        return <DrugDosingCalculator />;
+      case 'wells-score':
+        return <WellsScore />;
       default:
         return (
           <div className="text-center py-8 text-gray-500">
@@ -178,11 +218,21 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
           {renderTool(selectedTool)}
         </div>
       ) : (
-        <div>
+        <div ref={swipeRef as React.RefObject<HTMLDivElement>} className="touch-pan-y">
+          {/* Swipe hint for mobile */}
+          <div className="sm:hidden mb-4 text-center">
+            <div className="flex items-center justify-center space-x-2 text-gray-400 text-xs">
+              <span>←</span>
+              <span>Swipe to navigate tabs</span>
+              <span>→</span>
+            </div>
+          </div>
           {activeTab === 'overview' && (
             <div className="space-y-6">
+              <PlainLanguageSummary conditionId={condition.id} />
+              
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h2 className="text-xl font-semibold mb-4">Definition</h2>
+                <h2 className="text-xl font-semibold mb-4">Medical Definition</h2>
                 <p className="text-gray-700">{condition.overview.definition}</p>
               </div>
 
@@ -256,17 +306,24 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
                 return (
                   <div
                     key={tool.id}
-                    onClick={() => setSelectedTool(tool.id)}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-primary-300 transition-all cursor-pointer"
+                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-primary-300 transition-all group"
                   >
                     <div className="flex items-center space-x-3 mb-3">
                       <Icon className="w-6 h-6 text-primary-600" />
                       <h3 className="text-lg font-semibold text-gray-900">{tool.name}</h3>
                     </div>
-                    <p className="text-gray-600 text-sm mb-3">{tool.description}</p>
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                      {tool.type}
-                    </span>
+                    <p className="text-gray-600 text-sm mb-4">{tool.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                        {tool.type}
+                      </span>
+                      <button
+                        onClick={() => setSelectedTool(tool.id)}
+                        className="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors group-hover:shadow-md"
+                      >
+                        Try this tool →
+                      </button>
+                    </div>
                   </div>
                 );
               })}

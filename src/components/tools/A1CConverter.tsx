@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Calculator } from 'lucide-react';
+import { HealthIndicator, getA1CLevel } from '../ui/HealthIndicator';
 
 export const A1CConverter = () => {
   const [a1c, setA1c] = useState<string>('');
@@ -60,30 +61,36 @@ export const A1CConverter = () => {
           Convert
         </button>
 
-        {result !== null && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-md">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900 mb-1">
-                {result} mg/dL
-              </div>
-              <div className="text-sm text-gray-600 mb-2">
-                Estimated Average Glucose
+        {result !== null && parseFloat(a1c) && (
+          <div className="mt-4 space-y-4">
+            <HealthIndicator
+              level={getA1CLevel(parseFloat(a1c))}
+              value={parseFloat(a1c)}
+              label="A1C Level"
+              description="Your diabetes control status"
+              unit="%"
+              ranges={{
+                normal: "< 7% (< 154 mg/dL)",
+                caution: "7-8% (154-183 mg/dL)",
+                warning: "8-10% (183-240 mg/dL)",
+                critical: "> 10% (> 240 mg/dL)"
+              }}
+            />
+            
+            <div className="bg-gray-50 rounded-lg border border-gray-200 p-4">
+              <div className="text-center mb-3">
+                <div className="text-2xl font-bold text-gray-900 mb-1">
+                  {result} mg/dL
+                </div>
+                <div className="text-sm text-gray-600">
+                  Estimated Average Glucose
+                </div>
               </div>
               
-              {(() => {
-                const interpretation = getInterpretation(result);
-                return (
-                  <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${interpretation.bg} ${interpretation.color}`}>
-                    {interpretation.level} Control
-                  </div>
-                );
-              })()}
-            </div>
-
-            <div className="mt-4 text-xs text-gray-500 space-y-1">
-              <p><strong>Formula:</strong> eAG = 28.7 × A1C - 46.7</p>
-              <p><strong>Normal:</strong> &lt;154 mg/dL (A1C &lt;7%)</p>
-              <p><strong>Note:</strong> This is an estimated average. Individual glucose readings will vary.</p>
+              <div className="text-xs text-gray-500 space-y-1">
+                <p><strong>Formula:</strong> eAG = 28.7 × A1C - 46.7</p>
+                <p><strong>Note:</strong> This is an estimated average. Individual glucose readings will vary throughout the day.</p>
+              </div>
             </div>
           </div>
         )}

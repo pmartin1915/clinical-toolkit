@@ -1,5 +1,7 @@
-import { ChevronRight } from 'lucide-react';
+import { Heart, Activity, Brain, Microscope, FlaskConical, Bone } from 'lucide-react';
 import type { Condition } from '../../types';
+import { StatusIndicator } from './StatusIndicator';
+import { getConditionAudit } from '../../utils/toolAudit';
 
 interface ConditionCardProps {
   condition: Condition;
@@ -13,14 +15,18 @@ const severityColors = {
 };
 
 const categoryIcons = {
-  cardiovascular: '🫀',
-  endocrine: '⚡',
-  'mental-health': '🧠',
-  infectious: '🦠',
-  metabolic: '🔬'
+  cardiovascular: Heart,
+  endocrine: Activity,
+  'mental-health': Brain,
+  infectious: Microscope,
+  metabolic: FlaskConical,
+  orthopedic: Bone
 };
 
 export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
+  const toolIds = condition.tools.map(tool => tool.id);
+  const auditResult = getConditionAudit(condition.id, toolIds);
+
   return (
     <div
       onClick={onClick}
@@ -28,11 +34,17 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-2">
-            <span className="text-2xl">{categoryIcons[condition.category]}</span>
-            <span className={`px-2 py-1 text-xs font-medium rounded-full border ${severityColors[condition.severity]}`}>
-              {condition.severity.toUpperCase()}
-            </span>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center space-x-2">
+              {(() => {
+                const IconComponent = categoryIcons[condition.category as keyof typeof categoryIcons];
+                return IconComponent ? <IconComponent className="w-6 h-6 text-primary-600" /> : null;
+              })()}
+              <span className={`px-2 py-1 text-xs font-medium rounded-full border ${severityColors[condition.severity]}`}>
+                {condition.severity.toUpperCase()}
+              </span>
+            </div>
+            <StatusIndicator status={auditResult.overallStatus} size="sm" />
           </div>
           
           <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
@@ -43,11 +55,14 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
             {condition.shortDescription}
           </p>
           
-          <div className="flex items-center justify-between text-sm text-gray-500">
-            <span>{condition.tools.length} tools available</span>
-            <div className="flex items-center space-x-1 text-primary-600 group-hover:text-primary-700">
-              <span>View details</span>
-              <ChevronRight className="w-4 h-4" />
+          <div className="flex items-center justify-between text-sm">
+            <div className="text-gray-500">
+              <span>{auditResult.completedTools}/{auditResult.totalTools} tools complete</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <button className="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-primary-200 transition-colors">
+                Try tools →
+              </button>
             </div>
           </div>
         </div>

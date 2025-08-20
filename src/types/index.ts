@@ -2,7 +2,7 @@ export interface Condition {
   id: string;
   title: string;
   shortDescription: string;
-  category: 'cardiovascular' | 'endocrine' | 'mental-health' | 'infectious' | 'metabolic';
+  category: 'cardiovascular' | 'endocrine' | 'mental-health' | 'infectious' | 'metabolic' | 'orthopedic';
   severity: 'low' | 'medium' | 'high';
   overview: {
     definition: string;
@@ -54,7 +54,7 @@ export interface ToolInput {
 
 export interface Resource {
   title: string;
-  type: 'guideline' | 'study' | 'calculator' | 'education';
+  type: 'guideline' | 'study' | 'calculator' | 'education' | 'reference';
   url?: string;
   citation?: string;
 }

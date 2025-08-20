@@ -209,7 +209,7 @@ export const PHQ9Assessment = () => {
                 </div>
                 {hasSuicidalIdeation && (
                   <div className="text-red-700">
-                    <span className="font-medium">⚠️ Suicidal Ideation: </span>
+                    <span className="font-medium">WARNING: Suicidal Ideation: </span>
                     Present - Requires immediate clinical attention
                   </div>
                 )}

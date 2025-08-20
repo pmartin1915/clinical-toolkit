@@ -108,31 +108,31 @@ export const RiskStratification = () => {
       id: 'cardiovascular',
       name: 'Cardiovascular Risk (ASCVD)',
       description: '10-year risk of heart attack or stroke',
-      icon: 'â¤ï¸'
+      icon: ''
     },
     {
       id: 'falls',
       name: 'Fall Risk Assessment',
       description: 'Risk of falls and fall-related injuries',
-      icon: 'ðŸš¶'
+      icon: '¶'
     },
     {
       id: 'frailty',
       name: 'Frailty Assessment',
       description: 'Physical frailty and functional decline risk',
-      icon: 'ðŸ‘´'
+      icon: '´'
     },
     {
       id: 'vte',
       name: 'VTE Risk (Blood Clots)',
       description: 'Venous thromboembolism risk assessment',
-      icon: 'ðŸ©¸'
+      icon: '¸'
     },
     {
       id: 'delirium',
       name: 'Delirium Risk',
       description: 'Risk of developing delirium in hospital/illness',
-      icon: 'ðŸ§ '
+      icon: ' '
     }
   ];
 
@@ -606,7 +606,7 @@ export const RiskStratification = () => {
             {/* Fall Risk Factors */}
             {selectedRiskTypes.includes('falls') && (
               <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                <h4 className="font-semibold text-orange-900 mb-4">ðŸš¶ Fall Risk Factors</h4>
+                <h4 className="font-semibold text-orange-900 mb-4">¶ Fall Risk Factors</h4>
                 
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-orange-900 mb-1">Number of falls in past year</label>
@@ -648,7 +648,7 @@ export const RiskStratification = () => {
             {/* Frailty Assessment */}
             {selectedRiskTypes.includes('frailty') && (
               <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                <h4 className="font-semibold text-purple-900 mb-4">ðŸ‘´ Frailty Criteria (Fried Phenotype)</h4>
+                <h4 className="font-semibold text-purple-900 mb-4">´ Frailty Criteria (Fried Phenotype)</h4>
                 
                 <div className="space-y-3">
                   {[
@@ -675,7 +675,7 @@ export const RiskStratification = () => {
             {/* VTE Risk Factors */}
             {selectedRiskTypes.includes('vte') && (
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-4">ðŸ©¸ VTE Risk Factors</h4>
+                <h4 className="font-semibold text-blue-900 mb-4">¸ VTE Risk Factors</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {[
@@ -704,7 +704,7 @@ export const RiskStratification = () => {
             {/* Delirium Risk Factors */}
             {selectedRiskTypes.includes('delirium') && (
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <h4 className="font-semibold text-yellow-900 mb-4">ðŸ§  Delirium Risk Factors</h4>
+                <h4 className="font-semibold text-yellow-900 mb-4">  Delirium Risk Factors</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {[

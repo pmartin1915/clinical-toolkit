@@ -402,13 +402,13 @@ export const SinusitisDiagnostic = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
-                  { key: 'hasFever', label: 'Fever', icon: 'üå°Ô∏è' },
-                  { key: 'hasNasalDischarge', label: 'Purulent nasal discharge', icon: 'üëÉ' },
-                  { key: 'hasFacialPain', label: 'Facial pain/pressure', icon: 'üò£' },
-                  { key: 'hasAnosmia', label: 'Loss of smell (anosmia)', icon: 'üëÉ' },
-                  { key: 'hasDentalPain', label: 'Dental/jaw pain', icon: 'ü¶∑' },
-                  { key: 'hasHeadache', label: 'Headache', icon: 'ü§ï' },
-                  { key: 'hasFatigue', label: 'Fatigue/malaise', icon: 'üò¥' }
+                  { key: 'hasFever', label: 'Fever', icon: '°' },
+                  { key: 'hasNasalDischarge', label: 'Purulent nasal discharge', icon: 'É' },
+                  { key: 'hasFacialPain', label: 'Facial pain/pressure', icon: '£' },
+                  { key: 'hasAnosmia', label: 'Loss of smell (anosmia)', icon: 'É' },
+                  { key: 'hasDentalPain', label: 'Dental/jaw pain', icon: '∑' },
+                  { key: 'hasHeadache', label: 'Headache', icon: 'ï' },
+                  { key: 'hasFatigue', label: 'Fatigue/malaise', icon: '¥' }
                 ].map(({ key, label, icon }) => (
                   <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                     <input
@@ -543,7 +543,7 @@ export const SinusitisDiagnostic = () => {
 
               {patientData.hasComplicationSigns.length > 0 && (
                 <div className="mt-4 p-3 bg-red-100 border border-red-300 rounded-lg">
-                  <p className="text-red-900 font-semibold">‚ö†Ô∏è URGENT EVALUATION REQUIRED</p>
+                  <p className="text-red-900 font-semibold">WARNING: URGENT EVALUATION REQUIRED</p>
                   <p className="text-sm text-red-800">Consider orbital cellulitis, intracranial extension, or other complications</p>
                 </div>
               )}
@@ -605,7 +605,7 @@ export const SinusitisDiagnostic = () => {
               ))}
             </ul>
             <div className="mt-4 p-3 bg-red-100 border border-red-300 rounded-lg">
-              <p className="text-red-900 font-bold">‚ö†Ô∏è DO NOT DELAY - IMMEDIATE EVALUATION REQUIRED</p>
+              <p className="text-red-900 font-bold">WARNING: DO NOT DELAY - IMMEDIATE EVALUATION REQUIRED</p>
               <p className="text-sm text-red-800">Consider imaging and specialist consultation</p>
             </div>
           </div>

@@ -2,7 +2,7 @@ import type { Condition } from '../../types';
 
 export const uti: Condition = {
   id: 'uti',
-  title: 'Acute Uncomplicated Cystitis',
+  title: 'Acute Uncomplicated Cystitis (UTI)',
   shortDescription: 'Evidence-based management of urinary tract infections in adult females',
   category: 'infectious',
   severity: 'low',

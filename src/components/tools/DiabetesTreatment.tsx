@@ -478,9 +478,9 @@ export const DiabetesTreatment = () => {
             </p>
             
             {[
-              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease (ASCVD)', icon: '🫀' },
-              { key: 'hasHeartFailure', label: 'Heart Failure', icon: '❤️' },
-              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: '🫘' }
+              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease (ASCVD)', icon: '�' },
+              { key: 'hasHeartFailure', label: 'Heart Failure', icon: '' },
+              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: '�' }
             ].map(({ key, label, icon }) => (
               <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <input

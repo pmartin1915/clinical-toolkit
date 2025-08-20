@@ -4,6 +4,10 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+    port: 5173
+  },
   plugins: [
     react(),
     VitePWA({
@@ -49,4 +53,34 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-ui': ['lucide-react', '@headlessui/react'],
+          'vendor-charts': ['chart.js', 'react-chartjs-2'],
+          'vendor-utils': ['date-fns', 'zustand'],
+          'vendor-export': ['html2canvas', 'jspdf', 'jszip', 'papaparse'],
+          
+          // Application chunks
+          'tools': [
+            './src/components/tools/A1CConverter',
+            './src/components/tools/ASCVDCalculator',
+            './src/components/tools/GAD7Assessment',
+            './src/components/tools/PHQ9Assessment',
+            './src/components/tools/BPTracker'
+          ],
+          'conditions': [
+            './src/data/conditions/hypertension',
+            './src/data/conditions/diabetes',
+            './src/data/conditions/anxiety',
+            './src/data/conditions/depression'
+          ]
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600
+  }
 })

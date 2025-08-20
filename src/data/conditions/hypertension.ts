@@ -83,22 +83,11 @@ export const hypertension: Condition = {
       component: 'BPTracker'
     },
     {
-      id: 'ascvd-calculator',
-      name: 'ASCVD Risk Calculator',
-      description: 'Calculate 10-year atherosclerotic cardiovascular disease risk',
+      id: 'enhanced-ascvd-calculator',
+      name: 'Enhanced ASCVD Risk Calculator',
+      description: 'Comprehensive cardiovascular risk assessment with 2022 AHA/ACC guidelines, risk enhancers, and treatment recommendations',
       type: 'calculator',
-      component: 'ASCVDCalculator',
-      inputs: [
-        { id: 'age', label: 'Age', type: 'number', required: true, min: 20, max: 79, unit: 'years' },
-        { id: 'gender', label: 'Gender', type: 'radio', required: true, options: ['Male', 'Female'] },
-        { id: 'race', label: 'Race', type: 'select', required: true, options: ['White', 'African American', 'Other'] },
-        { id: 'totalCholesterol', label: 'Total Cholesterol', type: 'number', required: true, min: 130, max: 320, unit: 'mg/dL' },
-        { id: 'hdl', label: 'HDL Cholesterol', type: 'number', required: true, min: 20, max: 100, unit: 'mg/dL' },
-        { id: 'systolicBP', label: 'Systolic BP', type: 'number', required: true, min: 90, max: 200, unit: 'mmHg' },
-        { id: 'treatedHypertension', label: 'Taking BP medication?', type: 'radio', required: true, options: ['Yes', 'No'] },
-        { id: 'diabetes', label: 'Diabetes?', type: 'radio', required: true, options: ['Yes', 'No'] },
-        { id: 'smoker', label: 'Current smoker?', type: 'radio', required: true, options: ['Yes', 'No'] }
-      ]
+      component: 'EnhancedASCVDCalculator'
     },
     {
       id: 'medication-comparison',
@@ -148,6 +137,27 @@ export const hypertension: Condition = {
       description: 'Goal setting, progress tracking, and personal health management',
       type: 'education',
       component: 'SelfManagement'
+    },
+    {
+      id: 'cha2ds2-vasc-calculator',
+      name: 'CHA₂DS₂-VASc Score Calculator',
+      description: 'Stroke risk assessment for atrial fibrillation patients',
+      type: 'calculator',
+      component: 'CHA2DS2VAScCalculator'
+    },
+    {
+      id: 'drug-dosing-calculator',
+      name: 'Drug Dosing Calculator',
+      description: 'Kidney and liver function-based medication dosing adjustments',
+      type: 'calculator',
+      component: 'DrugDosingCalculator'
+    },
+    {
+      id: 'wells-score',
+      name: 'Wells Score Calculator',
+      description: 'Clinical prediction rule for pulmonary embolism and DVT assessment',
+      type: 'calculator',
+      component: 'WellsScore'
     }
   ],
   resources: [

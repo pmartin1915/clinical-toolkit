@@ -110,14 +110,14 @@ export const TriglycerideCalculator = () => {
 
     // Additional risk factors
     if (inputs.priorPancreatitis === 'yes') {
-      treatment.push('⚠️ Prior pancreatitis: Lifelong alcohol avoidance mandatory');
+      treatment.push('WARNING: Prior pancreatitis: Lifelong alcohol avoidance mandatory');
       if (riskLevel !== 'Critical - Pancreatitis Risk') {
         riskLevel = 'High - Prior Pancreatitis';
       }
     }
 
     if (inputs.familyHistory === 'yes' && tg >= 1000) {
-      treatment.push('⚠️ Consider genetic testing for Familial Chylomicronemia Syndrome');
+      treatment.push('WARNING: Consider genetic testing for Familial Chylomicronemia Syndrome');
     }
 
     setResult({

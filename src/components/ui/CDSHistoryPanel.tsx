@@ -161,7 +161,7 @@ export const CDSHistoryPanel = ({ patientId, isOpen, onClose }: CDSHistoryPanelP
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
                 {status !== 'all' && (
-                  <span className="ml-1">({stats[status as keyof typeof stats] || 0})</span>
+                  <span className="ml-1">({(stats as Record<string, unknown>)[status] as number || 0})</span>
                 )}
               </button>
             ))}

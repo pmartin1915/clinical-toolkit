@@ -51,7 +51,7 @@ const tourSteps: TourStep[] = [
   {
     id: 'accessibility',
     title: 'Make It Yours',
-    description: 'Need larger text or better contrast? Click this settings button to customize the app for your needs.',
+    description: 'Need larger text or better contrast? Click this settings button (bottom right) to customize the app for your needs.',
     target: '[data-tour="accessibility"]',
     position: 'left',
     highlight: true
@@ -68,8 +68,21 @@ const tourSteps: TourStep[] = [
 export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [highlightedElement, setHighlightedElement] = useState<HTMLElement | null>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
+  const [initialWindowPos, setInitialWindowPos] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen && tooltipRef.current) {
+      const rect = tooltipRef.current.getBoundingClientRect();
+      setPosition({
+        x: (window.innerWidth - rect.width) / 2,
+        y: (window.innerHeight - rect.height) / 2
+      });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -152,55 +165,54 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
     }
   };
 
-  const addSpotlightOverlay = (targetElement: HTMLElement) => {
-    // Remove existing overlay
-    // removeSpotlightOverlay(); // No longer needed
-    
-    // Create main overlay container
-    const overlayContainer = document.createElement('div');
-    overlayContainer.id = 'tour-spotlight-overlay';
-    overlayContainer.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 9996;
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    `;
-    
-    // Get element position
-    const rect = targetElement.getBoundingClientRect();
-    const padding = 12;
-    
-    // Create dimming overlay with cutout effect using box-shadow
-    const spotlight = document.createElement('div');
-    spotlight.style.cssText = `
-      position: absolute;
-      top: ${rect.top - padding}px;
-      left: ${rect.left - padding}px;
-      width: ${rect.width + padding * 2}px;
-      height: ${rect.height + padding * 2}px;
-      border-radius: 12px;
-      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    `;
-    
-    overlayContainer.appendChild(spotlight);
-    document.body.appendChild(overlayContainer);
-    
-    // Add click handler to dismiss tour
-    overlayContainer.addEventListener('click', skipTour);
-    overlayContainer.style.pointerEvents = 'auto';
-  };
-
-  const removeSpotlightOverlay = () => {
-    const existingOverlay = document.getElementById('tour-spotlight-overlay');
-    if (existingOverlay) {
-      existingOverlay.remove();
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setInitialMousePos({ x: e.clientX, y: e.clientY });
+    if (tooltipRef.current) {
+      const rect = tooltipRef.current.getBoundingClientRect();
+      setInitialWindowPos({ x: rect.left, y: rect.top });
     }
   };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.clientX - initialMousePos.x;
+    const deltaY = e.clientY - initialMousePos.y;
+    
+    let newX = initialWindowPos.x + deltaX;
+    let newY = initialWindowPos.y + deltaY;
+    
+    // Ensure the modal stays within viewport boundaries
+    if (tooltipRef.current) {
+      const rect = tooltipRef.current.getBoundingClientRect();
+      newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
+      newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
+    }
+    
+    setPosition({
+      x: newX,
+      y: newY
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, initialMousePos, initialWindowPos]);
+
+
 
   const completeTour = () => {
     if (highlightedElement) {
@@ -241,6 +253,16 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
     onClose();
   };
 
+  const resetWindowPosition = () => {
+    if (tooltipRef.current) {
+      const rect = tooltipRef.current.getBoundingClientRect();
+      setPosition({
+        x: (window.innerWidth - rect.width) / 2,
+        y: (window.innerHeight - rect.height) / 2
+      });
+    }
+  };
+
   if (!isOpen) return null;
 
   const step = tourSteps[currentStep];
@@ -258,13 +280,22 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
         ref={tooltipRef}
         className="fixed z-[9999] bg-white rounded-lg shadow-2xl border border-gray-200 p-6 max-w-sm w-full"
         style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)'
+          top: `${position.y}px`,
+          left: `${position.x}px`
         }}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
+        {/* Emergency reset handle - double click to reset position */}
+        <div 
+          className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-12 h-2 bg-gray-300 rounded-t cursor-ns-resize hover:bg-blue-400 transition-colors"
+          onDoubleClick={resetWindowPosition}
+          title="Double-click to reset window position"
+        />
+        
+        {/* Header - Draggable area */}
+        <div 
+          className="flex items-center justify-between mb-4 cursor-move"
+          onMouseDown={handleMouseDown}
+        >
           <div className="flex items-center space-x-2">
             <div className="bg-blue-100 p-2 rounded-full">
               <MapPin className="w-4 h-4 text-blue-600" />
@@ -276,6 +307,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
           <button
             onClick={skipTour}
             className="text-gray-400 hover:text-gray-600 transition-colors"
+            title="Close tour"
           >
             <X className="w-5 h-5" />
           </button>
@@ -328,6 +360,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
                     ? 'bg-blue-300'
                     : 'bg-gray-300'
                 }`}
+                title={`Go to step ${index + 1}`}
               />
             ))}
           </div>
@@ -335,6 +368,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
           <button
             onClick={nextStep}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            title={currentStep === tourSteps.length - 1 ? 'Finish tour' : 'Next step'}
           >
             <span>{currentStep === tourSteps.length - 1 ? 'Finish' : 'Next'}</span>
             {currentStep === tourSteps.length - 1 ? (
@@ -350,6 +384,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
           <button
             onClick={skipTour}
             className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            title="Skip guided tour"
           >
             Skip tour
           </button>

@@ -83,7 +83,7 @@ export const CDSAlertsPanel = ({ isVisible, onClose, alerts: propAlerts }: CDSAl
 
   const renderAlert = (alert: CDSAlert, index: number) => {
     const SeverityIcon = severityIcons[alert.action.severity];
-    const CategoryIcon = categoryIcons[alert.category] || AlertCircle;
+    const CategoryIcon = categoryIcons[alert.category as keyof typeof categoryIcons] || AlertCircle;
     
     return (
       <div

@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 import type {
   ExportData,
   PatientProfile,
-  AssessmentResult,
   VitalSigns,
   GoalTracking
 } from '../types/storage';
@@ -122,37 +121,37 @@ export class EnhancedExportManager {
     // Medications
     if (opts.includeMedications && data.patientProfile.currentMedications.length > 0) {
       addSection('Current Medications');
-      yPosition = this.addMedications(pdf, data.patientProfile, margin, yPosition, pageWidth);
+      yPosition += this.addMedications();
     }
 
     // Assessment History with Trends
     if (opts.includeAssessments && data.assessments.length > 0) {
       addSection('Assessment History & Trends');
-      yPosition = this.addAssessmentTrends(pdf, data.assessments, margin, yPosition, pageWidth, opts);
+      yPosition += this.addAssessmentTrends();
     }
 
     // Vital Signs Tracking
     if (opts.includeVitals && data.vitals.length > 0) {
       addSection('Vital Signs Tracking');
-      yPosition = this.addVitalTrends(pdf, data.vitals, margin, yPosition, pageWidth);
+      yPosition += this.addVitalTrends();
     }
 
     // Goals & Progress
     if (opts.includeGoals && data.goals.length > 0) {
       addSection('Health Goals & Progress');
-      yPosition = this.addGoalsProgress(pdf, data.goals, margin, yPosition, pageWidth);
+      yPosition += this.addGoalsProgress();
     }
 
     // Timeline View
     if (opts.includeTimeline && opts.template === 'detailed') {
       addSection('Health Timeline');
-      yPosition = this.addHealthTimeline(pdf, data, margin, yPosition, pageWidth);
+      yPosition += this.addHealthTimeline();
     }
 
     // Clinical Recommendations
     if (opts.template === 'provider') {
       addSection('Clinical Recommendations');
-      yPosition = this.addClinicalRecommendations(pdf, data, margin, yPosition, pageWidth);
+      yPosition += this.addClinicalRecommendations();
     }
 
     // Footer with generation info
@@ -285,7 +284,7 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
     const boxWidth = (pageWidth - 2 * margin - 30) / 3;
     let xPosition = margin;
 
-    indicators.forEach((indicator, index) => {
+    indicators.forEach((indicator) => {
       const color = indicator.status === 'good' ? this.SUCCESS_COLOR : 
                    indicator.status === 'warning' ? this.WARNING_COLOR : this.ERROR_COLOR;
       
@@ -327,15 +326,15 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
   // Email Integration
   public static async sendReportByEmail(
     reportBlob: Blob, 
-    filename: string, 
+    _filename: string, 
     options: EmailOptions
   ): Promise<boolean> {
     try {
       // Create email with attachment
-      const emailData = this.createEmailWithAttachment(reportBlob, filename, options);
+      this.createEmailWithAttachment(reportBlob);
       
       // Use mailto for now - can be enhanced with actual email service
-      const mailtoLink = this.generateMailtoLink(emailData);
+      const mailtoLink = this.generateMailtoLink(options);
       window.open(mailtoLink);
       
       return true;
@@ -346,9 +345,7 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
   }
 
   private static createEmailWithAttachment(
-    blob: Blob, 
-    filename: string, 
-    options: EmailOptions
+    blob: Blob
   ): string {
     // Convert blob to base64 for email attachment
     return new Promise((resolve) => {
@@ -358,10 +355,10 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
         resolve(base64);
       };
       reader.readAsDataURL(blob);
-    }) as any;
+    }) as unknown as string;
   }
 
-  private static generateMailtoLink(emailData: any): string {
+  private static generateMailtoLink(emailData: { subject: string; body: string; to?: string }): string {
     const subject = encodeURIComponent(emailData.subject);
     const body = encodeURIComponent(emailData.body);
     return `mailto:${emailData.to}?subject=${subject}&body=${body}`;
@@ -372,10 +369,12 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
     if (vitals.length < 2) return 'Insufficient data';
     
     const recent = vitals.slice(-5);
-    const bp = recent.filter(v => v.type === 'blood-pressure');
+    const bp = recent.filter(v => v.type === 'blood_pressure');
     
     if (bp.length >= 2) {
-      const trend = bp[bp.length - 1].systolic - bp[0].systolic;
+      const lastBP = bp[bp.length - 1].value as { systolic: number; diastolic: number };
+      const firstBP = bp[0].value as { systolic: number; diastolic: number };
+      const trend = lastBP.systolic - firstBP.systolic;
       return trend > 5 ? 'Increasing' : trend < -5 ? 'Decreasing' : 'Stable';
     }
     
@@ -386,7 +385,9 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
     if (goals.length === 0) return 0;
     
     const totalProgress = goals.reduce((sum, goal) => {
-      return sum + (goal.progress / goal.maxProgress) * 100;
+      const completedCount = goal.completions.filter(c => c.completed).length;
+      const progressPercent = goal.completions.length > 0 ? (completedCount / goal.completions.length) * 100 : 0;
+      return sum + progressPercent;
     }, 0);
     
     return Math.round(totalProgress / goals.length);
@@ -416,52 +417,56 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
   }
 
   private static getLatestBP(vitals: VitalSigns[]): string {
-    const bp = vitals.filter(v => v.type === 'blood-pressure').slice(-1)[0];
-    return bp ? `${bp.systolic}/${bp.diastolic}` : 'No data';
+    const bp = vitals.filter(v => v.type === 'blood_pressure').slice(-1)[0];
+    if (bp && typeof bp.value === 'object' && 'systolic' in bp.value) {
+      return `${bp.value.systolic}/${bp.value.diastolic}`;
+    }
+    return 'No data';
   }
 
   private static getBPStatus(vitals: VitalSigns[]): string {
-    const bp = vitals.filter(v => v.type === 'blood-pressure').slice(-1)[0];
-    if (!bp) return 'unknown';
+    const bp = vitals.filter(v => v.type === 'blood_pressure').slice(-1)[0];
+    if (!bp || typeof bp.value !== 'object' || !('systolic' in bp.value)) return 'unknown';
     
-    if (bp.systolic > 140 || bp.diastolic > 90) return 'warning';
-    if (bp.systolic < 120 && bp.diastolic < 80) return 'good';
+    const { systolic, diastolic } = bp.value;
+    if (systolic > 140 || diastolic > 90) return 'warning';
+    if (systolic < 120 && diastolic < 80) return 'good';
     return 'warning';
   }
 
   // Additional helper methods for other sections...
-  private static addMedications(pdf: jsPDF, patient: PatientProfile, margin: number, yPosition: number, pageWidth: number): number {
+  private static addMedications(): number {
     // Implementation for detailed medication section
-    return yPosition + 50;
+    return 50;
   }
 
-  private static addAssessmentTrends(pdf: jsPDF, assessments: AssessmentResult[], margin: number, yPosition: number, pageWidth: number, opts: PDFOptions): number {
+  private static addAssessmentTrends(): number {
     // Implementation for assessment trends with charts
-    return yPosition + 50;
+    return 50;
   }
 
-  private static addVitalTrends(pdf: jsPDF, vitals: VitalSigns[], margin: number, yPosition: number, pageWidth: number): number {
+  private static addVitalTrends(): number {
     // Implementation for vital signs trends
-    return yPosition + 50;
+    return 50;
   }
 
-  private static addGoalsProgress(pdf: jsPDF, goals: GoalTracking[], margin: number, yPosition: number, pageWidth: number): number {
+  private static addGoalsProgress(): number {
     // Implementation for goals progress
-    return yPosition + 50;
+    return 50;
   }
 
-  private static addHealthTimeline(pdf: jsPDF, data: ExportData, margin: number, yPosition: number, pageWidth: number): number {
+  private static addHealthTimeline(): number {
     // Implementation for health timeline
-    return yPosition + 50;
+    return 50;
   }
 
-  private static addClinicalRecommendations(pdf: jsPDF, data: ExportData, margin: number, yPosition: number, pageWidth: number): number {
+  private static addClinicalRecommendations(): number {
     // Implementation for clinical recommendations
-    return yPosition + 50;
+    return 50;
   }
 
   // Bulk Export Functions
-  public static async exportMultiplePatients(patients: PatientProfile[], format: 'pdf' | 'csv' | 'zip'): Promise<Blob> {
+  public static async exportMultiplePatients(): Promise<Blob> {
     // Implementation for bulk patient export
     return new Blob();
   }
@@ -479,10 +484,10 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
   }
 
   // Generate filename with timestamp
-  public static generateFilename(patient: PatientProfile, format: string, suffix?: string): string {
+  public static generateFilename(patient: PatientProfile, fileFormat: string, suffix?: string): string {
     const timestamp = format(new Date(), 'yyyy-MM-dd-HHmm');
     const name = `${patient.firstName}-${patient.lastName}`.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const suffixPart = suffix ? `-${suffix}` : '';
-    return `clinical-toolkit-${name}${suffixPart}-${timestamp}.${format}`;
+    return `clinical-toolkit-${name}${suffixPart}-${timestamp}.${fileFormat}`;
   }
 }

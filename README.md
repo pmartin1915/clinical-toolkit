@@ -1,4 +1,4 @@
-# Clinical Toolkit 🩺
+# Clinical Wizard 🩺
 
 A comprehensive, evidence-based clinical reference application for healthcare professionals, students, and anyone interested in medical knowledge. This Progressive Web App (PWA) provides offline access to clinical guidelines, diagnostic tools, and evidence-based treatment protocols for common medical conditions.
 

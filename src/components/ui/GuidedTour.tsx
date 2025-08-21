@@ -19,7 +19,7 @@ interface GuidedTourProps {
 const tourSteps: TourStep[] = [
   {
     id: 'welcome',
-    title: 'Welcome to Clinical Toolkit!',
+    title: 'Welcome to Clinical Wizard!',
     description: 'Let me show you around! This quick tour will help you discover all the helpful features.',
     target: 'body',
     position: 'bottom'

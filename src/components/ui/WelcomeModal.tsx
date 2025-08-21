@@ -20,7 +20,7 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 <Heart className="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Welcome to Clinical Toolkit!</h2>
+                <h2 className="text-2xl font-bold text-gray-900">Welcome to Clinical Wizard!</h2>
                 <p className="text-gray-600">Your friendly health companion</p>
               </div>
             </div>

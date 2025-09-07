@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Heart, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
+import { storageManager } from '../../utils/storage';
+import type { AssessmentResult } from '../../types/storage';
+import { withClinicalToolErrorBoundary } from '../ui/withErrorBoundary';
 
 interface NYHAClass {
   class: 'I' | 'II' | 'III' | 'IV';
@@ -110,7 +113,7 @@ const activityQuestions = [
   }
 ];
 
-export const NYHAClassification = () => {
+const NYHAClassificationComponent = () => {
   const [responses, setResponses] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
 
@@ -329,16 +332,28 @@ export const NYHAClassification = () => {
               Assess Again
             </button>
             <button
-              onClick={() => {
-                const results = {
-                  nyhaClass: nyhaResult?.class,
-                  symptoms: nyhaResult?.symptoms,
-                  functionalCapacity: nyhaResult?.functionalCapacity,
-                  date: new Date().toISOString(),
-                  responses
-                };
-                console.log('Saving NYHA classification:', results);
-                // TODO: Integrate with storage system
+              onClick={async () => {
+                try {
+                  const assessmentResult: AssessmentResult = {
+                    id: storageManager.generateId(),
+                    patientId: 'default-patient', // In a real app, this would be selected patient
+                    conditionId: 'heart-failure',
+                    toolId: 'nyha',
+                    toolName: 'NYHA Classification',
+                    responses,
+                    score: nyhaResult?.class === 'I' ? 1 : nyhaResult?.class === 'II' ? 2 : nyhaResult?.class === 'III' ? 3 : 4,
+                    severity: `Class ${nyhaResult?.class}`,
+                    recommendations: nyhaResult?.recommendations || [],
+                    timestamp: new Date().toISOString()
+                  };
+                  
+                  await storageManager.saveAssessment(assessmentResult);
+                  alert('NYHA classification saved successfully!');
+                  console.log('NYHA classification saved:', assessmentResult);
+                } catch (error) {
+                  console.error('Error saving NYHA classification:', error);
+                  alert('Failed to save assessment. Please try again.');
+                }
               }}
               className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
             >
@@ -350,3 +365,8 @@ export const NYHAClassification = () => {
     </div>
   );
 };
+
+export const NYHAClassification = withClinicalToolErrorBoundary(
+  NYHAClassificationComponent,
+  'NYHA Classification'
+);

@@ -9,7 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "desktop": "node desktop-launcher.cjs",
-    "desktop:build": "npm run build && npm run desktop"
+    "desktop:build": "npm run build && npm run desktop",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
@@ -32,22 +36,28 @@
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@tailwindcss/forms": "^0.5.10",
-    "@types/node": "^24.2.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@vite-pwa/assets-generator": "^1.0.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/ui": "^3.2.4",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.32.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.0",
     "vite": "^7.1.0",
     "vite-plugin-pwa": "^1.0.2",
+    "vitest": "^3.2.4",
     "workbox-window": "^7.3.0"
   }
 }

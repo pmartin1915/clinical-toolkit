@@ -34,7 +34,8 @@
       "Bash(rm:*)",
       "Bash(npm run lint)",
       "Bash(npm run lint:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

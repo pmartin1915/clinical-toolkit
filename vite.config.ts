@@ -1,12 +1,22 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173
+  },
+  resolve: {
+    alias: {
+      // Ensure proper resolution of dependencies from shared library
+      '@radix-ui/react-slot': path.resolve(__dirname, 'node_modules/@radix-ui/react-slot'),
+      '@radix-ui/react-dialog': path.resolve(__dirname, 'node_modules/@radix-ui/react-dialog'),
+      'class-variance-authority': path.resolve(__dirname, 'node_modules/class-variance-authority'),
+      'lucide-react': path.resolve(__dirname, 'node_modules/lucide-react'),
+    }
   },
   plugins: [
     react(),

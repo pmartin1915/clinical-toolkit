@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import the shared design system first */
+@import '@medical-wizards/design-system/styles.css';
 
 @layer base {
   html {

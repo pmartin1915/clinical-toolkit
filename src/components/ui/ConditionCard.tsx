@@ -1,4 +1,5 @@
 import { Heart, Activity, Brain, Microscope, FlaskConical, Bone } from 'lucide-react';
+import { MedicalCard, CardHeader, CardTitle, CardContent, Button } from '@medical-wizards/ui';
 import type { Condition } from '../../types';
 import { StatusIndicator } from './StatusIndicator';
 import { getConditionAudit } from '../../utils/toolAudit';
@@ -28,45 +29,42 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
   const auditResult = getConditionAudit(condition.id, toolIds);
 
   return (
-    <div
-      onClick={onClick}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-primary-300 transition-all cursor-pointer group"
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center space-x-2">
-              {(() => {
-                const IconComponent = categoryIcons[condition.category as keyof typeof categoryIcons];
-                return IconComponent ? <IconComponent className="w-6 h-6 text-primary-600" /> : null;
-              })()}
-              <span className={`px-2 py-1 text-xs font-medium rounded-full border ${severityColors[condition.severity]}`}>
-                {condition.severity.toUpperCase()}
-              </span>
-            </div>
-            <StatusIndicator status={auditResult.overallStatus} size="sm" />
+    <MedicalCard.Interactive onClick={onClick}>
+      <CardHeader variant="clinical" padding="default">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center space-x-2">
+            {(() => {
+              const IconComponent = categoryIcons[condition.category as keyof typeof categoryIcons];
+              return IconComponent ? <IconComponent className="w-6 h-6 text-primary" /> : null;
+            })()}
+            <span className={`px-2 py-1 text-xs font-medium rounded-full border ${severityColors[condition.severity]}`}>
+              {condition.severity.toUpperCase()}
+            </span>
           </div>
-          
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
-            {condition.title}
-          </h3>
-          
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-            {condition.shortDescription}
-          </p>
-          
-          <div className="flex items-center justify-between text-sm">
-            <div className="text-gray-500">
-              <span>{auditResult.completedTools}/{auditResult.totalTools} tools complete</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <button className="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-primary-200 transition-colors">
-                Try tools →
-              </button>
-            </div>
+          <StatusIndicator status={auditResult.overallStatus} size="sm" />
+        </div>
+        
+        <CardTitle variant="clinical" size="lg">
+          {condition.title}
+        </CardTitle>
+      </CardHeader>
+      
+      <CardContent>
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+          {condition.shortDescription}
+        </p>
+        
+        <div className="flex items-center justify-between text-sm">
+          <div className="text-muted-foreground">
+            <span>{auditResult.completedTools}/{auditResult.totalTools} tools complete</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <Button variant="outline" size="sm">
+              Try tools →
+            </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </MedicalCard.Interactive>
   );
 };

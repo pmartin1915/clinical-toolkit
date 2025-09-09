@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Stethoscope, Menu, Home, Users, HelpCircle, Wifi, WifiOff } from 'lucide-react';
+import { Button } from '@medical-wizards/ui';
 import { syncManager } from '../../utils/syncManager';
 
 interface HeaderProps {
@@ -50,42 +51,41 @@ export const Header = ({ currentView = 'dashboard', onNavigate, onMenuToggle, on
             {/* Navigation */}
             {onNavigate && (
               <nav className="hidden md:flex items-center space-x-1">
-                <button
+                <Button
+                  variant={currentView === 'dashboard' ? 'default' : 'ghost'}
+                  size="sm"
                   onClick={() => onNavigate('dashboard')}
-                  className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    currentView === 'dashboard'
-                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
+                  icon={<Home className="w-4 h-4" />}
+                  iconPosition="left"
                 >
-                  <Home className="w-4 h-4 mr-2" />
                   Conditions
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant={currentView === 'patients' ? 'default' : 'ghost'}
+                  size="sm"
                   onClick={() => onNavigate('patients')}
-                  className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    currentView === 'patients'
-                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
+                  icon={<Users className="w-4 h-4" />}
+                  iconPosition="left"
                 >
-                  <Users className="w-4 h-4 mr-2" />
                   Patients
-                </button>
+                </Button>
               </nav>
             )}
           </div>
           
           <div className="flex items-center space-x-4">
             {onStartTour && (
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onStartTour}
-                className="hidden sm:inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                icon={<HelpCircle className="w-4 h-4" />}
+                iconPosition="left"
+                className="hidden sm:inline-flex"
                 title="Take a guided tour"
               >
-                <HelpCircle className="w-4 h-4 mr-2" />
                 Tour
-              </button>
+              </Button>
             )}
             
             {/* Connection Status */}
@@ -116,12 +116,12 @@ export const Header = ({ currentView = 'dashboard', onNavigate, onMenuToggle, on
             {/* Mobile Menu */}
             {onNavigate && (
               <div className="md:hidden">
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={onMenuToggle}
-                  className="p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <Menu className="w-5 h-5" />
-                </button>
+                  icon={<Menu className="w-5 h-5" />}
+                />
               </div>
             )}
           </div>
@@ -131,28 +131,24 @@ export const Header = ({ currentView = 'dashboard', onNavigate, onMenuToggle, on
         {onNavigate && (
           <div className="md:hidden pb-4">
             <nav className="flex space-x-1">
-              <button
+              <Button
+                variant={currentView === 'dashboard' ? 'default' : 'ghost'}
+                size="sm"
                 onClick={() => onNavigate('dashboard')}
-                className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentView === 'dashboard'
-                    ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
+                icon={<Home className="w-4 h-4" />}
+                iconPosition="left"
               >
-                <Home className="w-4 h-4 mr-2" />
                 Conditions
-              </button>
-              <button
+              </Button>
+              <Button
+                variant={currentView === 'patients' ? 'default' : 'ghost'}
+                size="sm"
                 onClick={() => onNavigate('patients')}
-                className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentView === 'patients'
-                    ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
+                icon={<Users className="w-4 h-4" />}
+                iconPosition="left"
               >
-                <Users className="w-4 h-4 mr-2" />
                 Patients
-              </button>
+              </Button>
             </nav>
           </div>
         )}

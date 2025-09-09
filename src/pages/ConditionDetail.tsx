@@ -5,7 +5,6 @@ import { PlainLanguageSummary } from '../components/ui/PlainLanguageSummary';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
 import { A1CConverter } from '../components/tools/A1CConverter';
 import { GAD7Assessment } from '../components/tools/GAD7Assessment';
-import { ASCVDCalculator } from '../components/tools/ASCVDCalculator';
 import { EnhancedASCVDCalculator } from '../components/tools/EnhancedASCVDCalculator';
 import { PHQ9Assessment } from '../components/tools/PHQ9Assessment';
 import { BPTracker } from '../components/tools/BPTracker';
@@ -83,7 +82,6 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
       case 'gad7-assessment':
         return <GAD7Assessment />;
       case 'ascvd-calculator':
-        return <ASCVDCalculator />;
       case 'enhanced-ascvd-calculator':
         return <EnhancedASCVDCalculator />;
       case 'phq9-assessment':

@@ -111,11 +111,11 @@ export const TOOL_AUDIT_RESULTS: Record<string, ToolAuditResult> = {
   },
   'ascvd-calculator': {
     id: 'ascvd-calculator',
-    name: 'ASCVD Risk Calculator',
-    status: 'incomplete',
-    component: 'ASCVDCalculator',
-    issues: ['Likely has similar calculation issues as enhanced version'],
-    notes: 'Needs testing and validation'
+    name: 'ASCVD Risk Calculator (Consolidated)',
+    status: 'working',
+    component: 'EnhancedASCVDCalculator',
+    issues: [],
+    notes: 'Consolidated with enhanced version - uses comprehensive calculator'
   },
 
   // 🔴 MISSING IMPLEMENTATIONS (Referenced but don't exist)

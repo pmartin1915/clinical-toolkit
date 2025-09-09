@@ -15,7 +15,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 // Configuration
-const PORT = 5176;
+const PORT = 8081;
 const APP_NAME = 'Clinical Wizard';
 const DIST_PATH = path.join(__dirname, 'dist');
 

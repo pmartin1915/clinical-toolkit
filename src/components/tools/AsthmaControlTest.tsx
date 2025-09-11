@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Wind, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
+import { storageManager } from '../../utils/storage';
+import type { AssessmentResult } from '../../types/storage';
+import { withClinicalToolErrorBoundary } from '../ui/withErrorBoundary';
 
 interface ACTQuestion {
   id: string;
@@ -65,7 +68,7 @@ const actQuestions: ACTQuestion[] = [
   }
 ];
 
-export const AsthmaControlTest = () => {
+const AsthmaControlTestComponent = () => {
   const [responses, setResponses] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
 
@@ -357,15 +360,28 @@ export const AsthmaControlTest = () => {
               Take Test Again
             </button>
             <button
-              onClick={() => {
-                const results = {
-                  score,
-                  controlLevel: controlLevel?.level,
-                  date: new Date().toISOString(),
-                  responses
-                };
-                console.log('Saving ACT results:', results);
-                // TODO: Integrate with storage system
+              onClick={async () => {
+                try {
+                  const assessmentResult: AssessmentResult = {
+                    id: storageManager.generateId(),
+                    patientId: 'default-patient', // In a real app, this would be selected patient
+                    conditionId: 'asthma',
+                    toolId: 'act',
+                    toolName: 'Asthma Control Test',
+                    responses,
+                    score,
+                    severity: controlLevel?.level || 'unknown',
+                    recommendations: controlLevel?.recommendations || [],
+                    timestamp: new Date().toISOString()
+                  };
+                  
+                  await storageManager.saveAssessment(assessmentResult);
+                  alert('ACT results saved successfully!');
+                  console.log('ACT results saved:', assessmentResult);
+                } catch (error) {
+                  console.error('Error saving ACT results:', error);
+                  alert('Failed to save results. Please try again.');
+                }
               }}
               className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors"
             >
@@ -377,3 +393,8 @@ export const AsthmaControlTest = () => {
     </div>
   );
 };
+
+export const AsthmaControlTest = withClinicalToolErrorBoundary(
+  AsthmaControlTestComponent,
+  'Asthma Control Test'
+);

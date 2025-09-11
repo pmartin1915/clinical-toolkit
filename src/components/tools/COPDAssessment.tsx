@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Wind, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
+import { storageManager } from '../../utils/storage';
+import type { AssessmentResult } from '../../types/storage';
+import { withClinicalToolErrorBoundary } from '../ui/withErrorBoundary';
 
 interface CATQuestion {
   id: string;
@@ -50,7 +53,7 @@ const catQuestions: CATQuestion[] = [
   }
 ];
 
-export const COPDAssessment = () => {
+const COPDAssessmentComponent = () => {
   const [responses, setResponses] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
 
@@ -290,15 +293,28 @@ export const COPDAssessment = () => {
               Take Test Again
             </button>
             <button
-              onClick={() => {
-                const results = {
-                  score,
-                  category: interpretation?.category,
-                  date: new Date().toISOString(),
-                  responses
-                };
-                console.log('Saving CAT results:', results);
-                // TODO: Integrate with storage system
+              onClick={async () => {
+                try {
+                  const assessmentResult: AssessmentResult = {
+                    id: storageManager.generateId(),
+                    patientId: 'default-patient', // In a real app, this would be selected patient
+                    conditionId: 'copd',
+                    toolId: 'cat',
+                    toolName: 'COPD Assessment Test',
+                    responses,
+                    score,
+                    severity: interpretation?.category || 'unknown',
+                    recommendations: interpretation?.recommendations || [],
+                    timestamp: new Date().toISOString()
+                  };
+                  
+                  await storageManager.saveAssessment(assessmentResult);
+                  alert('CAT results saved successfully!');
+                  console.log('CAT results saved:', assessmentResult);
+                } catch (error) {
+                  console.error('Error saving CAT results:', error);
+                  alert('Failed to save results. Please try again.');
+                }
               }}
               className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
             >
@@ -310,3 +326,8 @@ export const COPDAssessment = () => {
     </div>
   );
 };
+
+export const COPDAssessment = withClinicalToolErrorBoundary(
+  COPDAssessmentComponent,
+  'COPD Assessment Test'
+);

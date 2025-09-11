@@ -2,6 +2,7 @@ import { Heart, Activity, Brain, Microscope, FlaskConical, Bone } from 'lucide-r
 import type { Condition } from '../../types';
 import { StatusIndicator } from './StatusIndicator';
 import { getConditionAudit } from '../../utils/toolAudit';
+import { MedicalButton, MedicalCard } from '@medical-wizards/ui';
 
 interface ConditionCardProps {
   condition: Condition;
@@ -28,9 +29,9 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
   const auditResult = getConditionAudit(condition.id, toolIds);
 
   return (
-    <div
+    <MedicalCard.Clinical
       onClick={onClick}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-primary-300 transition-all cursor-pointer group"
+      className="cursor-pointer group"
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
@@ -60,13 +61,13 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
               <span>{auditResult.completedTools}/{auditResult.totalTools} tools complete</span>
             </div>
             <div className="flex items-center space-x-1">
-              <button className="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-primary-200 transition-colors">
+              <MedicalButton.Clinical size="sm">
                 Try tools →
-              </button>
+              </MedicalButton.Clinical>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </MedicalCard.Clinical>
   );
 };

@@ -35,7 +35,16 @@
       "Bash(npm run lint)",
       "Bash(npm run lint:*)",
       "Bash(git commit:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(npm run tauri:dev:*)",
+      "Bash(timeout 10s npm run desktop)",
+      "Bash(npm run tauri build:*)",
+      "Bash(git clone:*)",
+      "Read(//c/projects/**)",
+      "Bash(git pull:*)",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Read(//c/Users/perry/AppData/Local/npm-cache/_logs/**)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

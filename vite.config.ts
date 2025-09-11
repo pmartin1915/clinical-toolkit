@@ -67,7 +67,7 @@ export default defineConfig({
           // Application chunks
           'tools': [
             './src/components/tools/A1CConverter',
-            './src/components/tools/ASCVDCalculator',
+            './src/components/tools/EnhancedASCVDCalculator',
             './src/components/tools/GAD7Assessment',
             './src/components/tools/PHQ9Assessment',
             './src/components/tools/BPTracker'

@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
+    "@medical-wizards/design-system": "file:../medical-wizards-shared/packages/design-system",
+    "@medical-wizards/ui": "file:../medical-wizards-shared/packages/ui",
     "@types/papaparse": "^5.3.16",
     "chart.js": "^4.5.0",
     "date-fns": "^4.1.0",

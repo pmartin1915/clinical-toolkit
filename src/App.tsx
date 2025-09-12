@@ -1,11 +1,13 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { WelcomeModal } from './components/ui/WelcomeModal';
 import { GuidedTour } from './components/ui/GuidedTour';
 import { AccessibilityControls } from './components/ui/AccessibilityControls';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { storageManager } from './utils/storage';
 import { syncManager } from './utils/syncManager';
+import { needsLegalConsent } from './utils/legalConsent';
 
 // Lazy load heavy components
 const Dashboard = lazy(() => import('./pages/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -43,8 +45,8 @@ function App() {
   const [showTour, setShowTour] = useState(false);
 
   useEffect(() => {
-    // Check if this is a first-time visitor
-    if (storageManager.isFirstVisit()) {
+    // Check if user needs legal consent or this is a first-time visitor
+    if (needsLegalConsent() || storageManager.isFirstVisit()) {
       setShowWelcome(true);
     }
 
@@ -113,15 +115,16 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors flex flex-col">
         <Header 
           currentView={currentView} 
           onNavigate={handleNavigate}
           onStartTour={() => setShowTour(true)}
         />
-        <main>
+        <main className="flex-1">
           {renderContent()}
         </main>
+        <Footer />
         <WelcomeModal isOpen={showWelcome} onClose={handleWelcomeClose} />
         <GuidedTour 
           isOpen={showTour} 

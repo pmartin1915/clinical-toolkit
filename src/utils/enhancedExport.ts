@@ -204,9 +204,11 @@ export class EnhancedExportManager {
       pdf.setDrawColor(this.SECONDARY_COLOR);
       pdf.line(20, pageHeight - 15, pageWidth - 20, pageHeight - 15);
       
-      // Disclaimer
-      const disclaimer = 'This report is generated for informational purposes only. Consult healthcare professionals for medical advice.';
-      pdf.text(disclaimer, 20, pageHeight - 5);
+      // Enhanced Medical Disclaimer
+      const disclaimer = 'EDUCATIONAL USE ONLY: This report is for educational/informational purposes only and does not constitute medical advice, diagnosis, or treatment. Results require professional clinical interpretation. Always consult qualified healthcare providers for medical decisions. Clinical Wizard disclaims liability for medical outcomes based on this report.';
+      const disclaimerLines = pdf.splitTextToSize(disclaimer, pageWidth - 40);
+      pdf.setFontSize(8);
+      pdf.text(disclaimerLines, 20, pageHeight - 20);
     }
   }
 

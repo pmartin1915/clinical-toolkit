@@ -44,7 +44,9 @@
       "Bash(git pull:*)",
       "Bash(npm:*)",
       "Bash(node:*)",
-      "Read(//c/Users/perry/AppData/Local/npm-cache/_logs/**)"
+      "Read(//c/Users/perry/AppData/Local/npm-cache/_logs/**)",
+      "Bash(cat:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

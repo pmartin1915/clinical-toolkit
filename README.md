@@ -188,15 +188,72 @@ All medical content is based on current guidelines from:
 - Infectious Diseases Society of America (IDSA)
 - National Institute for Health and Care Excellence (NICE)
 
-## ⚠️ Medical Disclaimer
+## ⚠️ IMPORTANT MEDICAL AND EDUCATIONAL DISCLAIMER
 
-**This application is for educational and informational purposes only.**
+### **FOR EDUCATIONAL AND INFORMATIONAL PURPOSES ONLY**
 
-- Not intended to replace professional medical advice, diagnosis, or treatment
-- Always seek advice from qualified healthcare providers
-- Emergency medical situations require immediate professional care
-- Calculated results are estimates and should be validated clinically
-- Individual patient factors may significantly affect treatment decisions
+**This Clinical Wizard application is designed as a supplemental educational tool and is NOT intended for clinical diagnosis, treatment, or patient care management.**
+
+#### **🚫 NOT MEDICAL ADVICE**
+- **This application does not provide medical advice, diagnosis, or treatment recommendations**
+- Content is for educational reference only and cannot substitute for professional medical judgment
+- **Emergency medical situations require immediate professional care** - do not use this application for emergencies
+- Individual patient factors may vary significantly from general educational content
+
+#### **🏥 PROFESSIONAL MEDICAL CONSULTATION REQUIRED**
+- **Always consult qualified healthcare professionals** for medical concerns, diagnosis, and treatment decisions
+- Healthcare professionals must use clinical judgment and current medical literature
+- This application should supplement, never replace, professional medical training and consultation
+- **No professional-patient relationship** is created through use of this application
+
+#### **🧮 CLINICAL CALCULATOR AND ASSESSMENT TOOL LIMITATIONS**
+- All calculated results are **estimates only** and require professional clinical interpretation
+- Assessment tools require validation by qualified healthcare providers
+- **Individual patient circumstances** may significantly affect clinical decision-making
+- Tools are based on published guidelines but **medical knowledge evolves rapidly**
+
+#### **👥 USER RESPONSIBILITIES**
+- **Healthcare Professionals:** Maintain professional standards, licensing requirements, and clinical liability
+- **Students:** Use only as supplemental learning - not for actual patient care without supervision
+- **General Public:** Educational use only - consult healthcare providers for personal medical concerns
+- **All Users:** Verify information with current medical literature and professional guidance
+
+#### **📚 EVIDENCE-BASED CONTENT WITH LIMITATIONS**
+While we strive to provide accurate, evidence-based information from reputable sources:
+- Medical knowledge and guidelines change rapidly
+- This application may not reflect the most current medical evidence
+- Users must verify information with current medical literature
+- **Content accuracy cannot be guaranteed** and may contain errors or omissions
+
+#### **⚖️ LEGAL AND LIABILITY LIMITATIONS**
+- **Users assume full responsibility** for clinical and healthcare decisions
+- **No warranties** are provided regarding medical accuracy or clinical utility
+- **We disclaim all liability** for medical outcomes, clinical decisions, or healthcare results
+- Healthcare professionals maintain full professional liability for patient care
+
+#### **🌐 REGULATORY COMPLIANCE**
+- **Not FDA-approved** for clinical use or medical device applications
+- Healthcare professionals must ensure compliance with professional standards and regulations
+- Educational institutions should verify alignment with student privacy and educational requirements
+- International users should consult local medical authorities and regulations
+
+---
+
+### **📞 EMERGENCY MEDICAL SITUATIONS**
+**🚨 Call emergency services immediately (911 in US) for medical emergencies**
+**Do not use this application for emergency medical decisions**
+
+### **✅ PROPER USE GUIDELINES**
+- ✅ Educational reference and learning
+- ✅ Supplemental clinical decision support
+- ✅ Professional development and training
+- ✅ Evidence-based information research
+- ❌ Primary clinical diagnosis or treatment
+- ❌ Emergency medical situations
+- ❌ Replacement for professional consultation
+- ❌ Direct patient care without oversight
+
+**By using Clinical Wizard, you acknowledge understanding and agreement with these limitations and responsibilities.**
 
 ## 🤝 Contributing
 

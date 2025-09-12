@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Brain, AlertCircle } from 'lucide-react';
+import { StandardizedDisclaimer } from '../ui/StandardizedDisclaimer';
 
 const phq9Questions = [
   'Little interest or pleasure in doing things',
@@ -242,12 +243,7 @@ export const PHQ9Assessment = () => {
             </ul>
           </div>
 
-          <div className="mt-4 p-3 bg-yellow-50 rounded-md border border-yellow-200">
-            <p className="text-yellow-800 text-xs">
-              <strong>Disclaimer:</strong> This screening tool aids in assessment but does not replace clinical judgment. 
-              A positive screening requires comprehensive psychiatric evaluation for definitive diagnosis and treatment planning.
-            </p>
-          </div>
+          <StandardizedDisclaimer type="assessment" size="sm" className="mt-4" />
         </div>
       )}
 

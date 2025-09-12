@@ -1,4 +1,5 @@
 import { X, Search, AlertTriangle, Stethoscope, Book } from 'lucide-react';
+import { StandardizedDisclaimer } from './StandardizedDisclaimer';
 
 interface ClinicalSearchTipsProps {
   isVisible: boolean;
@@ -158,19 +159,7 @@ export const ClinicalSearchTips = ({ isVisible, onClose }: ClinicalSearchTipsPro
             </div>
           </div>
 
-          <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <div className="flex items-start space-x-2">
-              <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
-              <div>
-                <h5 className="font-medium text-yellow-800 mb-1">Important Disclaimer</h5>
-                <p className="text-sm text-yellow-700">
-                  This search system provides clinical decision support for educational purposes. 
-                  Always use clinical judgment and consult current medical literature. 
-                  Emergency symptoms require immediate medical evaluation regardless of search results.
-                </p>
-              </div>
-            </div>
-          </div>
+          <StandardizedDisclaimer type="educational" size="md" className="mt-6" />
         </div>
 
         {/* Footer */}

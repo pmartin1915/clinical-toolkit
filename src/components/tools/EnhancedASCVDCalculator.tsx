@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Heart, AlertTriangle, Info, TrendingUp, Shield, Calculator } from 'lucide-react';
+import { StandardizedDisclaimer } from '../ui/StandardizedDisclaimer';
 import { calculateASCVD, type Inputs as ASCVDInputs, type Subgroup } from '../../utils/ascvd/calculateASCVD';
 
 interface EnhancedASCVDInputs {
@@ -919,10 +920,10 @@ export const EnhancedASCVDCalculator = () => {
                   </div>
                 </div>
 
-                {/* Disclaimer */}
-                <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-                  <h5 className="font-medium text-gray-900 mb-2">Important Notes</h5>
-                  <ul className="text-xs text-gray-700 space-y-1">
+                {/* Clinical Notes and Disclaimer */}
+                <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                  <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Important Clinical Notes</h5>
+                  <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1 mb-3">
                     <li>• Based on 2013 ACC/AHA Pooled Cohort Equations and 2022 guidelines</li>
                     <li>• Risk enhancers may influence treatment decisions in borderline cases</li>
                     <li>• Individual patient factors and shared decision-making are essential</li>
@@ -930,6 +931,8 @@ export const EnhancedASCVDCalculator = () => {
                     <li>• Regular monitoring and medication adjustments may be needed</li>
                   </ul>
                 </div>
+                
+                <StandardizedDisclaimer type="clinical-tool" size="sm" className="mt-4" />
               </div>
             </div>
           )}

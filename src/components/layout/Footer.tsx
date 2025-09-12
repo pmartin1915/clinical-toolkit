@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Stethoscope, Shield, FileText, Lock, ExternalLink, AlertTriangle } from 'lucide-react';
-import { Button } from '@medical-wizards/ui';
+import { Button } from '../temp-ui';
 import { DisclaimerModal, TermsModal, PrivacyModal } from '../legal';
 
 export const Footer = () => {

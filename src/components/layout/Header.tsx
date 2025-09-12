@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Stethoscope, Menu, Home, Users, HelpCircle, Wifi, WifiOff } from 'lucide-react';
-import { Button } from '@medical-wizards/ui';
+import { Button } from '../temp-ui';
 import { syncManager } from '../../utils/syncManager';
 
 interface HeaderProps {

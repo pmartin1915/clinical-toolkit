@@ -82,7 +82,7 @@ class StorageManager {
   }
 
   private decrypt(data: string): string {
-    if (!this.config.encryptionEnabled || !this.encryptionKey) {
+    if (!this.config?.encryptionEnabled || !this.encryptionKey) {
       return data;
     }
     
@@ -426,7 +426,29 @@ class StorageManager {
 
   // Configuration
   private getStorageConfig(): StorageConfig {
-    return this.getItem<StorageConfig>('clinical-toolkit-config') || {
+    // During initial construction, read config directly from localStorage to avoid circular dependency
+    try {
+      const item = localStorage.getItem('clinical-toolkit-config');
+      if (item) {
+        // Try to parse directly first (for unencrypted configs)
+        try {
+          return JSON.parse(item) as StorageConfig;
+        } catch {
+          // If that fails, try Base64 decoding (for encrypted configs)
+          try {
+            const decoded = atob(item);
+            return JSON.parse(decoded) as StorageConfig;
+          } catch {
+            // If all fails, return default config
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('Error reading storage config, using defaults:', error);
+    }
+    
+    // Return default configuration
+    return {
       encryptionEnabled: false,
       autoBackup: true,
       backupFrequency: 'weekly',

@@ -1,9 +1,8 @@
 import { Heart, Activity, Brain, Microscope, FlaskConical, Bone } from 'lucide-react';
-import { MedicalCard, CardHeader, CardTitle, CardContent, Button } from '@medical-wizards/ui';
+import { MedicalCard, CardHeader, CardTitle, CardContent } from '../temp-ui';
 import type { Condition } from '../../types';
 import { StatusIndicator } from './StatusIndicator';
 import { getConditionAudit } from '../../utils/toolAudit';
-import { MedicalButton, MedicalCard } from '@medical-wizards/ui';
 
 interface ConditionCardProps {
   condition: Condition;
@@ -31,7 +30,11 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
   const auditResult = getConditionAudit(condition.id, toolIds);
 
   return (
-    <MedicalCard.Interactive onClick={onClick}>
+    <MedicalCard 
+      variant="medical"
+      className="cursor-pointer hover:shadow-md hover:border-primary-300 dark:hover:border-primary-600 transition-all"
+      onClick={onClick}
+    >
       <CardHeader variant="clinical" padding="default">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
@@ -61,12 +64,10 @@ export const ConditionCard = ({ condition, onClick }: ConditionCardProps) => {
             <span>{auditResult.completedTools}/{auditResult.totalTools} tools complete</span>
           </div>
           <div className="flex items-center space-x-1">
-            <Button variant="outline" size="sm">
-              Try tools →
-            </Button>
+            <span className="text-primary text-sm font-medium">Try tools →</span>
           </div>
         </div>
       </CardContent>
-    </MedicalCard.Interactive>
+    </MedicalCard>
   );
 };

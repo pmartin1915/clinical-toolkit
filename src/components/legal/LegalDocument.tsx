@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, FileText, Clock, Calendar } from 'lucide-react';
-import { Button } from '@medical-wizards/ui';
+import { Button } from '../temp-ui';
 
 interface LegalDocumentProps {
   title: string;

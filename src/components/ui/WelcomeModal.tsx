@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Heart, Calculator, BookOpen, Shield, AlertTriangle, FileText, Lock, CheckCircle } from 'lucide-react';
-import { SimpleModal, Button } from '@medical-wizards/ui';
+import { SimpleModal, Button } from '../temp-ui';
 import { DisclaimerModal, TermsModal, PrivacyModal } from '../legal';
 import { legalConsentManager, needsLegalConsent } from '../../utils/legalConsent';
 
@@ -64,6 +64,16 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
   const hasAllConsents = () => {
     return consentStatus.disclaimer && consentStatus.terms && consentStatus.privacy;
   };
+
+  // Debug logging
+  console.log('WelcomeModal state:', {
+    currentStep,
+    showDisclaimer,
+    showTerms,
+    showPrivacy,
+    consentStatus,
+    isOpen
+  });
 
   const canProceed = () => {
     if (currentStep === 'legal') {
@@ -148,7 +158,10 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 <Button
                   size="sm"
                   variant={consentStatus.disclaimer ? "outline" : "default"}
-                  onClick={() => setShowDisclaimer(true)}
+                  onClick={() => {
+                    console.log('Disclaimer button clicked');
+                    setShowDisclaimer(true);
+                  }}
                 >
                   {consentStatus.disclaimer ? 'Review' : 'Read & Accept'}
                 </Button>
@@ -175,7 +188,10 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 <Button
                   size="sm"
                   variant={consentStatus.terms ? "outline" : "default"}
-                  onClick={() => setShowTerms(true)}
+                  onClick={() => {
+                    console.log('Terms button clicked');
+                    setShowTerms(true);
+                  }}
                 >
                   {consentStatus.terms ? 'Review' : 'Read & Accept'}
                 </Button>
@@ -202,7 +218,10 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 <Button
                   size="sm"
                   variant={consentStatus.privacy ? "outline" : "default"}
-                  onClick={() => setShowPrivacy(true)}
+                  onClick={() => {
+                    console.log('Privacy button clicked');
+                    setShowPrivacy(true);
+                  }}
                 >
                   {consentStatus.privacy ? 'Review' : 'Read & Accept'}
                 </Button>
@@ -359,7 +378,10 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
       {/* Legal Document Modals */}
       <DisclaimerModal
         isOpen={showDisclaimer}
-        onClose={() => setShowDisclaimer(false)}
+        onClose={() => {
+          console.log('Disclaimer modal closing');
+          setShowDisclaimer(false);
+        }}
         showAcceptButton={true}
         onAccept={handleAcceptDisclaimer}
         isAccepted={consentStatus.disclaimer}

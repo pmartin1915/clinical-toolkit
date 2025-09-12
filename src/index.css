@@ -1,5 +1,5 @@
-/* Import the shared design system first */
-@import '@medical-wizards/design-system/styles.css';
+/* Shared design system import temporarily disabled for laptop development */
+/* @import '@medical-wizards/design-system/styles.css'; */
 
 @tailwind base;
 @tailwind components;

@@ -30,8 +30,8 @@ export default defineConfig({
         theme_color: '#0ea5e9',
         background_color: '#ffffff',
         display: 'standalone',
-        scope: '/',
-        start_url: '/',
+        scope: '/clinical-toolkit/',
+        start_url: '/clinical-toolkit/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -47,6 +47,11 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        // Unique cache ID to prevent cross-app contamination
+        cacheId: 'clinical-toolkit-v1',
+        // Prevent aggressive caching that could contaminate other apps
+        skipWaiting: false,
+        clientsClaim: false,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,

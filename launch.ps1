@@ -442,37 +442,19 @@ function Start-DevServer {
     Write-ColorOutput "                       LAUNCHING DEV SERVER                                " -Color Green
     Write-ColorOutput "===============================================================================`n" -Color Green
 
-    # Start the dev server
-    $portArg = if ($Port -gt 0) { "--port $Port" } else { "" }
+    Write-ColorOutput "  [*] Your Clinical Toolkit is ready!" -Color Cyan
+    Write-ColorOutput "  [*] Open your browser and check the dev server URL below" -Color Cyan
+    Write-ColorOutput "  [*] Press F12 in browser to open DevTools" -Color Cyan
+    Write-ColorOutput "  [*] Click the phone icon to enable mobile device simulation" -Color Cyan
+    Write-ColorOutput "`n  [!] Press Ctrl+C to stop the server`n" -Color Yellow
+
+    # Start the dev server in the current console
+    $portArg = if ($Port -gt 0) { "--port", $Port } else { @() }
 
     try {
-        # Use Start-Process to run in a new window
-        $processArgs = "run dev $portArg"
-        Start-Process -FilePath "npm" -ArgumentList $processArgs -NoNewWindow
-
-        # Wait a moment for server to start
-        Start-Sleep -Seconds 3
-
-        # Check if server started successfully
-        $viteProcess = Get-Process -Name "node" -ErrorAction SilentlyContinue |
-            Where-Object { $_.CommandLine -like "*vite*" } |
-            Select-Object -First 1
-
-        if ($viteProcess) {
-            Write-Success "Dev server started successfully!"
-            Write-ColorOutput "`n  [*] Your Clinical Toolkit is ready!" -Color Cyan
-            Write-ColorOutput "  [*] Open your browser and check the dev server URL above" -Color Cyan
-            Write-ColorOutput "  [*] Press F12 in browser to open DevTools" -Color Cyan
-            Write-ColorOutput "  [*] Click the phone icon to enable mobile device simulation" -Color Cyan
-            Write-ColorOutput "`n  [!] Press Ctrl+C in this window to stop the server`n" -Color Yellow
-
-            return $true
-        } else {
-            Write-Warning "Server may have failed to start. Check for errors above."
-            Add-ErrorReport -Type "Dev Server" -Location "npm run dev" -Message "Server process not found after startup" `
-                -Fix "Check the error output above, ensure port is not in use"
-            return $false
-        }
+        # Run npm run dev directly (this will keep running until Ctrl+C)
+        & npm run dev @portArg
+        return $true
     } catch {
         Write-ErrorMessage "Failed to start dev server: $_"
         Add-ErrorReport -Type "Dev Server" -Location "npm run dev" -Message $_.Exception.Message `

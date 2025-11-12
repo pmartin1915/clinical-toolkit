@@ -80,22 +80,22 @@ function Write-ColorOutput {
 
 function Write-Step {
     param([string]$Message)
-    Write-ColorOutput "`n▶ $Message" -Color Cyan
+    Write-ColorOutput "`n> $Message" -Color Cyan
 }
 
 function Write-Success {
     param([string]$Message)
-    Write-ColorOutput "  ✓ $Message" -Color Green
+    Write-ColorOutput "  [OK] $Message" -Color Green
 }
 
 function Write-Warning {
     param([string]$Message)
-    Write-ColorOutput "  ⚠ $Message" -Color Yellow
+    Write-ColorOutput "  [WARN] $Message" -Color Yellow
 }
 
 function Write-ErrorMessage {
     param([string]$Message)
-    Write-ColorOutput "  ✗ $Message" -Color Red
+    Write-ColorOutput "  [ERROR] $Message" -Color Red
 }
 
 function Add-ErrorReport {
@@ -123,7 +123,7 @@ function Show-ErrorReport {
     Write-ColorOutput "`n╔═══════════════════════════════════════════════════════════════════════════╗" -Color Red
     Write-ColorOutput "║                           ERROR REPORT                                    ║" -Color Red
     Write-ColorOutput "╚═══════════════════════════════════════════════════════════════════════════╝" -Color Red
-    Write-ColorOutput "`n📋 COPY THIS ERROR REPORT TO AI FOR HELP:`n" -Color Yellow
+    Write-ColorOutput "`n[!] COPY THIS ERROR REPORT TO AI FOR HELP:`n" -Color Yellow
 
     $separator = "=" * 80
     $divider = "-" * 19
@@ -161,8 +161,8 @@ function Show-ErrorReport {
     $timestamp = Get-Date -Format 'yyyy-MM-dd-HHmmss'
     $errorFile = "error-report-$timestamp.txt"
     $errorText | Out-File -FilePath $errorFile -Encoding UTF8
-    Write-ColorOutput "`n💾 Error report saved to: $errorFile" -Color Cyan
-    Write-ColorOutput "📋 You can copy the report above and paste it to the AI for assistance.`n" -Color Yellow
+    Write-ColorOutput "`n[SAVED] Error report saved to: $errorFile" -Color Cyan
+    Write-ColorOutput "[INFO] You can copy the report above and paste it to the AI for assistance.`n" -Color Yellow
 }
 
 function Test-CommandExists {
@@ -194,7 +194,7 @@ function Stop-DevServer {
 
 function Invoke-GitOperations {
     if ($SkipGitOperations) {
-        Write-Warning "Skipping git operations (--SkipGitOperations flag)"
+        Write-Warning "Skipping git operations (-SkipGitOperations flag)"
         return $true
     }
 
@@ -439,7 +439,7 @@ function Start-DevServer {
 
     Write-Success "Starting Vite dev server..."
     Write-ColorOutput "`n╔═══════════════════════════════════════════════════════════════════════════╗" -Color Green
-    Write-ColorOutput "║                     🚀 LAUNCHING DEV SERVER 🚀                           ║" -Color Green
+    Write-ColorOutput "║                       LAUNCHING DEV SERVER                                ║" -Color Green
     Write-ColorOutput "╚═══════════════════════════════════════════════════════════════════════════╝`n" -Color Green
 
     # Start the dev server
@@ -460,11 +460,11 @@ function Start-DevServer {
 
         if ($viteProcess) {
             Write-Success "Dev server started successfully!"
-            Write-ColorOutput "`n  📱 Your Clinical Toolkit is ready!" -Color Cyan
-            Write-ColorOutput "  🌐 Open your browser and check the dev server URL above" -Color Cyan
-            Write-ColorOutput "  🔍 Press F12 in browser to open DevTools" -Color Cyan
-            Write-ColorOutput "  📱 Click the phone icon to enable mobile device simulation" -Color Cyan
-            Write-ColorOutput "`n  ⏹  Press Ctrl+C in this window to stop the server`n" -Color Yellow
+            Write-ColorOutput "`n  [*] Your Clinical Toolkit is ready!" -Color Cyan
+            Write-ColorOutput "  [*] Open your browser and check the dev server URL above" -Color Cyan
+            Write-ColorOutput "  [*] Press F12 in browser to open DevTools" -Color Cyan
+            Write-ColorOutput "  [*] Click the phone icon to enable mobile device simulation" -Color Cyan
+            Write-ColorOutput "`n  [!] Press Ctrl+C in this window to stop the server`n" -Color Yellow
 
             return $true
         } else {
@@ -492,16 +492,16 @@ function Main {
 
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
-║               🏥 CLINICAL TOOLKIT DEVELOPMENT LAUNCHER 🏥                ║
+║                 CLINICAL TOOLKIT DEVELOPMENT LAUNCHER                     ║
 ║                           Version 1.0.0                                   ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 "@ -Color Cyan
 
-    Write-ColorOutput "📁 Project Path: $PWD" -Color Gray
-    Write-ColorOutput "📅 Started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -Color Gray
-    Write-ColorOutput "📝 Log File: $Script:LogFile`n" -Color Gray
+    Write-ColorOutput "[PATH] Project Path: $PWD" -Color Gray
+    Write-ColorOutput "[TIME] Started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -Color Gray
+    Write-ColorOutput "[LOG]  Log File: $Script:LogFile`n" -Color Gray
 
     # Verify prerequisites
     Write-Step "Verifying prerequisites..."
@@ -540,7 +540,7 @@ function Main {
     foreach ($step in $steps) {
         $result = & $step.Function
         if (-not $result) {
-            Write-ColorOutput "`n❌ Launch failed at: $($step.Name)`n" -Color Red
+            Write-ColorOutput "`n[FAILED] Launch failed at: $($step.Name)`n" -Color Red
             Show-ErrorReport
             return 1
         }
@@ -551,7 +551,7 @@ function Main {
 
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
-║                    ✅ LAUNCH COMPLETED SUCCESSFULLY! ✅                  ║
+║                      LAUNCH COMPLETED SUCCESSFULLY!                       ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
@@ -571,7 +571,7 @@ try {
     $exitCode = Main
     exit $exitCode
 } catch {
-    Write-ColorOutput "`n💥 UNEXPECTED ERROR 💥`n" -Color Red
+    Write-ColorOutput "`n!!! UNEXPECTED ERROR !!!`n" -Color Red
     Write-ColorOutput $_.Exception.Message -Color Red
     Write-ColorOutput "`nStack Trace:" -Color Yellow
     Write-ColorOutput $_.ScriptStackTrace -Color Gray

@@ -125,41 +125,41 @@ function Show-ErrorReport {
     Write-ColorOutput "╚═══════════════════════════════════════════════════════════════════════════╝" -Color Red
     Write-ColorOutput "`n📋 COPY THIS ERROR REPORT TO AI FOR HELP:`n" -Color Yellow
 
-    $errorText = @"
-================================================================================
-ERROR REPORT - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
-================================================================================
+    $separator = "=" * 80
+    $divider = "-" * 19
+    $errorText = "$separator`n"
+    $errorText += "ERROR REPORT - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n"
+    $errorText += "$separator`n`n"
 
-"@
-
+    $errorIndex = 1
     foreach ($error in $Script:ErrorLog) {
-        $errorText += @"
-
-ERROR #$($Script:ErrorLog.IndexOf($error) + 1)
--------------------
-Type:     $($error.Type)
-Location: $($error.Location)
-Message:  $($error.Message)
-Fix:      $($error.Fix)
-Time:     $($error.Timestamp)
-
-"@
+        $errorText += "`nERROR #$errorIndex`n"
+        $errorText += "$divider`n"
+        $errorText += "Type:     $($error.Type)`n"
+        $errorText += "Location: $($error.Location)`n"
+        $errorText += "Message:  $($error.Message)`n"
+        $errorText += "Fix:      $($error.Fix)`n"
+        $errorText += "Time:     $($error.Timestamp)`n`n"
+        $errorIndex++
     }
 
-    $errorText += @"
-================================================================================
-Project: Clinical Toolkit
-Path:    $PWD
-Branch:  $(git branch --show-current 2>$null)
-Node:    $(node --version 2>$null)
-NPM:     $(npm --version 2>$null)
-================================================================================
-"@
+    $currentBranch = git branch --show-current 2>$null
+    $nodeVersion = node --version 2>$null
+    $npmVersion = npm --version 2>$null
+
+    $errorText += "$separator`n"
+    $errorText += "Project: Clinical Toolkit`n"
+    $errorText += "Path:    $PWD`n"
+    $errorText += "Branch:  $currentBranch`n"
+    $errorText += "Node:    $nodeVersion`n"
+    $errorText += "NPM:     $npmVersion`n"
+    $errorText += "$separator`n"
 
     Write-ColorOutput $errorText -Color White
 
     # Save to file
-    $errorFile = "error-report-$(Get-Date -Format 'yyyy-MM-dd-HHmmss').txt"
+    $timestamp = Get-Date -Format 'yyyy-MM-dd-HHmmss'
+    $errorFile = "error-report-$timestamp.txt"
     $errorText | Out-File -FilePath $errorFile -Encoding UTF8
     Write-ColorOutput "`n💾 Error report saved to: $errorFile" -Color Cyan
     Write-ColorOutput "📋 You can copy the report above and paste it to the AI for assistance.`n" -Color Yellow

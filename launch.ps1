@@ -120,9 +120,9 @@ function Show-ErrorReport {
         return
     }
 
-    Write-ColorOutput "`n╔═══════════════════════════════════════════════════════════════════════════╗" -Color Red
-    Write-ColorOutput "║                           ERROR REPORT                                    ║" -Color Red
-    Write-ColorOutput "╚═══════════════════════════════════════════════════════════════════════════╝" -Color Red
+    Write-ColorOutput "`n===============================================================================" -Color Red
+    Write-ColorOutput "                           ERROR REPORT                                    " -Color Red
+    Write-ColorOutput "===============================================================================" -Color Red
     Write-ColorOutput "`n[!] COPY THIS ERROR REPORT TO AI FOR HELP:`n" -Color Yellow
 
     $separator = "=" * 80
@@ -438,9 +438,9 @@ function Start-DevServer {
     }
 
     Write-Success "Starting Vite dev server..."
-    Write-ColorOutput "`n╔═══════════════════════════════════════════════════════════════════════════╗" -Color Green
-    Write-ColorOutput "║                       LAUNCHING DEV SERVER                                ║" -Color Green
-    Write-ColorOutput "╚═══════════════════════════════════════════════════════════════════════════╝`n" -Color Green
+    Write-ColorOutput "`n===============================================================================" -Color Green
+    Write-ColorOutput "                       LAUNCHING DEV SERVER                                " -Color Green
+    Write-ColorOutput "===============================================================================`n" -Color Green
 
     # Start the dev server
     $portArg = if ($Port -gt 0) { "--port $Port" } else { "" }
@@ -488,16 +488,14 @@ function Start-DevServer {
 function Main {
     $script:ErrorLog = @()
 
-    Write-ColorOutput @"
-
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║                 CLINICAL TOOLKIT DEVELOPMENT LAUNCHER                     ║
-║                           Version 1.0.0                                   ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-
-"@ -Color Cyan
+    Write-ColorOutput "" -Color Cyan
+    Write-ColorOutput "===============================================================================" -Color Cyan
+    Write-ColorOutput "                                                                               " -Color Cyan
+    Write-ColorOutput "                 CLINICAL TOOLKIT DEVELOPMENT LAUNCHER                         " -Color Cyan
+    Write-ColorOutput "                           Version 1.0.0                                       " -Color Cyan
+    Write-ColorOutput "                                                                               " -Color Cyan
+    Write-ColorOutput "===============================================================================" -Color Cyan
+    Write-ColorOutput "" -Color Cyan
 
     Write-ColorOutput "[PATH] Project Path: $PWD" -Color Gray
     Write-ColorOutput "[TIME] Started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -Color Gray
@@ -547,15 +545,13 @@ function Main {
     }
 
     if ($Script:ErrorLog.Count -eq 0) {
-        Write-ColorOutput @"
-
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║                      LAUNCH COMPLETED SUCCESSFULLY!                       ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-
-"@ -Color Green
+        Write-ColorOutput "" -Color Green
+        Write-ColorOutput "===============================================================================" -Color Green
+        Write-ColorOutput "                                                                               " -Color Green
+        Write-ColorOutput "                      LAUNCH COMPLETED SUCCESSFULLY!                           " -Color Green
+        Write-ColorOutput "                                                                               " -Color Green
+        Write-ColorOutput "===============================================================================" -Color Green
+        Write-ColorOutput "" -Color Green
     } else {
         Show-ErrorReport
     }

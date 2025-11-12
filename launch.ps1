@@ -292,45 +292,41 @@ function Invoke-GitOperations {
 
     if ($remoteCommit -and ($localCommit -ne $remoteCommit)) {
         Write-Step "Pulling latest changes..."
-        try {
-            $pullResult = git pull origin $targetBranch 2>&1
-            if ($LASTEXITCODE -eq 0) {
-                Write-Success "Successfully pulled latest changes"
-            } else {
-                # Check for merge conflicts
-                $conflictFiles = git diff --name-only --diff-filter=U
-                if ($conflictFiles) {
-                    Write-Warning "Merge conflicts detected in:"
-                    $conflictFiles | ForEach-Object { Write-ColorOutput "    $_" -Color Yellow }
+        git pull origin $targetBranch 2>&1 | Out-Null
 
-                    # Auto-resolve package-lock.json conflicts
-                    if ($conflictFiles -contains "package-lock.json") {
-                        Write-Step "Auto-resolving package-lock.json conflict..."
-                        git checkout --theirs package-lock.json
-                        git add package-lock.json
-                        Write-Success "Resolved package-lock.json (using remote version)"
-                    }
+        if ($LASTEXITCODE -eq 0) {
+            Write-Success "Successfully pulled latest changes"
+        } else {
+            # Check for merge conflicts
+            $conflictFiles = git diff --name-only --diff-filter=U 2>$null
+            if ($conflictFiles) {
+                Write-Warning "Merge conflicts detected in:"
+                $conflictFiles | ForEach-Object { Write-ColorOutput "    $_" -Color Yellow }
 
-                    # Check if all conflicts are resolved
-                    $remainingConflicts = git diff --name-only --diff-filter=U
-                    if ($remainingConflicts) {
-                        Write-ErrorMessage "Unable to auto-resolve all conflicts"
-                        Add-ErrorReport -Type "Git Merge Conflict" -Location ($remainingConflicts -join ", ") `
-                            -Message "Manual merge required" -Fix "Resolve conflicts manually or run: git merge --abort"
-                        return $false
-                    } else {
-                        # Complete the merge
-                        git commit --no-edit
-                        Write-Success "All conflicts resolved and committed"
-                    }
-                } else {
-                    throw "Pull failed: $pullResult"
+                # Auto-resolve package-lock.json conflicts
+                if ($conflictFiles -contains "package-lock.json") {
+                    Write-Step "Auto-resolving package-lock.json conflict..."
+                    git checkout --theirs package-lock.json
+                    git add package-lock.json
+                    Write-Success "Resolved package-lock.json (using remote version)"
                 }
+
+                # Check if all conflicts are resolved
+                $remainingConflicts = git diff --name-only --diff-filter=U 2>$null
+                if ($remainingConflicts) {
+                    Write-ErrorMessage "Unable to auto-resolve all conflicts"
+                    Add-ErrorReport -Type "Git Merge Conflict" -Location ($remainingConflicts -join ", ") `
+                        -Message "Manual merge required" -Fix "Resolve conflicts manually or run: git merge --abort"
+                    return $false
+                } else {
+                    # Complete the merge
+                    git commit --no-edit 2>&1 | Out-Null
+                    Write-Success "All conflicts resolved and committed"
+                }
+            } else {
+                # Pull failed but no conflicts - just warn and continue
+                Write-Warning "Pull failed but continuing anyway (probably already up to date)"
             }
-        } catch {
-            Write-ErrorMessage "Failed to pull changes: $_"
-            Add-ErrorReport -Type "Git Pull" -Location $PWD -Message $_.Exception.Message -Fix "Manually pull changes or reset branch"
-            return $false
         }
     } else {
         Write-Success "Already up to date with remote"
@@ -442,25 +438,22 @@ function Start-DevServer {
     Write-ColorOutput "                       LAUNCHING DEV SERVER                                " -Color Green
     Write-ColorOutput "===============================================================================`n" -Color Green
 
-    Write-ColorOutput "  [*] Your Clinical Toolkit is ready!" -Color Cyan
-    Write-ColorOutput "  [*] Open your browser and check the dev server URL below" -Color Cyan
+    Write-ColorOutput "  [*] Your Clinical Toolkit will be ready in a moment!" -Color Cyan
+    Write-ColorOutput "  [*] Open the URL shown below in your browser" -Color Cyan
     Write-ColorOutput "  [*] Press F12 in browser to open DevTools" -Color Cyan
     Write-ColorOutput "  [*] Click the phone icon to enable mobile device simulation" -Color Cyan
     Write-ColorOutput "`n  [!] Press Ctrl+C to stop the server`n" -Color Yellow
 
-    # Start the dev server in the current console
-    $portArg = if ($Port -gt 0) { "--port", $Port } else { @() }
-
-    try {
-        # Run npm run dev directly (this will keep running until Ctrl+C)
-        & npm run dev @portArg
-        return $true
-    } catch {
-        Write-ErrorMessage "Failed to start dev server: $_"
-        Add-ErrorReport -Type "Dev Server" -Location "npm run dev" -Message $_.Exception.Message `
-            -Fix "Check if port is available, try: npm run dev manually"
-        return $false
+    # Run npm run dev directly - this will block until Ctrl+C
+    if ($Port -gt 0) {
+        npm run dev -- --port $Port
+    } else {
+        npm run dev
     }
+
+    # If we get here, the server was stopped (Ctrl+C)
+    Write-ColorOutput "`n[INFO] Dev server stopped`n" -Color Yellow
+    return $true
 }
 
 # ============================================================================

@@ -16,8 +16,6 @@ export const DisclaimerModal = ({
   onAccept,
   isAccepted = false
 }: DisclaimerModalProps) => {
-  console.log('DisclaimerModal props:', { isOpen, showAcceptButton, isAccepted });
-  
   if (!isOpen) return null;
 
   return (

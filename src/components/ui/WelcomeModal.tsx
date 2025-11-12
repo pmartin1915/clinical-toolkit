@@ -65,16 +65,6 @@ export const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
     return consentStatus.disclaimer && consentStatus.terms && consentStatus.privacy;
   };
 
-  // Debug logging
-  console.log('WelcomeModal state:', {
-    currentStep,
-    showDisclaimer,
-    showTerms,
-    showPrivacy,
-    consentStatus,
-    isOpen
-  });
-
   const canProceed = () => {
     if (currentStep === 'legal') {
       return hasAllConsents();

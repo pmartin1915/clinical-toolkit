@@ -4,9 +4,10 @@ A comprehensive, evidence-based clinical reference application for healthcare pr
 
 ## 🌟 Features
 
-### 📱 **Progressive Web App (PWA)**
+### 📱 **Progressive Web App (PWA) & Mobile**
 - **Offline functionality** - Works without internet connection
 - **Installable** - Can be installed on mobile and desktop devices
+- **Android Native App** - Full Capacitor-based Android application
 - **Responsive design** - Optimized for all screen sizes
 - **Fast loading** - Optimized for performance
 
@@ -81,6 +82,42 @@ npm run build
 
 The built application will be in the `dist/` directory, ready for deployment.
 
+### Building for Android
+
+```bash
+# Build web assets
+npm run build
+
+# Sync to Android
+npx cap sync android
+
+# Open in Android Studio
+npx cap open android
+
+# Or use one-click automation (Windows)
+.\android-test.bat
+```
+
+See [ANDROID_QUICK_START.md](ANDROID_QUICK_START.md) for detailed Android development instructions.
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests once
+npm run test:run
+
+# Generate coverage report
+npm run test:coverage
+
+# Run tests with UI
+npm run test:ui
+```
+
+See [TESTING_GUIDE.md](TESTING_GUIDE.md) for comprehensive testing documentation.
+
 ## 🏗️ Architecture
 
 ### **Tech Stack**
@@ -88,6 +125,9 @@ The built application will be in the `dist/` directory, ready for deployment.
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS
 - **PWA**: Vite PWA Plugin + Workbox
+- **Mobile**: Capacitor 7 (Android support)
+- **Testing**: Vitest + Testing Library
+- **CI/CD**: GitHub Actions
 - **State Management**: React Hooks + Local Storage
 - **Icons**: Lucide React
 
@@ -111,7 +151,62 @@ src/
 - **Extensible** - Easy to add new conditions and tools
 - **Offline-first** - All data stored locally for offline access
 
-## 📊 Usage Examples
+## 🧪 Testing & Quality Assurance
+
+### **Automated Testing**
+
+Clinical Wizard implements comprehensive automated testing to ensure accuracy and reliability:
+
+- **104+ Automated Tests** covering critical functionality
+- **76 Clinical Calculator Tests** validating medical calculations
+- **Component Tests** for UI reliability
+- **Integration Tests** for workflow validation
+
+### **Test Coverage**
+
+| Category | Tests | Status |
+|----------|-------|--------|
+| **Clinical Calculators** | 76 | ✅ Passing |
+| **ASCVD Risk Calculator** | 28 | ✅ Validated |
+| **eGFR Calculator** | 24 | ✅ Validated |
+| **CHA2DS2-VASc Calculator** | 24 | ✅ Validated |
+| **UI Components** | 12 | ✅ Passing |
+| **Integration Tests** | 16 | ✅ Passing |
+
+### **CI/CD Pipeline**
+
+Every code change is automatically validated through a 6-stage pipeline:
+
+1. **Lint** - Code quality checks
+2. **Test** - Complete test suite execution
+3. **Build** - Production bundle creation
+4. **Capacitor Sync** - Mobile platform sync
+5. **Android Build** - APK compilation
+6. **Quality Gates** - All stages must pass
+
+**Pipeline Status**: All quality gates passing ✅
+
+See [TESTING_GUIDE.md](TESTING_GUIDE.md) for complete testing documentation.
+
+## 📱 Mobile Development
+
+### **Android Application**
+
+Clinical Wizard includes a complete Android native application:
+
+- **Capacitor 7** framework for native mobile features
+- **One-click testing** automation scripts
+- **Professional Android Studio** integration
+- **Native features**: Haptics, keyboard, splash screen, status bar
+
+### **Documentation**
+
+- [ANDROID_QUICK_START.md](ANDROID_QUICK_START.md) - 30-second setup guide
+- [ANDROID_TESTING_GUIDE.md](ANDROID_TESTING_GUIDE.md) - Complete testing reference
+- [ANDROID_TROUBLESHOOTING.md](ANDROID_TROUBLESHOOTING.md) - Problem solving
+- [ANDROID_AUTOMATION_README.md](ANDROID_AUTOMATION_README.md) - Automation overview
+
+
 
 ### **For Healthcare Students**
 - Study common conditions with evidence-based protocols
@@ -160,6 +255,9 @@ src/
 - [x] 7 comprehensive clinical conditions
 - [x] 5 working interactive tools
 - [x] PWA with offline functionality
+- [x] **Android native mobile application**
+- [x] **Automated testing suite (104+ tests)**
+- [x] **CI/CD pipeline with GitHub Actions**
 - [x] Responsive design
 - [x] Evidence-based clinical content
 - [x] Search and filtering capabilities

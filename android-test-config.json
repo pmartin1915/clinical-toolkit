@@ -1,0 +1,26 @@
+{
+  "androidSDKPath": "D:\\Android\\SDK",
+  "emulatorName": "Pixel_6_API_30",
+  "emulatorWaitTime": 120000,
+  "emulatorCheckInterval": 5000,
+  "buildTimeout": 300000,
+  "syncTimeout": 60000,
+  "portsToCheck": [5173, 8100, 3000, 8080],
+  "vitePort": 5173,
+  "autoLaunchStudio": true,
+  "autoInstallAPK": true,
+  "verboseLogging": false,
+  "emulatorOptions": {
+    "noSnapshotLoad": true,
+    "gpu": "auto",
+    "memory": 2048
+  },
+  "notes": {
+    "androidSDKPath": "Path to your Android SDK. Leave empty to use ANDROID_HOME env var",
+    "emulatorName": "Name of your emulator AVD. Leave as 'auto' to use first Pixel emulator found",
+    "emulatorWaitTime": "Maximum time (ms) to wait for emulator boot. Default: 120000 (2 minutes)",
+    "buildTimeout": "Maximum time (ms) for Vite build. Default: 300000 (5 minutes)",
+    "autoLaunchStudio": "Automatically open Android Studio after sync",
+    "autoInstallAPK": "Try to install and launch APK if already built"
+  }
+}

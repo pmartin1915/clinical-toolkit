@@ -1,6 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { PatientProfile, AssessmentResult, VitalSigns } from '../../types/storage';
 
+// Unmock the storage module for this test file (it's mocked globally in setup.ts)
+vi.unmock('../storage');
+
 // Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -34,7 +37,10 @@ describe('StorageManager', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     localStorageMock.clear();
-    
+
+    // Reset modules to ensure fresh import
+    vi.resetModules();
+
     // Import the real storage manager after mocking localStorage
     const { storageManager: sm } = await import('../storage');
     storageManager = sm;
@@ -232,8 +238,8 @@ describe('StorageManager', () => {
     it('creates and retrieves backups', async () => {
       const backup = await storageManager.createBackup();
       const backups = storageManager.getBackups();
-      
-      expect(backups).toContain(backup);
+
+      expect(backups).toContainEqual(backup);
     });
   });
 

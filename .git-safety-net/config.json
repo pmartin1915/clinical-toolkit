@@ -1,0 +1,12 @@
+{
+  "autoSaveInterval": 1800,
+  "testBeforeCommit": true,
+  "deviceName": "PC",
+  "lastDevice": "PC",
+  "lastSync": "",
+  "notifications": {
+    "autoSave": true,
+    "testFailures": true,
+    "pushSuccess": true
+  }
+}

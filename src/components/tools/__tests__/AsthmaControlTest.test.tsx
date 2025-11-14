@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AsthmaControlTest } from '../AsthmaControlTest';
 import { storageManager } from '../../../utils/storage';
@@ -53,9 +53,8 @@ describe('AsthmaControlTest', () => {
         // Last question options are different
         await user.click(screen.getByText('Not at all'));
       } else {
-        await user.click(screen.getByText('None of the time').length > 1 ? 
-          screen.getAllByText('None of the time')[0] : 
-          screen.getByText('None of the time'));
+        const options = screen.getAllByText('None of the time');
+        await user.click(options.length > 1 ? options[0] : screen.getByText('None of the time'));
       }
       
       if (i < 4) {

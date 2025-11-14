@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 // Simple test component
@@ -52,7 +52,7 @@ describe('Basic Testing Framework', () => {
     localStorage.setItem(testKey, testValue);
     expect(localStorage.setItem).toHaveBeenCalledWith(testKey, testValue);
 
-    const retrievedValue = localStorage.getItem(testKey);
+    localStorage.getItem(testKey);
     expect(localStorage.getItem).toHaveBeenCalledWith(testKey);
   });
 

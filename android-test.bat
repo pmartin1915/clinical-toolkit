@@ -35,7 +35,7 @@ echo Starting Android test automation...
 echo.
 
 REM Run the Node.js script
-node android-test.js
+node android-test.cjs
 
 REM Check exit code
 if %ERRORLEVEL% EQU 0 (

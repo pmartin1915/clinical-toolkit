@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
-import { vi, beforeAll, afterAll } from 'vitest'
+import { vi, beforeAll, afterAll, expect, afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
 
 // Mock storageManager for tests
 const mockStorageManager = {
@@ -79,3 +80,41 @@ beforeAll(() => {
 afterAll(() => {
   console.error = originalError;
 });
+
+// Cleanup after each test case
+afterEach(() => {
+  cleanup();
+});
+
+// Custom matchers for clinical calculations
+expect.extend({
+  toBeWithinMedicalTolerance(received: number, expected: number, tolerance = 0.1) {
+    const pass = Math.abs(received - expected) <= tolerance;
+    return {
+      pass,
+      message: () =>
+        pass
+          ? `Expected ${received} not to be within ${tolerance} of ${expected}`
+          : `Expected ${received} to be within ${tolerance} of ${expected}\nDifference: ${Math.abs(received - expected)}`,
+    };
+  },
+
+  toMatchClinicalRange(received: number, min: number, max: number) {
+    const pass = received >= min && received <= max;
+    return {
+      pass,
+      message: () =>
+        pass
+          ? `Expected ${received} not to be in range [${min}, ${max}]`
+          : `Expected ${received} to be in clinical range [${min}, ${max}]`,
+    };
+  }
+});
+
+// Extend Vitest matchers type
+declare module 'vitest' {
+  interface Assertion<T = any> {
+    toBeWithinMedicalTolerance(expected: number, tolerance?: number): T;
+    toMatchClinicalRange(min: number, max: number): T;
+  }
+}

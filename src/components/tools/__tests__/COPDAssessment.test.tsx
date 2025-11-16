@@ -11,102 +11,101 @@ describe('COPDAssessment', () => {
 
   it('renders the initial COPD assessment interface', () => {
     render(<COPDAssessment />);
-    
+
     expect(screen.getByText('COPD Assessment Test (CAT)')).toBeInTheDocument();
-    expect(screen.getByText('Start Assessment')).toBeInTheDocument();
-    expect(screen.getByText(/comprehensive tool for assessing the impact of COPD/)).toBeInTheDocument();
+    expect(screen.getByText(/Measure the impact of COPD on your daily life/)).toBeInTheDocument();
+    expect(screen.getByText(/I never cough \/ I cough all the time/)).toBeInTheDocument();
   });
 
-  it('displays the first question when starting assessment', async () => {
-    const user = userEvent.setup();
+  it('displays all questions immediately', () => {
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
-    expect(screen.getByText(/I never cough/)).toBeInTheDocument();
-    expect(screen.getByText(/I cough all the time/)).toBeInTheDocument();
+
+    // All 8 questions should be visible
+    expect(screen.getByText(/I never cough \/ I cough all the time/)).toBeInTheDocument();
+    expect(screen.getByText(/I have no phlegm in my chest \/ My chest is completely full of phlegm/)).toBeInTheDocument();
+    expect(screen.getByText(/My chest does not feel tight \/ My chest feels very tight/)).toBeInTheDocument();
+    expect(screen.getByText(/When I walk up a hill or flight of stairs I am not breathless/)).toBeInTheDocument();
   });
 
-  it('allows selecting responses on the slider scale', async () => {
+  it('allows selecting responses with buttons', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
-    // Find and interact with the slider input
-    const sliders = screen.getAllByRole('slider');
-    expect(sliders).toHaveLength(1);
-    
-    fireEvent.change(sliders[0], { target: { value: '3' } });
-    
-    await user.click(screen.getByText('Next Question'));
-    
-    // Should move to second question
-    expect(screen.getByText(/I have no phlegm/)).toBeInTheDocument();
+
+    // Initially shows 0 of 8
+    expect(screen.getByText('0 of 8')).toBeInTheDocument();
+
+    // Click score button for first question (score 2)
+    const allButtons = screen.getAllByRole('button');
+    const scoreButton = allButtons.find(btn => btn.textContent === '2');
+    if (scoreButton) await user.click(scoreButton);
+
+    // Progress should update to 1 of 8
+    expect(screen.getByText('1 of 8')).toBeInTheDocument();
   });
 
   it('calculates total score correctly', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
+
+    const calculateButton = screen.getByText('Calculate CAT Score');
+    expect(calculateButton).toBeDisabled();
+
     // Answer all 8 questions with score of 2 each (total should be 16)
+    const allButtons = screen.getAllByRole('button');
+    const score2Buttons = allButtons.filter(btn => btn.textContent === '2');
+
+    // Click each score "2" button for each of the 8 questions
     for (let i = 0; i < 8; i++) {
-      const sliders = screen.getAllByRole('slider');
-      fireEvent.change(sliders[0], { target: { value: '2' } });
-      
-      if (i < 7) {
-        await user.click(screen.getByText('Next Question'));
-      } else {
-        await user.click(screen.getByText('Complete Assessment'));
-      }
+      await user.click(score2Buttons[i]);
     }
-    
-    expect(screen.getByText(/Your CAT Score: 16/)).toBeInTheDocument();
+
+    // Calculate results
+    await user.click(calculateButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/CAT Score: 16\/40/)).toBeInTheDocument();
+    });
   });
 
   it('shows appropriate interpretation for different score ranges', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
-    // Complete with low scores (should be low impact)
+
+    // Answer all questions with score 0 (should be low impact)
+    const allButtons = screen.getAllByRole('button');
+    const score0Buttons = allButtons.filter(btn => btn.textContent === '0');
+
     for (let i = 0; i < 8; i++) {
-      const sliders = screen.getAllByRole('slider');
-      fireEvent.change(sliders[0], { target: { value: '0' } });
-      
-      if (i < 7) {
-        await user.click(screen.getByText('Next Question'));
-      } else {
-        await user.click(screen.getByText('Complete Assessment'));
-      }
+      await user.click(score0Buttons[i]);
     }
-    
-    expect(screen.getByText(/Low Impact/)).toBeInTheDocument();
+
+    await user.click(screen.getByText('Calculate CAT Score'));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Low Impact/)).toBeInTheDocument();
+    });
   });
 
   it('saves assessment results successfully', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
-    // Complete assessment
+
+    // Answer all questions with score 2
+    const allButtons = screen.getAllByRole('button');
+    const score2Buttons = allButtons.filter(btn => btn.textContent === '2');
+
     for (let i = 0; i < 8; i++) {
-      const sliders = screen.getAllByRole('slider');
-      fireEvent.change(sliders[0], { target: { value: '2' } });
-      
-      if (i < 7) {
-        await user.click(screen.getByText('Next Question'));
-      } else {
-        await user.click(screen.getByText('Complete Assessment'));
-      }
+      await user.click(score2Buttons[i]);
     }
-    
+
+    await user.click(screen.getByText('Calculate CAT Score'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Save Results')).toBeInTheDocument();
+    });
+
     await user.click(screen.getByText('Save Results'));
-    
+
     await waitFor(() => {
       expect(storageManager.saveAssessment).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -120,52 +119,56 @@ describe('COPDAssessment', () => {
     });
   });
 
-  it('allows navigating back through questions', async () => {
+  it('allows changing answers for questions', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    await user.click(screen.getByText('Next Question'));
-    
-    // Should be on question 2
-    expect(screen.getByText(/I have no phlegm/)).toBeInTheDocument();
-    
-    await user.click(screen.getByText('← Previous'));
-    
-    // Should be back on question 1
-    expect(screen.getByText(/I never cough/)).toBeInTheDocument();
+
+    // Answer first question with score 2
+    const allButtons = screen.getAllByRole('button');
+    const score2Buttons = allButtons.filter(btn => btn.textContent === '2');
+    await user.click(score2Buttons[0]);
+
+    expect(screen.getByText('1 of 8')).toBeInTheDocument();
+
+    // Change answer to score 3
+    const score3Buttons = allButtons.filter(btn => btn.textContent === '3');
+    await user.click(score3Buttons[0]);
+
+    // Still should be 1 of 8 (just changed the answer)
+    expect(screen.getByText('1 of 8')).toBeInTheDocument();
   });
 
-  it('prevents progression without answering current question', async () => {
-    const user = userEvent.setup();
+  it('prevents calculation without answering all questions', () => {
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
-    // Try to go to next question without answering
-    const nextButton = screen.getByText('Next Question');
-    
-    // Button should be disabled or clicking should not progress
-    await user.click(nextButton);
-    
-    // Should still be on first question
-    expect(screen.getByText(/I never cough/)).toBeInTheDocument();
+
+    // Calculate button should be disabled when not all questions answered
+    const calculateButton = screen.getByText('Calculate CAT Score');
+    expect(calculateButton).toBeDisabled();
   });
 
   it('resets assessment when taking test again', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
-    await user.click(screen.getByText('Start Assessment'));
-    
-    // Answer a few questions
-    const sliders = screen.getAllByRole('slider');
-    fireEvent.change(sliders[0], { target: { value: '3' } });
-    await user.click(screen.getByText('Next Question'));
-    
-    // Go back to start
-    await user.click(screen.getByText('← Back'));
-    
-    expect(screen.getByText('Start Assessment')).toBeInTheDocument();
+
+    // Complete assessment
+    const allButtons = screen.getAllByRole('button');
+    const score2Buttons = allButtons.filter(btn => btn.textContent === '2');
+
+    for (let i = 0; i < 8; i++) {
+      await user.click(score2Buttons[i]);
+    }
+
+    await user.click(screen.getByText('Calculate CAT Score'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Take Test Again')).toBeInTheDocument();
+    });
+
+    // Restart
+    await user.click(screen.getByText('Take Test Again'));
+
+    // Should be back to initial state
+    expect(screen.getByText('0 of 8')).toBeInTheDocument();
+    expect(screen.getByText('Calculate CAT Score')).toBeDisabled();
   });
 });

@@ -69,21 +69,23 @@ describe('COPDAssessment', () => {
   it('shows appropriate interpretation for different score ranges', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
+
     await user.click(screen.getByText('Start Assessment'));
-    
+
     // Complete with low scores (should be low impact)
     for (let i = 0; i < 8; i++) {
       const sliders = screen.getAllByRole('slider');
+      // Fire both input and change events to ensure state update
+      fireEvent.input(sliders[0], { target: { value: '0' } });
       fireEvent.change(sliders[0], { target: { value: '0' } });
-      
+
       if (i < 7) {
         await user.click(screen.getByText('Next Question'));
       } else {
         await user.click(screen.getByText('Complete Assessment'));
       }
     }
-    
+
     expect(screen.getByText(/Low Impact/)).toBeInTheDocument();
   });
 
@@ -123,15 +125,21 @@ describe('COPDAssessment', () => {
   it('allows navigating back through questions', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
+
     await user.click(screen.getByText('Start Assessment'));
+
+    // Answer first question to allow progression
+    const sliders = screen.getAllByRole('slider');
+    fireEvent.input(sliders[0], { target: { value: '2' } });
+    fireEvent.change(sliders[0], { target: { value: '2' } });
+
     await user.click(screen.getByText('Next Question'));
-    
+
     // Should be on question 2
     expect(screen.getByText(/I have no phlegm/)).toBeInTheDocument();
-    
+
     await user.click(screen.getByText('← Previous'));
-    
+
     // Should be back on question 1
     expect(screen.getByText(/I never cough/)).toBeInTheDocument();
   });
@@ -155,17 +163,19 @@ describe('COPDAssessment', () => {
   it('resets assessment when taking test again', async () => {
     const user = userEvent.setup();
     render(<COPDAssessment />);
-    
+
     await user.click(screen.getByText('Start Assessment'));
-    
-    // Answer a few questions
+
+    // Answer first question
     const sliders = screen.getAllByRole('slider');
+    fireEvent.input(sliders[0], { target: { value: '3' } });
     fireEvent.change(sliders[0], { target: { value: '3' } });
     await user.click(screen.getByText('Next Question'));
-    
+
     // Go back to start
+    await user.click(screen.getByText('← Previous'));
     await user.click(screen.getByText('← Back'));
-    
+
     expect(screen.getByText('Start Assessment')).toBeInTheDocument();
   });
 });

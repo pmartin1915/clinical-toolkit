@@ -44,26 +44,28 @@ describe('AsthmaControlTest', () => {
   it('calculates and displays results after completing all questions', async () => {
     const user = userEvent.setup();
     render(<AsthmaControlTest />);
-    
+
     await user.click(screen.getByText('Take Assessment'));
-    
+
     // Answer all 5 questions with maximum scores (5 points each = 25 total)
+    const maxScoreOptions = [
+      'None of the time',        // Q1: work activities
+      'Not at all',               // Q2: shortness of breath
+      'Not at all',               // Q3: night symptoms
+      'Not at all',               // Q4: rescue inhaler
+      'Completely controlled'     // Q5: control rating
+    ];
+
     for (let i = 0; i < 5; i++) {
-      if (i === 4) {
-        // Last question options are different
-        await user.click(screen.getByText('Not at all'));
-      } else {
-        const options = screen.getAllByText('None of the time');
-        await user.click(options.length > 1 ? options[0] : screen.getByText('None of the time'));
-      }
-      
+      await user.click(screen.getByText(maxScoreOptions[i]));
+
       if (i < 4) {
         await user.click(screen.getByText('Next Question'));
       } else {
         await user.click(screen.getByText('Complete Assessment'));
       }
     }
-    
+
     expect(screen.getByText(/Your ACT Score:/)).toBeInTheDocument();
     expect(screen.getByText('Well-Controlled Asthma')).toBeInTheDocument();
   });
@@ -71,28 +73,31 @@ describe('AsthmaControlTest', () => {
   it('saves results when save button is clicked', async () => {
     const user = userEvent.setup();
     render(<AsthmaControlTest />);
-    
+
     await user.click(screen.getByText('Take Assessment'));
-    
-    // Complete assessment quickly
+
+    // Complete assessment quickly with maximum scores
+    const maxScoreOptions = [
+      'None of the time',        // Q1: work activities
+      'Not at all',               // Q2: shortness of breath
+      'Not at all',               // Q3: night symptoms
+      'Not at all',               // Q4: rescue inhaler
+      'Completely controlled'     // Q5: control rating
+    ];
+
     for (let i = 0; i < 5; i++) {
-      const options = screen.getAllByRole('button');
-      const optionButton = options.find(btn => 
-        btn.textContent?.includes('None of the time') || 
-        btn.textContent?.includes('Not at all')
-      );
-      if (optionButton) await user.click(optionButton);
-      
+      await user.click(screen.getByText(maxScoreOptions[i]));
+
       if (i < 4) {
         await user.click(screen.getByText('Next Question'));
       } else {
         await user.click(screen.getByText('Complete Assessment'));
       }
     }
-    
+
     // Save results
     await user.click(screen.getByText('Save Results'));
-    
+
     await waitFor(() => {
       expect(storageManager.saveAssessment).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -123,36 +128,39 @@ describe('AsthmaControlTest', () => {
   it('handles errors gracefully when saving fails', async () => {
     const user = userEvent.setup();
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    
+
     // Mock saveAssessment to reject
     vi.mocked(storageManager.saveAssessment).mockRejectedValueOnce(new Error('Save failed'));
-    
+
     render(<AsthmaControlTest />);
-    
+
     await user.click(screen.getByText('Take Assessment'));
-    
-    // Complete assessment
+
+    // Complete assessment with maximum scores
+    const maxScoreOptions = [
+      'None of the time',        // Q1: work activities
+      'Not at all',               // Q2: shortness of breath
+      'Not at all',               // Q3: night symptoms
+      'Not at all',               // Q4: rescue inhaler
+      'Completely controlled'     // Q5: control rating
+    ];
+
     for (let i = 0; i < 5; i++) {
-      const options = screen.getAllByRole('button');
-      const optionButton = options.find(btn => 
-        btn.textContent?.includes('None of the time') || 
-        btn.textContent?.includes('Not at all')
-      );
-      if (optionButton) await user.click(optionButton);
-      
+      await user.click(screen.getByText(maxScoreOptions[i]));
+
       if (i < 4) {
         await user.click(screen.getByText('Next Question'));
       } else {
         await user.click(screen.getByText('Complete Assessment'));
       }
     }
-    
+
     await user.click(screen.getByText('Save Results'));
-    
+
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalledWith('Error saving ACT results:', expect.any(Error));
     });
-    
+
     consoleSpy.mockRestore();
   });
 });

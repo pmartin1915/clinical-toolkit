@@ -56,9 +56,58 @@ const catQuestions: CATQuestion[] = [
 const COPDAssessmentComponent = () => {
   const [responses, setResponses] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
+  const [isAssessmentStarted, setIsAssessmentStarted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [interactedQuestions, setInteractedQuestions] = useState<Set<string>>(new Set());
 
   const handleResponse = (questionId: string, score: number) => {
     setResponses(prev => ({ ...prev, [questionId]: score }));
+    setInteractedQuestions(prev => new Set([...prev, questionId]));
+  };
+
+  const handleStartAssessment = () => {
+    setIsAssessmentStarted(true);
+    setCurrentStep(0);
+    // Initialize first question to default value of 0
+    const initialResponses = { [catQuestions[0].id]: 0 };
+    setResponses(initialResponses);
+    setInteractedQuestions(new Set());
+    setShowResults(false);
+  };
+
+  const handleNextQuestion = () => {
+    const currentQuestionId = catQuestions[currentStep].id;
+    // Only progress if current question has been interacted with
+    if (interactedQuestions.has(currentQuestionId) && currentStep < catQuestions.length - 1) {
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      // Initialize next question to 0 if not already set
+      if (responses[catQuestions[nextStep].id] === undefined) {
+        setResponses(prev => ({ ...prev, [catQuestions[nextStep].id]: 0 }));
+      }
+    }
+  };
+
+  const handlePreviousQuestion = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const handleBackToStart = () => {
+    setIsAssessmentStarted(false);
+    setCurrentStep(0);
+    setResponses({});
+    setInteractedQuestions(new Set());
+    setShowResults(false);
+  };
+
+  const handleCompleteAssessment = () => {
+    const currentQuestionId = catQuestions[currentStep].id;
+    // Only complete if current question has been interacted with
+    if (interactedQuestions.has(currentQuestionId)) {
+      setShowResults(true);
+    }
   };
 
   const calculateScore = (): number => {
@@ -132,7 +181,8 @@ const COPDAssessmentComponent = () => {
 
   const score = calculateScore();
   const interpretation = getScoreInterpretation(score);
-  const progress = (Object.keys(responses).length / catQuestions.length) * 100;
+  const progress = ((currentStep + (showResults ? 1 : 0)) / catQuestions.length) * 100;
+  const currentQuestion = catQuestions[currentStep];
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -144,62 +194,123 @@ const COPDAssessmentComponent = () => {
         </div>
       </div>
 
-      {!showResults ? (
+      {!isAssessmentStarted ? (
+        /* Landing Screen */
+        <div className="text-center py-8">
+          <div className="mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <Wind className="w-8 h-8 text-blue-600" />
+            </div>
+            <h4 className="text-2xl font-bold text-gray-900 mb-3">COPD Impact Assessment</h4>
+            <p className="text-gray-600 mb-2">
+              A comprehensive tool for assessing the impact of COPD on your health and daily life.
+            </p>
+            <p className="text-sm text-gray-500">
+              This validated 8-question assessment helps quantify how COPD affects your well-being.
+            </p>
+          </div>
+
+          <div className="bg-blue-50 rounded-lg p-6 mb-6 text-left">
+            <h5 className="font-semibold text-blue-900 mb-3">What You'll Be Asked:</h5>
+            <ul className="space-y-2 text-sm text-blue-800">
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Cough frequency and severity</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Chest tightness and phlegm production</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Breathlessness during activities</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Activity limitations and confidence</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Sleep quality and energy levels</span>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            onClick={handleStartAssessment}
+            className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          >
+            Start Assessment
+          </button>
+        </div>
+      ) : !showResults ? (
+        /* Question Display */
         <>
           {/* Progress Bar */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Progress</span>
-              <span className="text-sm text-gray-500">{Object.keys(responses).length} of {catQuestions.length}</span>
+              <span className="text-sm font-medium text-gray-700">
+                Question {currentStep + 1} of {catQuestions.length}
+              </span>
+              <span className="text-sm text-gray-500">{Math.round(progress)}% Complete</span>
             </div>
             <div className="bg-gray-200 rounded-full h-2">
-              <div 
+              <div
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
           </div>
 
-          {/* Questions */}
-          <div className="space-y-6">
-            {catQuestions.map((question, index) => (
-              <div key={question.id} className="border border-gray-200 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-4">
-                  {index + 1}. {question.text}
-                </h4>
-                <div className="grid grid-cols-6 gap-2">
-                  {question.scale.map((label, scoreIndex) => (
-                    <div key={scoreIndex} className="text-center">
-                      <button
-                        onClick={() => handleResponse(question.id, scoreIndex)}
-                        className={`w-full p-2 rounded-lg border text-xs transition-colors ${
-                          responses[question.id] === scoreIndex
-                            ? 'bg-blue-100 border-blue-500 text-blue-800'
-                            : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                        }`}
-                      >
-                        {scoreIndex}
-                      </button>
-                      <p className="text-xs text-gray-600 mt-1">{label}</p>
-                    </div>
-                  ))}
+          {/* Current Question */}
+          <div className="border border-gray-200 rounded-lg p-6 mb-6">
+            <h4 className="font-medium text-gray-900 mb-6">
+              {currentStep + 1}. {currentQuestion.text}
+            </h4>
+
+            {/* Range Slider */}
+            <div className="mb-4">
+              <input
+                type="range"
+                role="slider"
+                min="0"
+                max="5"
+                value={responses[currentQuestion.id] ?? 0}
+                onChange={(e) => handleResponse(currentQuestion.id, parseInt(e.target.value))}
+                onInput={(e) => handleResponse(currentQuestion.id, parseInt((e.target as HTMLInputElement).value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              />
+            </div>
+
+            {/* Scale Labels */}
+            <div className="grid grid-cols-6 gap-2 text-center">
+              {currentQuestion.scale.map((label, index) => (
+                <div key={index} className={`text-xs ${responses[currentQuestion.id] === index ? 'text-blue-700 font-semibold' : 'text-gray-600'}`}>
+                  <div className="font-bold mb-1">{index}</div>
+                  <div>{label}</div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          {/* Calculate Button */}
-          <div className="mt-8">
+          {/* Navigation Buttons */}
+          <div className="flex space-x-4">
             <button
-              onClick={() => setShowResults(true)}
-              disabled={Object.keys(responses).length !== catQuestions.length}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                Object.keys(responses).length === catQuestions.length
+              onClick={currentStep === 0 ? handleBackToStart : handlePreviousQuestion}
+              className="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+            >
+              {currentStep === 0 ? '← Back' : '← Previous'}
+            </button>
+
+            <button
+              onClick={currentStep === catQuestions.length - 1 ? handleCompleteAssessment : handleNextQuestion}
+              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                interactedQuestions.has(currentQuestion.id)
                   ? 'bg-blue-600 text-white hover:bg-blue-700'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-gray-400 text-white hover:bg-gray-500'
               }`}
             >
-              Calculate CAT Score
+              {currentStep === catQuestions.length - 1 ? 'Complete Assessment' : 'Next Question'}
             </button>
           </div>
         </>
@@ -210,7 +321,7 @@ const COPDAssessmentComponent = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-4">
               <span className="text-3xl font-bold text-blue-800">{score}</span>
             </div>
-            <h4 className="text-2xl font-bold text-gray-900">CAT Score: {score}/40</h4>
+            <h4 className="text-2xl font-bold text-gray-900">Your CAT Score: {score}</h4>
           </div>
 
           {/* Interpretation */}
@@ -286,6 +397,8 @@ const COPDAssessmentComponent = () => {
             <button
               onClick={() => {
                 setShowResults(false);
+                setIsAssessmentStarted(false);
+                setCurrentStep(0);
                 setResponses({});
               }}
               className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"

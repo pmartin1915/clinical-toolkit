@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: true,
+    // reporters: ['default', './src/test/clinical-reporter.ts'], // TODO: Fix reporter compatibility with Vitest
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

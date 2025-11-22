@@ -71,9 +71,35 @@ const actQuestions: ACTQuestion[] = [
 const AsthmaControlTestComponent = () => {
   const [responses, setResponses] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
+  const [isAssessmentStarted, setIsAssessmentStarted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const handleResponse = (questionId: string, score: number) => {
     setResponses(prev => ({ ...prev, [questionId]: score }));
+  };
+
+  const handleStartAssessment = () => {
+    setIsAssessmentStarted(true);
+    setCurrentStep(0);
+    setResponses({});
+    setShowResults(false);
+  };
+
+  const handleNextQuestion = () => {
+    if (currentStep < actQuestions.length - 1) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handleBackToStart = () => {
+    setIsAssessmentStarted(false);
+    setCurrentStep(0);
+    setResponses({});
+    setShowResults(false);
+  };
+
+  const handleCompleteAssessment = () => {
+    setShowResults(true);
   };
 
   const calculateScore = (): number => {
@@ -159,7 +185,8 @@ const AsthmaControlTestComponent = () => {
   const score = calculateScore();
   const controlLevel = getControlLevel(score);
   const stepTherapy = score >= 0 ? getStepTherapyRecommendation(score) : null;
-  const progress = (Object.keys(responses).length / actQuestions.length) * 100;
+  const progress = ((currentStep + (showResults ? 1 : 0)) / actQuestions.length) * 100;
+  const currentQuestion = actQuestions[currentStep];
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -171,65 +198,118 @@ const AsthmaControlTestComponent = () => {
         </div>
       </div>
 
-      {!showResults ? (
+      {!isAssessmentStarted ? (
+        /* Landing Screen */
+        <div className="text-center py-8">
+          <div className="mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
+              <Wind className="w-8 h-8 text-purple-600" />
+            </div>
+            <h4 className="text-2xl font-bold text-gray-900 mb-3">Asthma Control Assessment</h4>
+            <p className="text-gray-600 mb-2">
+              A comprehensive 5-question assessment to evaluate your asthma control over the past 4 weeks.
+            </p>
+            <p className="text-sm text-gray-500">
+              This validated tool helps determine if your asthma is well-controlled or needs treatment adjustment.
+            </p>
+          </div>
+
+          <div className="bg-purple-50 rounded-lg p-6 mb-6 text-left">
+            <h5 className="font-semibold text-purple-900 mb-3">What You'll Be Asked:</h5>
+            <ul className="space-y-2 text-sm text-purple-800">
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Impact on work, school, or daily activities</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Frequency of shortness of breath</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Nighttime symptoms and sleep disruption</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Rescue inhaler use</span>
+              </li>
+              <li className="flex items-start">
+                <span className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                <span>Overall asthma control rating</span>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            onClick={handleStartAssessment}
+            className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-purple-700 transition-colors"
+          >
+            Take Assessment
+          </button>
+        </div>
+      ) : !showResults ? (
+        /* Question Display */
         <>
           {/* Progress Bar */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Progress</span>
-              <span className="text-sm text-gray-500">{Object.keys(responses).length} of {actQuestions.length}</span>
+              <span className="text-sm font-medium text-gray-700">
+                Question {currentStep + 1} of {actQuestions.length}
+              </span>
+              <span className="text-sm text-gray-500">{Math.round(progress)}% Complete</span>
             </div>
             <div className="bg-gray-200 rounded-full h-2">
-              <div 
+              <div
                 className="bg-purple-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
           </div>
 
-          {/* Questions */}
-          <div className="space-y-6">
-            {actQuestions.map((question, index) => (
-              <div key={question.id} className="border border-gray-200 rounded-lg p-6">
-                <h4 className="font-medium text-gray-900 mb-4">
-                  {index + 1}. {question.text}
-                </h4>
-                <div className="space-y-3">
-                  {question.options.map((option) => (
-                    <label key={option.score} className="flex items-start space-x-3 cursor-pointer group">
-                      <input
-                        type="radio"
-                        name={question.id}
-                        value={option.score}
-                        checked={responses[question.id] === option.score}
-                        onChange={() => handleResponse(question.id, option.score)}
-                        className="mt-0.5 h-4 w-4 text-purple-600 border-gray-300 focus:ring-purple-500"
-                      />
-                      <div className="flex-1">
-                        <span className="text-gray-900 group-hover:text-purple-700 transition-colors">
-                          {option.text}
-                        </span>
-                        <span className="ml-2 text-xs text-gray-500">({option.score} points)</span>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            ))}
+          {/* Current Question */}
+          <div className="border border-gray-200 rounded-lg p-6 mb-6">
+            <h4 className="font-medium text-gray-900 mb-4">
+              {currentStep + 1}. {currentQuestion.text}
+            </h4>
+            <div className="space-y-3">
+              {currentQuestion.options.map((option) => (
+                <button
+                  key={option.score}
+                  onClick={() => handleResponse(currentQuestion.id, option.score)}
+                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+                    responses[currentQuestion.id] === option.score
+                      ? 'border-purple-600 bg-purple-50'
+                      : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-900 font-medium">{option.text}</span>
+                    <span className="text-xs text-gray-500">({option.score} points)</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Calculate Button */}
-          <div className="mt-8">
+          {/* Navigation Buttons */}
+          <div className="flex space-x-4">
             <button
-              onClick={() => setShowResults(true)}
-              disabled={Object.keys(responses).length !== actQuestions.length}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                Object.keys(responses).length === actQuestions.length
+              onClick={handleBackToStart}
+              className="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+            >
+              ← Back
+            </button>
+
+            <button
+              onClick={currentStep === actQuestions.length - 1 ? handleCompleteAssessment : handleNextQuestion}
+              disabled={!responses[currentQuestion.id]}
+              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                responses[currentQuestion.id]
                   ? 'bg-purple-600 text-white hover:bg-purple-700'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
-              Calculate ACT Score
+              {currentStep === actQuestions.length - 1 ? 'Complete Assessment' : 'Next Question'}
             </button>
           </div>
         </>
@@ -240,7 +320,7 @@ const AsthmaControlTestComponent = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-purple-100 rounded-full mb-4">
               <span className="text-3xl font-bold text-purple-800">{score}</span>
             </div>
-            <h4 className="text-2xl font-bold text-gray-900">ACT Score: {score}/25</h4>
+            <h4 className="text-2xl font-bold text-gray-900">Your ACT Score: {score}/25</h4>
           </div>
 
           {/* Control Level Interpretation */}
@@ -353,6 +433,8 @@ const AsthmaControlTestComponent = () => {
             <button
               onClick={() => {
                 setShowResults(false);
+                setIsAssessmentStarted(false);
+                setCurrentStep(0);
                 setResponses({});
               }}
               className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"

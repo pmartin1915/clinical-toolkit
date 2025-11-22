@@ -58,26 +58,29 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('minimal', false); // [0,0,0,1,0,0,0,0,0] = 1
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      // First 36 buttons are question responses (9 questions × 4 options each)
+      const responseButtons = allButtons.slice(0, 36);
 
       // Simulate minimal responses
       for (let i = 0; i < 9; i++) {
         const value = responses[i];
         const buttonIndex = i * 4 + value; // 4 options per question
-        await user.click(radioButtons[buttonIndex]);
+        await user.click(responseButtons[buttonIndex]);
       }
 
       // Select functional impairment
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Not difficult at all');
+      const functionalButton = screen.getByRole('button', { name: 'Not difficult at all' });
+      await user.click(functionalButton);
 
-      // Calculate
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      // Calculate (wait for button to appear)
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 1/i)).toBeInTheDocument();
-        expect(screen.getByText(/Minimal/i)).toBeInTheDocument();
+        expect(screen.getByText(/1\/27/)).toBeInTheDocument();
+        const minimalElements = screen.getAllByText(/Minimal Depression/i);
+        expect(minimalElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -86,23 +89,25 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('mild', false); // Score: 6
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 9; i++) {
         const value = responses[i];
         const buttonIndex = i * 4 + value;
-        await user.click(radioButtons[buttonIndex]);
+        await user.click(responseButtons[buttonIndex]);
       }
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Somewhat difficult');
+      const functionalButton = screen.getByRole('button', { name: 'Somewhat difficult' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 6/i)).toBeInTheDocument();
-        expect(screen.getByText(/Mild/i)).toBeInTheDocument();
+        expect(screen.getByText(/6\/27/)).toBeInTheDocument();
+        const mildElements = screen.getAllByText(/Mild Depression/i);
+        expect(mildElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -111,23 +116,25 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('moderate', false); // Score: 12
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 9; i++) {
         const value = responses[i];
         const buttonIndex = i * 4 + value;
-        await user.click(radioButtons[buttonIndex]);
+        await user.click(responseButtons[buttonIndex]);
       }
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Very difficult');
+      const functionalButton = screen.getByRole('button', { name: 'Very difficult' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 12/i)).toBeInTheDocument();
-        expect(screen.getByText(/Moderate/i)).toBeInTheDocument();
+        expect(screen.getByText(/12\/27/)).toBeInTheDocument();
+        const moderateElements = screen.getAllByText(/Moderate Depression/i);
+        expect(moderateElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -136,23 +143,25 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('moderately severe', false); // Score: 17
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 9; i++) {
         const value = responses[i];
         const buttonIndex = i * 4 + value;
-        await user.click(radioButtons[buttonIndex]);
+        await user.click(responseButtons[buttonIndex]);
       }
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Extremely difficult');
+      const functionalButton = screen.getByRole('button', { name: 'Extremely difficult' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 17/i)).toBeInTheDocument();
-        expect(screen.getByText(/Moderately Severe/i)).toBeInTheDocument();
+        expect(screen.getByText(/17\/27/)).toBeInTheDocument();
+        const moderatelySevereElements = screen.getAllByText(/Moderately Severe Depression/i);
+        expect(moderatelySevereElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -161,23 +170,25 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('severe', false); // Score: 22
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 9; i++) {
         const value = responses[i];
         const buttonIndex = i * 4 + value;
-        await user.click(radioButtons[buttonIndex]);
+        await user.click(responseButtons[buttonIndex]);
       }
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Extremely difficult');
+      const functionalButton = screen.getByRole('button', { name: 'Extremely difficult' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 2[0-9]/i)).toBeInTheDocument();
-        expect(screen.getByText(/Severe/i)).toBeInTheDocument();
+        expect(screen.getByText(/2[0-9]\/27/)).toBeInTheDocument();
+        const severeElements = screen.getAllByText(/Severe Depression/i);
+        expect(severeElements.length).toBeGreaterThan(0);
       });
     });
   });
@@ -224,18 +235,19 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('minimal', true); // Forces Q9 = 2
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       // Set Q9 to 1 (Several days)
       for (let i = 0; i < 8; i++) {
-        await user.click(radioButtons[i * 4]); // All "Not at all"
+        await user.click(responseButtons[i * 4]); // All "Not at all"
       }
-      await user.click(radioButtons[8 * 4 + 1]); // Q9 = "Several days"
+      await user.click(responseButtons[8 * 4 + 1]); // Q9 = "Several days"
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Not difficult at all');
+      const functionalButton = screen.getByRole('button', { name: 'Not difficult at all' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
@@ -249,17 +261,18 @@ describe('PHQ9Assessment', () => {
       const user = userEvent.setup();
       render(<PHQ9Assessment />);
 
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 8; i++) {
-        await user.click(radioButtons[i * 4]); // All "Not at all"
+        await user.click(responseButtons[i * 4]); // All "Not at all"
       }
-      await user.click(radioButtons[8 * 4 + 2]); // Q9 = "More than half"
+      await user.click(responseButtons[8 * 4 + 2]); // Q9 = "More than half"
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Not difficult at all');
+      const functionalButton = screen.getByRole('button', { name: 'Not difficult at all' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
@@ -272,17 +285,18 @@ describe('PHQ9Assessment', () => {
       const user = userEvent.setup();
       render(<PHQ9Assessment />);
 
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 8; i++) {
-        await user.click(radioButtons[i * 4]); // All "Not at all"
+        await user.click(responseButtons[i * 4]); // All "Not at all"
       }
-      await user.click(radioButtons[8 * 4 + 3]); // Q9 = "Nearly every day"
+      await user.click(responseButtons[8 * 4 + 3]); // Q9 = "Nearly every day"
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Not difficult at all');
+      const functionalButton = screen.getByRole('button', { name: 'Not difficult at all' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
@@ -296,23 +310,24 @@ describe('PHQ9Assessment', () => {
       render(<PHQ9Assessment />);
 
       const responses = createPHQ9Responses('minimal', false); // Q9 = 0
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       for (let i = 0; i < 9; i++) {
         const value = responses[i];
         const buttonIndex = i * 4 + value;
-        await user.click(radioButtons[buttonIndex]);
+        await user.click(responseButtons[buttonIndex]);
       }
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Not difficult at all');
+      const functionalButton = screen.getByRole('button', { name: 'Not difficult at all' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
         // Score should be shown
-        expect(screen.getByText(/Score:/i)).toBeInTheDocument();
+        expect(screen.getByText(/\/27/)).toBeInTheDocument();
       });
 
       // Should NOT show suicide-specific warning for Q9=0
@@ -325,18 +340,19 @@ describe('PHQ9Assessment', () => {
       const user = userEvent.setup();
       render(<PHQ9Assessment />);
 
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       // Set all to 0 except Q9 = 2
       for (let i = 0; i < 8; i++) {
-        await user.click(radioButtons[i * 4]);
+        await user.click(responseButtons[i * 4]);
       }
-      await user.click(radioButtons[8 * 4 + 2]); // Q9 = 2
+      await user.click(responseButtons[8 * 4 + 2]); // Q9 = 2
 
-      const functionalSelect = screen.getByRole('combobox');
-      await user.selectOptions(functionalSelect, 'Not difficult at all');
+      const functionalButton = screen.getByRole('button', { name: 'Not difficult at all' });
+      await user.click(functionalButton);
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
+      const calculateButton = await screen.findByRole('button', { name: /Calculate.*Score/i });
       await user.click(calculateButton);
 
       await waitFor(() => {
@@ -414,34 +430,34 @@ describe('PHQ9Assessment', () => {
       const user = userEvent.setup();
       render(<PHQ9Assessment />);
 
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       // Only answer first 5 questions
       for (let i = 0; i < 5; i++) {
-        await user.click(radioButtons[i * 4]);
+        await user.click(responseButtons[i * 4]);
       }
 
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
-
-      // Button should be disabled or calculation should show error
-      // (Implementation may vary - component might disable button or show error)
-      expect(calculateButton).toBeInTheDocument();
+      // Calculate button should NOT appear when form is incomplete
+      const calculateButton = screen.queryByRole('button', { name: /Calculate.*Score/i });
+      expect(calculateButton).not.toBeInTheDocument();
     });
 
     it('should require functional impairment selection', async () => {
       const user = userEvent.setup();
       render(<PHQ9Assessment />);
 
-      const radioButtons = screen.getAllByRole('radio');
+      const allButtons = screen.getAllByRole('button');
+      const responseButtons = allButtons.slice(0, 36);
 
       // Answer all 9 questions but not functional impairment
       for (let i = 0; i < 9; i++) {
-        await user.click(radioButtons[i * 4]);
+        await user.click(responseButtons[i * 4]);
       }
 
-      // Don't select functional impairment
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
-      expect(calculateButton).toBeInTheDocument();
+      // Calculate button should NOT appear without functional impairment
+      const calculateButton = screen.queryByRole('button', { name: /Calculate.*Score/i });
+      expect(calculateButton).not.toBeInTheDocument();
     });
   });
 

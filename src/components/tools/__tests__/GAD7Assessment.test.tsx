@@ -73,8 +73,9 @@ describe('GAD7Assessment', () => {
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 1/i)).toBeInTheDocument();
-        expect(screen.getByText(/Minimal/i)).toBeInTheDocument();
+        expect(screen.getByText(/1\/21/)).toBeInTheDocument();
+        const minimalElements = screen.getAllByText(/Minimal/i);
+        expect(minimalElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -93,8 +94,9 @@ describe('GAD7Assessment', () => {
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 7/i)).toBeInTheDocument();
-        expect(screen.getByText(/Mild/i)).toBeInTheDocument();
+        expect(screen.getByText(/7\/21/)).toBeInTheDocument();
+        const mildElements = screen.getAllByText(/Mild/i);
+        expect(mildElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -116,8 +118,9 @@ describe('GAD7Assessment', () => {
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 12/i)).toBeInTheDocument();
-        expect(screen.getByText(/Moderate/i)).toBeInTheDocument();
+        expect(screen.getByText(/12\/21/)).toBeInTheDocument();
+        const moderateElements = screen.getAllByText(/Moderate/i);
+        expect(moderateElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -139,8 +142,9 @@ describe('GAD7Assessment', () => {
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 1[8-9]|Score: 2[0-1]/i)).toBeInTheDocument();
-        expect(screen.getByText(/Severe/i)).toBeInTheDocument();
+        expect(screen.getByText(/1[8-9]\/21|2[0-1]\/21/)).toBeInTheDocument();
+        const severeElements = screen.getAllByText(/Severe/i);
+        expect(severeElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -158,8 +162,9 @@ describe('GAD7Assessment', () => {
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 0/i)).toBeInTheDocument();
-        expect(screen.getByText(/Minimal/i)).toBeInTheDocument();
+        expect(screen.getByText(/0\/21/)).toBeInTheDocument();
+        const minimalElements = screen.getAllByText(/Minimal/i);
+        expect(minimalElements.length).toBeGreaterThan(0);
       });
     });
 
@@ -177,8 +182,9 @@ describe('GAD7Assessment', () => {
       await user.click(calculateButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Score: 21/i)).toBeInTheDocument();
-        expect(screen.getByText(/Severe/i)).toBeInTheDocument();
+        expect(screen.getByText(/21\/21/)).toBeInTheDocument();
+        const severeElements = screen.getAllByText(/Severe/i);
+        expect(severeElements.length).toBeGreaterThan(0);
       });
     });
   });
@@ -290,9 +296,9 @@ describe('GAD7Assessment', () => {
         await user.click(notAtAllButtons[i]);
       }
 
-      // Calculate button should exist
-      const calculateButton = screen.getByRole('button', { name: /Calculate Score/i });
-      expect(calculateButton).toBeInTheDocument();
+      // Calculate button should NOT appear when form is incomplete
+      const calculateButton = screen.queryByRole('button', { name: /Calculate Score/i });
+      expect(calculateButton).not.toBeInTheDocument();
     });
 
     it('should validate response values are in range 0-3', () => {

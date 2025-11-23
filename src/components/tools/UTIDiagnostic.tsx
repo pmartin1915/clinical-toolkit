@@ -79,7 +79,7 @@ export const UTIDiagnostic = () => {
     'Travel to high-resistance areas (India, Mexico, etc.)'
   ];
 
-  const updatePatientData = (field: keyof PatientData, value: any) => {
+  const updatePatientData = (field: keyof PatientData, value: boolean | number | string | string[]) => {
     setPatientData(prev => ({ ...prev, [field]: value }));
   };
 

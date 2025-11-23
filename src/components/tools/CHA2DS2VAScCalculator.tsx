@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Heart, Info, AlertTriangle, CheckCircle, Calculator } from 'lucide-react';
 
 interface CHA2DS2VAScResult {
@@ -22,7 +22,7 @@ export const CHA2DS2VAScCalculator = () => {
   const [result, setResult] = useState<CHA2DS2VAScResult | null>(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  const calculateScore = (): CHA2DS2VAScResult => {
+  const calculateScore = useCallback((): CHA2DS2VAScResult => {
     let score = 0;
 
     // C - Congestive Heart Failure (1 point)
@@ -89,11 +89,11 @@ export const CHA2DS2VAScCalculator = () => {
       recommendation,
       anticoagulationRecommended
     };
-  };
+  }, [congestiveHeartFailure, hypertension, age, diabetes, strokeHistory, vascularDisease, gender]);
 
   useEffect(() => {
     setResult(calculateScore());
-  }, [congestiveHeartFailure, hypertension, age, diabetes, strokeHistory, vascularDisease, gender]);
+  }, [calculateScore]);
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
@@ -193,7 +193,7 @@ export const CHA2DS2VAScCalculator = () => {
                             name="age"
                             value={option.value}
                             checked={age === option.value}
-                            onChange={(e) => setAge(e.target.value as any)}
+                            onChange={(e) => setAge(e.target.value as 'under65' | '65to74' | '75plus')}
                             className="w-4 h-4 text-red-600 border-gray-300 focus:ring-red-500"
                           />
                           <span className="text-sm text-gray-700">{option.label}</span>
@@ -276,7 +276,7 @@ export const CHA2DS2VAScCalculator = () => {
                             name="gender"
                             value={option.value}
                             checked={gender === option.value}
-                            onChange={(e) => setGender(e.target.value as any)}
+                            onChange={(e) => setGender(e.target.value as 'male' | 'female')}
                             className="w-4 h-4 text-red-600 border-gray-300 focus:ring-red-500"
                           />
                           <span className="text-sm text-gray-700">{option.label}</span>

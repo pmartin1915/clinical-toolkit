@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Droplets, Calculator, AlertTriangle, Info, CheckCircle } from 'lucide-react';
 
 interface eGFRResult {
@@ -20,7 +20,7 @@ export const EGFRCalculator = () => {
   const [result, setResult] = useState<eGFRResult | null>(null);
   const [showDrugGuidance, setShowDrugGuidance] = useState(false);
 
-  const calculateEGFR = (): eGFRResult | null => {
+  const calculateEGFR = useCallback((): eGFRResult | null => {
     const creatinineNum = parseFloat(creatinine);
     const ageNum = parseInt(age);
     
@@ -145,11 +145,11 @@ export const EGFRCalculator = () => {
       recommendations,
       drugAdjustments
     };
-  };
+  }, [creatinine, age, gender, race, units]);
 
   useEffect(() => {
     setResult(calculateEGFR());
-  }, [creatinine, age, gender, race, units]);
+  }, [calculateEGFR]);
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
@@ -248,7 +248,7 @@ export const EGFRCalculator = () => {
                       />
                       <select
                         value={units}
-                        onChange={(e) => setUnits(e.target.value as any)}
+                        onChange={(e) => setUnits(e.target.value as 'mg/dL' | 'μmol/L')}
                         className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         aria-label="Creatinine units"
                       >
@@ -289,7 +289,7 @@ export const EGFRCalculator = () => {
                             name="gender"
                             value={option.value}
                             checked={gender === option.value}
-                            onChange={(e) => setGender(e.target.value as any)}
+                            onChange={(e) => setGender(e.target.value as 'male' | 'female')}
                             className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                           />
                           <span className="text-sm text-gray-700">{option.label}</span>

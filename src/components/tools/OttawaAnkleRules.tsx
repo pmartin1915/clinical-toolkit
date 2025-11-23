@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Bone, CheckCircle, AlertTriangle, Info } from 'lucide-react';
 
 interface OttawaResult {
@@ -21,7 +21,7 @@ export const OttawaAnkleRules = () => {
   const [result, setResult] = useState<OttawaResult | null>(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  const calculateResult = (): OttawaResult => {
+  const calculateResult = useCallback((): OttawaResult => {
     // X-ray is indicated if ANY criteria are positive
     const ankleCriteria = ankleBoneTenderness || ankleBearWeight;
     const footCriteria = footBoneTenderness || footBearWeight;
@@ -68,11 +68,11 @@ export const OttawaAnkleRules = () => {
       sensitivity: '96-99%',
       nextSteps
     };
-  };
+  }, [ankleBoneTenderness, ankleBearWeight, footBoneTenderness, footBearWeight]);
 
   useEffect(() => {
     setResult(calculateResult());
-  }, [ankleBoneTenderness, ankleBearWeight, footBoneTenderness, footBearWeight]);
+  }, [calculateResult]);
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {

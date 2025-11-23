@@ -324,7 +324,7 @@ export const DrugDosingCalculator = () => {
                             name="hepatic"
                             value={option.value}
                             checked={hepaticFunction === option.value}
-                            onChange={(e) => setHepaticFunction(e.target.value as any)}
+                            onChange={(e) => setHepaticFunction(e.target.value as 'normal' | 'mild' | 'moderate' | 'severe')}
                             className="mt-0.5 w-4 h-4 text-purple-600 border-gray-300 focus:ring-purple-500"
                           />
                           <div>

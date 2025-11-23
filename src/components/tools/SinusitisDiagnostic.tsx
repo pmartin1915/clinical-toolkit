@@ -85,7 +85,7 @@ export const SinusitisDiagnostic = () => {
     'Severe facial pain or swelling'
   ];
 
-  const updatePatientData = (field: keyof PatientData, value: any) => {
+  const updatePatientData = (field: keyof PatientData, value: boolean | number | string[]) => {
     setPatientData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -402,13 +402,13 @@ export const SinusitisDiagnostic = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
-                  { key: 'hasFever', label: 'Fever', icon: '¡' },
-                  { key: 'hasNasalDischarge', label: 'Purulent nasal discharge', icon: 'ƒ' },
-                  { key: 'hasFacialPain', label: 'Facial pain/pressure', icon: '£' },
-                  { key: 'hasAnosmia', label: 'Loss of smell (anosmia)', icon: 'ƒ' },
-                  { key: 'hasDentalPain', label: 'Dental/jaw pain', icon: '·' },
-                  { key: 'hasHeadache', label: 'Headache', icon: '•' },
-                  { key: 'hasFatigue', label: 'Fatigue/malaise', icon: '´' }
+                  { key: 'hasFever', label: 'Fever', icon: 'ï¿½' },
+                  { key: 'hasNasalDischarge', label: 'Purulent nasal discharge', icon: 'ï¿½' },
+                  { key: 'hasFacialPain', label: 'Facial pain/pressure', icon: 'ï¿½' },
+                  { key: 'hasAnosmia', label: 'Loss of smell (anosmia)', icon: 'ï¿½' },
+                  { key: 'hasDentalPain', label: 'Dental/jaw pain', icon: 'ï¿½' },
+                  { key: 'hasHeadache', label: 'Headache', icon: 'ï¿½' },
+                  { key: 'hasFatigue', label: 'Fatigue/malaise', icon: 'ï¿½' }
                 ].map(({ key, label, icon }) => (
                   <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                     <input

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Zap, Heart, AlertTriangle, CheckCircle, Info, Calculator } from 'lucide-react';
 
 interface WellsResult {
@@ -36,7 +36,7 @@ export const WellsScore = () => {
   const [result, setResult] = useState<WellsResult | null>(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  const calculatePEScore = (): WellsResult => {
+  const calculatePEScore = useCallback((): WellsResult => {
     let score = 0;
 
     // Clinical signs and symptoms of DVT (3 points)
@@ -110,9 +110,9 @@ export const WellsScore = () => {
       nextSteps,
       dDimerUtility
     };
-  };
+  }, [clinicalSigns, alternativeDiagnosis, heartRate, immobilization, previousPE, hemoptysis, malignancy]);
 
-  const calculateDVTScore = (): WellsResult => {
+  const calculateDVTScore = useCallback((): WellsResult => {
     let score = 0;
 
     // Active cancer (1 point)
@@ -195,7 +195,7 @@ export const WellsScore = () => {
       nextSteps,
       dDimerUtility
     };
-  };
+  }, [malignancy, calfSwelling, superficialVeins, pittingEdema, previousDVT, entireLegSwelling, localizedTenderness, paralysisParesis, bedridden, alternativeDiagnosis]);
 
   useEffect(() => {
     if (assessmentType === 'PE') {
@@ -203,12 +203,7 @@ export const WellsScore = () => {
     } else {
       setResult(calculateDVTScore());
     }
-  }, [
-    assessmentType, clinicalSigns, alternativeDiagnosis, heartRate, immobilization, 
-    previousPE, hemoptysis, malignancy, calfSwelling, superficialVeins, 
-    entireLegSwelling, localizedTenderness, pittingEdema, previousDVT, 
-    paralysisParesis, bedridden
-  ]);
+  }, [assessmentType, calculatePEScore, calculateDVTScore]);
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {

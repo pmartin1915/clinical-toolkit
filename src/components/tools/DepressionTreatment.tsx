@@ -90,7 +90,7 @@ export const DepressionTreatment = () => {
     'Combination therapy (medication + therapy)'
   ];
 
-  const updatePatientData = (field: keyof PatientData, value: any) => {
+  const updatePatientData = (field: keyof PatientData, value: boolean | number | string | string[]) => {
     setPatientData(prev => ({ ...prev, [field]: value }));
   };
 

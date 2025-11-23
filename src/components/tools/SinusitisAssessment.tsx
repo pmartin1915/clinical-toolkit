@@ -171,7 +171,7 @@ export const SinusitisAssessment = () => {
               ].map(({ value, label, desc }) => (
                 <button
                   key={value}
-                  onClick={() => handleInputChange('duration', value as any)}
+                  onClick={() => handleInputChange('duration', value as 'less-than-7' | '7-to-10' | 'more-than-10')}
                   className={`w-full text-left p-3 rounded-lg border ${
                     inputs.duration === value
                       ? 'bg-primary-100 border-primary-500'
@@ -195,7 +195,7 @@ export const SinusitisAssessment = () => {
               ].map(({ value, label, desc }) => (
                 <button
                   key={value}
-                  onClick={() => handleInputChange('pattern', value as any)}
+                  onClick={() => handleInputChange('pattern', value as 'improving' | 'stable' | 'double-worsening')}
                   className={`w-full text-left p-3 rounded-lg border ${
                     inputs.pattern === value
                       ? value === 'double-worsening'

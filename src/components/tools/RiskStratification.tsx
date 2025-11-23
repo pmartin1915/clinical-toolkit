@@ -136,7 +136,7 @@ export const RiskStratification = () => {
     }
   ];
 
-  const updatePatientData = (field: keyof PatientData, value: any) => {
+  const updatePatientData = (field: keyof PatientData, value: boolean | number | string) => {
     setPatientData(prev => ({ ...prev, [field]: value }));
   };
 

@@ -362,7 +362,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
             />
             <select
               value={newGoal.category || 'lifestyle'}
-              onChange={(e) => setNewGoal({...newGoal, category: e.target.value as any})}
+              onChange={(e) => setNewGoal({...newGoal, category: e.target.value as 'medication' | 'exercise' | 'diet' | 'monitoring' | 'lifestyle'})}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               aria-label="Goal category"
             >
@@ -374,7 +374,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
             </select>
             <select
               value={newGoal.frequency || 'daily'}
-              onChange={(e) => setNewGoal({...newGoal, frequency: e.target.value as any})}
+              onChange={(e) => setNewGoal({...newGoal, frequency: e.target.value as 'daily' | 'weekly' | 'monthly'})}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               aria-label="Goal frequency"
             >
@@ -588,7 +588,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'goals' | 'tracking' | 'progress' | 'insights')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600'

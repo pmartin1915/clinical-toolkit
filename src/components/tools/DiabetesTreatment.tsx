@@ -75,7 +75,7 @@ export const DiabetesTreatment = () => {
     'Non-metformin regimen'
   ];
 
-  const updatePatientData = (field: keyof PatientData, value: any) => {
+  const updatePatientData = (field: keyof PatientData, value: boolean | number | string[]) => {
     setPatientData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -478,9 +478,9 @@ export const DiabetesTreatment = () => {
             </p>
             
             {[
-              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease (ASCVD)', icon: '€' },
+              { key: 'hasASCVD', label: 'Atherosclerotic Cardiovascular Disease (ASCVD)', icon: 'ï¿½' },
               { key: 'hasHeartFailure', label: 'Heart Failure', icon: '' },
-              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: '˜' }
+              { key: 'hasCKD', label: 'Chronic Kidney Disease (CKD)', icon: 'ï¿½' }
             ].map(({ key, label, icon }) => (
               <label key={key} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <input

@@ -30,7 +30,7 @@ interface PatientEducationProps {
 export const PatientEducation = ({ condition }: PatientEducationProps) => {
   const [activeModule, setActiveModule] = useState<string | null>(null);
   const [completedModules, setCompletedModules] = useState<Set<string>>(new Set());
-  const [quizAnswers, setQuizAnswers] = useState<Record<string, any>>({});
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, Record<string, boolean>>>({});
 
   const getEducationModules = (conditionId: string): EducationModule[] => {
     const modules: Record<string, EducationModule[]> = {

@@ -293,12 +293,12 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'medication': return 'Š';
-      case 'exercise': return 'ƒ';
-      case 'diet': return '—';
-      case 'monitoring': return 'Š';
-      case 'lifestyle': return 'Ÿ';
-      default: return '';
+      case 'medication': return 'ï¿½';
+      case 'exercise': return 'ï¿½';
+      case 'diet': return 'ï¿½';
+      case 'monitoring': return 'ï¿½';
+      case 'lifestyle': return 'ï¿½';
+      default: return 'ï¿½';
     }
   };
 
@@ -364,6 +364,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
               value={newGoal.category || 'lifestyle'}
               onChange={(e) => setNewGoal({...newGoal, category: e.target.value as any})}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              aria-label="Goal category"
             >
               <option value="lifestyle">Lifestyle</option>
               <option value="medication">Medication</option>
@@ -375,6 +376,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
               value={newGoal.frequency || 'daily'}
               onChange={(e) => setNewGoal({...newGoal, frequency: e.target.value as any})}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              aria-label="Goal frequency"
             >
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
@@ -384,13 +386,13 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
           <div className="mt-3 flex space-x-2">
             <button
               onClick={addCustomGoal}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors min-h-touch-md"
             >
               Add Goal
             </button>
             <button
               onClick={() => setShowAddGoal(false)}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+              className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors min-h-touch-md"
             >
               Cancel
             </button>
@@ -415,7 +417,7 @@ export const SelfManagement = ({ condition }: SelfManagementProps) => {
             <p className="text-gray-600 text-sm mb-3">{goal.target}</p>
 
             {goal.reminder && (
-              <p className="text-gray-500 text-xs mb-3">¡ {goal.reminder}</p>
+              <p className="text-gray-500 text-xs mb-3">ï¿½ {goal.reminder}</p>
             )}
 
             <div className="mb-3">

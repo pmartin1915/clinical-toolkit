@@ -148,7 +148,7 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
       <div className="mb-6">
         <button
           onClick={onBack}
-          className="inline-flex items-center text-primary-600 hover:text-primary-700 mb-4"
+          className="inline-flex items-center px-4 py-3 min-h-touch-md text-primary-600 hover:text-primary-700 mb-4 rounded-md hover:bg-primary-50 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-1" />
           Back to Conditions
@@ -340,7 +340,7 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
                       href={resource.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700 text-sm"
+                      className="inline-block px-4 py-3 min-h-touch-md text-primary-600 hover:text-primary-700 text-sm rounded-md hover:bg-primary-50 transition-colors"
                     >
                       Visit Resource →
                     </a>

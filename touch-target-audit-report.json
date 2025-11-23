@@ -1,0 +1,1186 @@
+{
+  "timestamp": "2025-11-23T12:29:39.725Z",
+  "standards": {
+    "WCAG 2.5.8 AA": "24×24px minimum",
+    "WCAG 2.5.5 AAA": "44×44px minimum",
+    "Geriatric UX Best Practice": "48×48px minimum"
+  },
+  "findings": {
+    "critical": [],
+    "warning": [
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 376,
+        "type": "button",
+        "className": "flex-1 bg-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-400 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 377,
+        "type": "input-button",
+        "className": "flex-1 bg-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-400 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\A1CConverter.tsx",
+        "line": 51,
+        "type": "button",
+        "className": "w-full bg-primary-600 text-white py-3 px-6 rounded-md hover:bg-primary-700 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\AsthmaControlTest.tsx",
+        "line": 243,
+        "type": "button",
+        "className": "w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-purple-700 transition-colors",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\AsthmaControlTest.tsx",
+        "line": 296,
+        "type": "button",
+        "className": "bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors",
+        "estimatedSize": 36,
+        "padding": {
+          "verticalPadding": 8,
+          "horizontalPadding": 16,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\BPTracker.tsx",
+        "line": 169,
+        "type": "button",
+        "className": "w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\COPDAssessment.tsx",
+        "line": 239,
+        "type": "button",
+        "className": "w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\COPDAssessment.tsx",
+        "line": 298,
+        "type": "button",
+        "className": "bg-gray-200 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\tools\\SelfManagement.tsx",
+        "line": 387,
+        "type": "button",
+        "className": "px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 211,
+        "type": "button",
+        "className": "w-full flex items-center justify-center space-x-2 py-3 px-6 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\CDSAlertsPanel.tsx",
+        "line": 199,
+        "type": "button",
+        "className": "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+        "estimatedSize": 36,
+        "padding": {
+          "verticalPadding": 8,
+          "horizontalPadding": 8,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\CDSDemo.tsx",
+        "line": 153,
+        "type": "button",
+        "className": "flex items-center space-x-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\CDSDemo.tsx",
+        "line": 163,
+        "type": "button",
+        "className": "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+        "estimatedSize": 36,
+        "padding": {
+          "verticalPadding": 8,
+          "horizontalPadding": 8,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\CDSDemo.tsx",
+        "line": 261,
+        "type": "button",
+        "className": "flex items-center space-x-2 px-4 py-2 sm:px-3 sm:py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 active:bg-blue-800 transition-colors touch-manipulation",
+        "estimatedSize": 36,
+        "padding": {
+          "verticalPadding": 8,
+          "horizontalPadding": 16,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\CDSHistoryPanel.tsx",
+        "line": 107,
+        "type": "button",
+        "className": "flex items-center space-x-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\CDSHistoryPanel.tsx",
+        "line": 115,
+        "type": "button",
+        "className": "p-3 text-gray-400 hover:text-gray-600 transition-colors min-h-touch-md min-w-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 12,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ClinicalErrorBoundary.tsx",
+        "line": 142,
+        "type": "button",
+        "className": "bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors flex items-center text-sm min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ClinicalErrorBoundary.tsx",
+        "line": 150,
+        "type": "button",
+        "className": "bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center text-sm min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ClinicalSearchTips.tsx",
+        "line": 67,
+        "type": "button",
+        "className": "p-3 text-gray-400 hover:text-gray-600 transition-colors min-h-touch-md min-w-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 12,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ClinicalSearchTips.tsx",
+        "line": 171,
+        "type": "button",
+        "className": "px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\EnhancedExportDialog.tsx",
+        "line": 173,
+        "type": "button",
+        "className": "p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-700",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 12,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\EnhancedExportDialog.tsx",
+        "line": 354,
+        "type": "button",
+        "className": "flex-1 flex items-center justify-center space-x-2 bg-primary-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\EnhancedExportDialog.tsx",
+        "line": 376,
+        "type": "button",
+        "className": "sm:w-auto px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ErrorBoundary.tsx",
+        "line": 111,
+        "type": "button",
+        "className": "w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ErrorBoundary.tsx",
+        "line": 151,
+        "type": "button",
+        "className": "w-full bg-orange-600 text-white py-3 px-6 rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ErrorBoundary.tsx",
+        "line": 158,
+        "type": "button",
+        "className": "w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\ErrorBoundary.tsx",
+        "line": 187,
+        "type": "button",
+        "className": "text-sm bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700 transition-colors flex items-center",
+        "estimatedSize": 28,
+        "padding": {
+          "verticalPadding": 4,
+          "horizontalPadding": 12,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\GuidedTour.tsx",
+        "line": 307,
+        "type": "button",
+        "className": "p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-md hover:bg-gray-100",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 12,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\GuidedTour.tsx",
+        "line": 342,
+        "type": "button",
+        "className": "flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\GuidedTour.tsx",
+        "line": 368,
+        "type": "button",
+        "className": "flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\GuidedTour.tsx",
+        "line": 384,
+        "type": "button",
+        "className": "px-4 py-3 min-h-touch-md text-sm text-gray-500 hover:text-gray-700 transition-colors rounded-md hover:bg-gray-100",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 16,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\QuickVitalsEntry.tsx",
+        "line": 216,
+        "type": "button",
+        "className": "flex items-center space-x-1 px-6 py-3 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-touch-md",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 24,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\components\\ui\\SymptomInfoPanel.tsx",
+        "line": 50,
+        "type": "button",
+        "className": "p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 12,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\pages\\ConditionDetail.tsx",
+        "line": 149,
+        "type": "button",
+        "className": "inline-flex items-center px-4 py-3 min-h-touch-md text-primary-600 hover:text-primary-700 mb-4 rounded-md hover:bg-primary-50 transition-colors",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 16,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      },
+      {
+        "file": "src\\pages\\ConditionDetail.tsx",
+        "line": 339,
+        "type": "link",
+        "className": "inline-block px-4 py-3 min-h-touch-md text-primary-600 hover:text-primary-700 text-sm rounded-md hover:bg-primary-50 transition-colors",
+        "estimatedSize": 44,
+        "padding": {
+          "verticalPadding": 12,
+          "horizontalPadding": 16,
+          "minHeight": 0,
+          "minWidth": 0
+        }
+      }
+    ],
+    "pass": [],
+    "unknown": [
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 366,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 429,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 479,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 515,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 543,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 549,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 574,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 582,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 625,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\PatientManager.tsx",
+        "line": 681,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\temp-ui\\Button.tsx",
+        "line": 77,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\temp-ui\\SimpleModal.tsx",
+        "line": 96,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\AsthmaControlTest.tsx",
+        "line": 276,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\AsthmaControlTest.tsx",
+        "line": 303,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\AsthmaControlTest.tsx",
+        "line": 433,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\AsthmaControlTest.tsx",
+        "line": 444,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\BPTracker.tsx",
+        "line": 100,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\BPTracker.tsx",
+        "line": 276,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\CHA2DS2VAScCalculator.tsx",
+        "line": 339,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\COPDAssessment.tsx",
+        "line": 305,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\COPDAssessment.tsx",
+        "line": 397,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\COPDAssessment.tsx",
+        "line": 408,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DepressionTreatment.tsx",
+        "line": 909,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DepressionTreatment.tsx",
+        "line": 970,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DepressionTreatment.tsx",
+        "line": 979,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DepressionTreatment.tsx",
+        "line": 987,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DiabetesTreatment.tsx",
+        "line": 764,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DiabetesTreatment.tsx",
+        "line": 821,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DiabetesTreatment.tsx",
+        "line": 830,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\DiabetesTreatment.tsx",
+        "line": 838,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\eGFRCalculator.tsx",
+        "line": 357,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\EnhancedASCVDCalculator.tsx",
+        "line": 387,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\EnhancedASCVDCalculator.tsx",
+        "line": 447,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\EnhancedASCVDCalculator.tsx",
+        "line": 579,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\EnhancedASCVDCalculator.tsx",
+        "line": 648,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\EnhancedASCVDCalculator.tsx",
+        "line": 786,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\EnhancedASCVDCalculator.tsx",
+        "line": 807,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\GAD7Assessment.tsx",
+        "line": 91,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\GAD7Assessment.tsx",
+        "line": 110,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\HypertensionManagement.tsx",
+        "line": 429,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\HypertensionManagement.tsx",
+        "line": 484,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\HypertensionManagement.tsx",
+        "line": 493,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\HypertensionManagement.tsx",
+        "line": 501,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\MedicationInteractionChecker.tsx",
+        "line": 410,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\MedicationInteractionChecker.tsx",
+        "line": 426,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\MedicationInteractionChecker.tsx",
+        "line": 442,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\MedicationInteractionChecker.tsx",
+        "line": 554,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\NYHAClassification.tsx",
+        "line": 215,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\NYHAClassification.tsx",
+        "line": 325,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\NYHAClassification.tsx",
+        "line": 334,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\OttawaAnkleRules.tsx",
+        "line": 298,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\PatientEducation.tsx",
+        "line": 538,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\PatientEducation.tsx",
+        "line": 653,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\PHQ9Assessment.tsx",
+        "line": 114,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\PHQ9Assessment.tsx",
+        "line": 141,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\PHQ9Assessment.tsx",
+        "line": 159,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\RiskStratification.tsx",
+        "line": 824,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\RiskStratification.tsx",
+        "line": 888,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\RiskStratification.tsx",
+        "line": 897,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\RiskStratification.tsx",
+        "line": 905,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SelfManagement.tsx",
+        "line": 335,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SelfManagement.tsx",
+        "line": 393,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SelfManagement.tsx",
+        "line": 439,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SelfManagement.tsx",
+        "line": 589,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisAssessment.tsx",
+        "line": 172,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisAssessment.tsx",
+        "line": 196,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisAssessment.tsx",
+        "line": 232,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisAssessment.tsx",
+        "line": 271,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisDiagnostic.tsx",
+        "line": 706,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisDiagnostic.tsx",
+        "line": 765,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisDiagnostic.tsx",
+        "line": 774,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\SinusitisDiagnostic.tsx",
+        "line": 782,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\TriglycerideCalculator.tsx",
+        "line": 212,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\TriglycerideCalculator.tsx",
+        "line": 232,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\UTIAssessment.tsx",
+        "line": 252,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\UTIAssessment.tsx",
+        "line": 275,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\UTIDiagnostic.tsx",
+        "line": 686,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\UTIDiagnostic.tsx",
+        "line": 743,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\UTIDiagnostic.tsx",
+        "line": 752,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\UTIDiagnostic.tsx",
+        "line": 760,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\WellsScore.tsx",
+        "line": 254,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\WellsScore.tsx",
+        "line": 265,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\tools\\WellsScore.tsx",
+        "line": 692,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 68,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 87,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 104,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 125,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 144,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\AccessibilityControls.tsx",
+        "line": 174,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSAlertsPanel.tsx",
+        "line": 145,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSAlertsPanel.tsx",
+        "line": 185,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSAlertsPanel.tsx",
+        "line": 216,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSAlertsPanel.tsx",
+        "line": 270,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSDemo.tsx",
+        "line": 295,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSHistoryPanel.tsx",
+        "line": 153,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSHistoryPanel.tsx",
+        "line": 254,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSHistoryPanel.tsx",
+        "line": 260,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\CDSHistoryPanel.tsx",
+        "line": 266,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\ClinicalErrorBoundary.tsx",
+        "line": 158,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\EnhancedExportDialog.tsx",
+        "line": 288,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\ErrorBoundary.tsx",
+        "line": 104,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\GuidedTour.tsx",
+        "line": 353,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\PatientCDSIntegration.tsx",
+        "line": 200,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\PatientCDSIntegration.tsx",
+        "line": 242,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\PatientCDSIntegration.tsx",
+        "line": 249,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\PatientCDSIntegration.tsx",
+        "line": 302,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\PatientCDSIntegration.tsx",
+        "line": 309,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\QuickVitalsEntry.tsx",
+        "line": 94,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\QuickVitalsEntry.tsx",
+        "line": 109,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\QuickVitalsEntry.tsx",
+        "line": 210,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\components\\ui\\__tests__\\ErrorBoundary.test.tsx",
+        "line": 57,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\ConditionDetail.tsx",
+        "line": 172,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\ConditionDetail.tsx",
+        "line": 195,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\ConditionDetail.tsx",
+        "line": 213,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\ConditionDetail.tsx",
+        "line": 314,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\Dashboard.tsx",
+        "line": 183,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\Dashboard.tsx",
+        "line": 233,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      },
+      {
+        "file": "src\\pages\\Dashboard.tsx",
+        "line": 261,
+        "type": "button",
+        "note": "No className found - manual review needed"
+      }
+    ]
+  },
+  "summary": {
+    "total": 153,
+    "critical": 0,
+    "warning": 35,
+    "pass": 0,
+    "unknown": 118
+  }
+}

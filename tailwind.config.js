@@ -26,7 +26,24 @@ export default {
           800: '#1e40af',
           900: '#1e3a8a',
         },
-      }
+      },
+      // Touch target utilities for WCAG compliance
+      spacing: {
+        // Minimum touch targets
+        'touch-sm': '44px',  // WCAG 2.5.5 AAA minimum
+        'touch-md': '48px',  // Geriatric-friendly minimum (recommended)
+        'touch-lg': '56px',  // Extra comfortable for motor impairments
+      },
+      minHeight: {
+        'touch-sm': '44px',
+        'touch-md': '48px',
+        'touch-lg': '56px',
+      },
+      minWidth: {
+        'touch-sm': '44px',
+        'touch-md': '48px',
+        'touch-lg': '56px',
+      },
     },
   },
   plugins: [

@@ -121,6 +121,7 @@ export const Header = ({ currentView = 'dashboard', onNavigate, onMenuToggle, on
                   size="icon"
                   onClick={onMenuToggle}
                   icon={<Menu className="w-5 h-5" />}
+                  aria-label="Open navigation menu"
                 />
               </div>
             )}

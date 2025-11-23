@@ -17,10 +17,10 @@ const buttonVariants = {
 };
 
 const buttonSizes = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-sm',
-  lg: 'px-6 py-3 text-base',
-  icon: 'p-2',
+  sm: 'px-4 py-3 text-sm min-h-touch-md',  // 48px minimum - geriatric-friendly
+  md: 'px-6 py-3 text-base min-h-touch-md', // 48px minimum - geriatric-friendly
+  lg: 'px-8 py-4 text-lg min-h-touch-lg',   // 56px - extra comfortable
+  icon: 'p-3 min-h-touch-md min-w-touch-md', // 48×48px minimum
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

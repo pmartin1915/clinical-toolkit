@@ -306,8 +306,8 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
           </div>
           <button
             onClick={skipTour}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-            title="Close tour"
+            className="p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors rounded-md hover:bg-gray-100"
+            aria-label="Close tour"
           >
             <X className="w-5 h-5" />
           </button>
@@ -342,7 +342,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
-            className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-touch-md"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back</span>
@@ -367,7 +367,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
 
           <button
             onClick={nextStep}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-h-touch-md"
             title={currentStep === tourSteps.length - 1 ? 'Finish tour' : 'Next step'}
           >
             <span>{currentStep === tourSteps.length - 1 ? 'Finish' : 'Next'}</span>
@@ -383,8 +383,8 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
         <div className="mt-4 text-center">
           <button
             onClick={skipTour}
-            className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-            title="Skip guided tour"
+            className="px-4 py-3 min-h-touch-md text-sm text-gray-500 hover:text-gray-700 transition-colors rounded-md hover:bg-gray-100"
+            aria-label="Skip guided tour"
           >
             Skip tour
           </button>

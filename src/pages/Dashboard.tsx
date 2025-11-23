@@ -275,31 +275,43 @@ export const Dashboard = ({ onConditionSelect }: DashboardProps) => {
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Filter & Sort</h3>
             </div>
             <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Filter className="text-gray-400 w-4 h-4 flex-shrink-0" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                >
-                  {categories.map(category => (
-                    <option key={category.value} value={category.value}>
-                      {category.label}
-                    </option>
-                  ))}
-                </select>
+              <div>
+                <label htmlFor="category-filter" className="sr-only">
+                  Filter conditions by category
+                </label>
+                <div className="flex items-center space-x-2">
+                  <Filter className="text-gray-400 w-4 h-4 flex-shrink-0" />
+                  <select
+                    id="category-filter"
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    {categories.map(category => (
+                      <option key={category.value} value={category.value}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              
-              <div className="flex items-center space-x-2">
-                <ArrowUpDown className="text-gray-400 w-4 h-4 flex-shrink-0" />
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'name' | 'prevalence')}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                >
-                  <option value="name">Sort A-Z</option>
-                  <option value="prevalence">Sort by Prevalence</option>
-                </select>
+
+              <div>
+                <label htmlFor="sort-conditions" className="sr-only">
+                  Sort conditions
+                </label>
+                <div className="flex items-center space-x-2">
+                  <ArrowUpDown className="text-gray-400 w-4 h-4 flex-shrink-0" />
+                  <select
+                    id="sort-conditions"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as 'name' | 'prevalence')}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option value="name">Sort A-Z</option>
+                    <option value="prevalence">Sort by Prevalence</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

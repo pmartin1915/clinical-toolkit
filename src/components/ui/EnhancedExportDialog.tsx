@@ -172,7 +172,8 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              className="p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label="Close export dialog"
             >
               <X className="w-6 h-6" />
             </button>
@@ -286,7 +287,7 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Delivery Options</h3>
                   <button
                     onClick={() => setShowEmailForm(!showEmailForm)}
-                    className={`flex items-center space-x-2 px-3 py-1 rounded-md text-sm transition-colors ${
+                    className={`flex items-center space-x-2 px-6 py-3 rounded-md text-sm transition-colors min-h-touch-md ${
                       showEmailForm
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
                         : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'

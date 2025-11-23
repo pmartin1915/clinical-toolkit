@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PHQ9Assessment } from '../PHQ9Assessment';
 import { createPHQ9Responses, clinicalReferences } from '../../../test/test-utils';
@@ -234,7 +234,7 @@ describe('PHQ9Assessment', () => {
       const user = userEvent.setup();
       render(<PHQ9Assessment />);
 
-      const responses = createPHQ9Responses('minimal', true); // Forces Q9 = 2
+      createPHQ9Responses('minimal', true); // Forces Q9 = 2
       const allButtons = screen.getAllByRole('button');
       const responseButtons = allButtons.slice(0, 36);
 

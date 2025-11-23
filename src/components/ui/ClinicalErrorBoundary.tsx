@@ -141,15 +141,15 @@ export class ClinicalErrorBoundary extends React.Component<
               <div className="flex flex-wrap gap-3 mt-6">
                 <button
                   onClick={this.handleRetry}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center text-sm"
+                  className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors flex items-center text-sm min-h-touch-md"
                 >
                   <RefreshCw size={16} className="mr-2" />
                   Retry Tool
                 </button>
-                
+
                 <button
                   onClick={this.handleReportError}
-                  className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center text-sm"
+                  className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center text-sm min-h-touch-md"
                 >
                   <FileText size={16} className="mr-2" />
                   Report Error
@@ -157,7 +157,7 @@ export class ClinicalErrorBoundary extends React.Component<
 
                 <button
                   onClick={() => window.location.href = '/'}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors text-sm min-h-touch-md"
                 >
                   Return to Dashboard
                 </button>

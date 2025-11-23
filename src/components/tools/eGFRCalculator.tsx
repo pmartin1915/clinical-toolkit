@@ -244,11 +244,13 @@ export const EGFRCalculator = () => {
                         onChange={(e) => setCreatinine(e.target.value)}
                         className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder={units === 'mg/dL' ? '1.0' : '88'}
+                        aria-label="Serum creatinine value"
                       />
                       <select
                         value={units}
                         onChange={(e) => setUnits(e.target.value as any)}
                         className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        aria-label="Creatinine units"
                       >
                         <option value="mg/dL">mg/dL</option>
                         <option value="μmol/L">μmol/L</option>

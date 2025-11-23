@@ -114,25 +114,25 @@ export const RiskStratification = () => {
       id: 'falls',
       name: 'Fall Risk Assessment',
       description: 'Risk of falls and fall-related injuries',
-      icon: '¶'
+      icon: 'ï¿½'
     },
     {
       id: 'frailty',
       name: 'Frailty Assessment',
       description: 'Physical frailty and functional decline risk',
-      icon: '´'
+      icon: 'ï¿½'
     },
     {
       id: 'vte',
       name: 'VTE Risk (Blood Clots)',
       description: 'Venous thromboembolism risk assessment',
-      icon: '¸'
+      icon: 'ï¿½'
     },
     {
       id: 'delirium',
       name: 'Delirium Risk',
       description: 'Risk of developing delirium in hospital/illness',
-      icon: ' '
+      icon: 'ï¿½'
     }
   ];
 
@@ -508,8 +508,9 @@ export const RiskStratification = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                <label htmlFor="risk-gender-select" className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
                 <select
+                  id="risk-gender-select"
                   value={patientData.gender}
                   onChange={(e) => updatePatientData('gender', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -521,8 +522,9 @@ export const RiskStratification = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Race/Ethnicity</label>
+                <label htmlFor="risk-race-select" className="block text-sm font-medium text-gray-700 mb-1">Race/Ethnicity</label>
                 <select
+                  id="risk-race-select"
                   value={patientData.race}
                   onChange={(e) => updatePatientData('race', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -606,7 +608,7 @@ export const RiskStratification = () => {
             {/* Fall Risk Factors */}
             {selectedRiskTypes.includes('falls') && (
               <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                <h4 className="font-semibold text-orange-900 mb-4">¶ Fall Risk Factors</h4>
+                <h4 className="font-semibold text-orange-900 mb-4">ï¿½ Fall Risk Factors</h4>
                 
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-orange-900 mb-1">Number of falls in past year</label>
@@ -648,7 +650,7 @@ export const RiskStratification = () => {
             {/* Frailty Assessment */}
             {selectedRiskTypes.includes('frailty') && (
               <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                <h4 className="font-semibold text-purple-900 mb-4">´ Frailty Criteria (Fried Phenotype)</h4>
+                <h4 className="font-semibold text-purple-900 mb-4">ï¿½ Frailty Criteria (Fried Phenotype)</h4>
                 
                 <div className="space-y-3">
                   {[
@@ -675,7 +677,7 @@ export const RiskStratification = () => {
             {/* VTE Risk Factors */}
             {selectedRiskTypes.includes('vte') && (
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-4">¸ VTE Risk Factors</h4>
+                <h4 className="font-semibold text-blue-900 mb-4">ï¿½ VTE Risk Factors</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {[
@@ -704,7 +706,7 @@ export const RiskStratification = () => {
             {/* Delirium Risk Factors */}
             {selectedRiskTypes.includes('delirium') && (
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <h4 className="font-semibold text-yellow-900 mb-4">  Delirium Risk Factors</h4>
+                <h4 className="font-semibold text-yellow-900 mb-4">ï¿½ Delirium Risk Factors</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {[

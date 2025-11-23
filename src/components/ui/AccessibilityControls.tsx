@@ -210,7 +210,7 @@ export const AccessibilityControls = () => {
         <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={resetSettings}
-            className="w-full flex items-center justify-center space-x-2 py-2 px-3 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="w-full flex items-center justify-center space-x-2 py-3 px-6 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors min-h-touch-md"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Reset to defaults</span>

@@ -297,14 +297,14 @@ const COPDAssessmentComponent = () => {
           <div className="flex space-x-4">
             <button
               onClick={currentStep === 0 ? handleBackToStart : handlePreviousQuestion}
-              className="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+              className="bg-gray-200 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors min-h-touch-md"
             >
               {currentStep === 0 ? '← Back' : '← Previous'}
             </button>
 
             <button
               onClick={currentStep === catQuestions.length - 1 ? handleCompleteAssessment : handleNextQuestion}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+              className={`flex-1 py-3 px-6 rounded-lg font-medium transition-colors min-h-touch-md ${
                 interactedQuestions.has(currentQuestion.id)
                   ? 'bg-blue-600 text-white hover:bg-blue-700'
                   : 'bg-gray-400 text-white hover:bg-gray-500'
@@ -401,7 +401,7 @@ const COPDAssessmentComponent = () => {
                 setCurrentStep(0);
                 setResponses({});
               }}
-              className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+              className="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors min-h-touch-md"
             >
               Take Test Again
             </button>
@@ -420,7 +420,7 @@ const COPDAssessmentComponent = () => {
                     recommendations: interpretation?.recommendations || [],
                     timestamp: new Date().toISOString()
                   };
-                  
+
                   await storageManager.saveAssessment(assessmentResult);
                   alert('CAT results saved successfully!');
                   console.log('CAT results saved:', assessmentResult);
@@ -429,7 +429,7 @@ const COPDAssessmentComponent = () => {
                   alert('Failed to save results. Please try again.');
                 }
               }}
-              className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors min-h-touch-md"
             >
               Save Results
             </button>

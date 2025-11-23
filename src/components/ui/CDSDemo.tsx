@@ -152,7 +152,7 @@ export const CDSDemo = ({ isVisible, onClose }: CDSDemoProps) => {
             <div className="flex items-center space-x-2">
               <button
                 onClick={handleReset}
-                className="flex items-center space-x-2 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center space-x-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors min-h-touch-md"
                 title="Reset demo"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -294,7 +294,7 @@ export const CDSDemo = ({ isVisible, onClose }: CDSDemoProps) => {
                   </div>
                   <button
                     onClick={() => setShowAlerts(true)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-h-touch-md"
                   >
                     View Detailed Alerts
                   </button>

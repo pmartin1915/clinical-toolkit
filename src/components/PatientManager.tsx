@@ -365,9 +365,9 @@ export const PatientManager = () => {
         <div className="flex space-x-4">
           <button
             type="submit"
-            className={`flex-1 py-2 px-4 rounded-lg transition-colors ${
-              showCDSWarning 
-                ? 'bg-yellow-600 text-white hover:bg-yellow-700 border border-yellow-600' 
+            className={`flex-1 py-3 px-6 rounded-lg transition-colors min-h-touch-md ${
+              showCDSWarning
+                ? 'bg-yellow-600 text-white hover:bg-yellow-700 border border-yellow-600'
                 : 'bg-primary-600 text-white hover:bg-primary-700'
             }`}
           >
@@ -376,7 +376,7 @@ export const PatientManager = () => {
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors"
+            className="flex-1 bg-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-400 transition-colors min-h-touch-md"
           >
             Cancel
           </button>

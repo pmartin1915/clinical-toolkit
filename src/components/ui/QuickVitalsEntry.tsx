@@ -209,14 +209,14 @@ export const QuickVitalsEntry = ({ patientId, onVitalsAdded, onClose }: QuickVit
         <div className="flex space-x-2">
           <button
             onClick={() => setIsExpanded(false)}
-            className="px-3 py-1 text-gray-600 hover:text-gray-800 text-sm transition-colors"
+            className="px-6 py-3 text-gray-600 hover:text-gray-800 text-sm transition-colors min-h-touch-md"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={!hasData}
-            className="flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center space-x-1 px-6 py-3 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-touch-md"
           >
             <Save className="w-3 h-3" />
             <span>Save Vitals</span>

@@ -460,8 +460,9 @@ export const EnhancedASCVDCalculator = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Race/Ethnicity</label>
+                    <label htmlFor="race-select" className="block text-sm font-medium text-gray-700 mb-2">Race/Ethnicity</label>
                     <select
+                      id="race-select"
                       value={inputs.race}
                       onChange={(e) => handleInputChange('race', e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"

@@ -83,7 +83,7 @@ describe('GAD7Assessment', () => {
       const user = userEvent.setup();
       render(<GAD7Assessment />);
 
-      const responses = createGAD7Responses('mild'); // All 1s = 7
+      createGAD7Responses('mild'); // All 1s = 7
 
       for (let i = 0; i < 7; i++) {
         const buttons = screen.getAllByRole('button', { name: 'Several days' });

@@ -184,9 +184,9 @@ export const CDSAlertsPanel = ({ isVisible, onClose, alerts: propAlerts }: CDSAl
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowDismissed(!showDismissed)}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                showDismissed 
-                  ? 'bg-gray-200 text-gray-800' 
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-sm transition-colors min-h-touch-md ${
+                showDismissed
+                  ? 'bg-gray-200 text-gray-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
               title={showDismissed ? 'Hide dismissed' : 'Show dismissed'}

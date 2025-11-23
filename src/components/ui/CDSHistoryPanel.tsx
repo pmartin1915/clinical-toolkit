@@ -106,15 +106,15 @@ export const CDSHistoryPanel = ({ patientId, isOpen, onClose }: CDSHistoryPanelP
           <div className="flex items-center space-x-2">
             <button
               onClick={exportHistory}
-              className="flex items-center space-x-2 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+              className="flex items-center space-x-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm min-h-touch-md"
             >
               <Download className="w-4 h-4" />
               <span>Export</span>
             </button>
-            
+
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              className="p-3 text-gray-400 hover:text-gray-600 transition-colors min-h-touch-md min-w-touch-md"
               title="Close history panel"
             >
               <X className="w-5 h-5" />

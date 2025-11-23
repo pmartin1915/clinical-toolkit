@@ -437,7 +437,7 @@ const AsthmaControlTestComponent = () => {
                 setCurrentStep(0);
                 setResponses({});
               }}
-              className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+              className="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors min-h-touch-md"
             >
               Take Test Again
             </button>
@@ -456,7 +456,7 @@ const AsthmaControlTestComponent = () => {
                     recommendations: controlLevel?.recommendations || [],
                     timestamp: new Date().toISOString()
                   };
-                  
+
                   await storageManager.saveAssessment(assessmentResult);
                   alert('ACT results saved successfully!');
                   console.log('ACT results saved:', assessmentResult);
@@ -465,7 +465,7 @@ const AsthmaControlTestComponent = () => {
                   alert('Failed to save results. Please try again.');
                 }
               }}
-              className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors"
+              className="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors min-h-touch-md"
             >
               Save Results
             </button>

@@ -103,14 +103,14 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               <div className="space-y-3">
                 <button
                   onClick={() => window.location.reload()}
-                  className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center"
+                  className="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center min-h-touch-md"
                 >
                   <RefreshCw size={16} className="mr-2" />
                   Refresh Page
                 </button>
                 <button
                   onClick={this.handleGoHome}
-                  className="w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center"
+                  className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center min-h-touch-md"
                 >
                   <Home size={16} className="mr-2" />
                   Go to Dashboard
@@ -150,14 +150,14 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               <div className="space-y-2">
                 <button
                   onClick={this.handleRetry}
-                  className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center"
+                  className="w-full bg-orange-600 text-white py-3 px-6 rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center min-h-touch-md"
                 >
                   <RefreshCw size={16} className="mr-2" />
                   Try Again
                 </button>
                 <button
                   onClick={this.handleGoHome}
-                  className="w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center"
+                  className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center min-h-touch-md"
                 >
                   <Home size={16} className="mr-2" />
                   Go to Dashboard

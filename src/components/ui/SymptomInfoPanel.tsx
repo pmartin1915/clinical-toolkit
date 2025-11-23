@@ -49,7 +49,7 @@ export const SymptomInfoPanel = ({ isVisible, onClose }: SymptomInfoPanelProps) 
             {onClose && (
               <button
                 onClick={onClose}
-                className="text-blue-600 hover:text-blue-800 transition-colors"
+                className="p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100"
                 aria-label="Close info panel"
               >
                 <X className="w-5 h-5" />

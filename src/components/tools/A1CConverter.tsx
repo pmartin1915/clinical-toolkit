@@ -50,7 +50,7 @@ export const A1CConverter = () => {
 
         <button
           onClick={convertA1C}
-          className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors"
+          className="w-full bg-primary-600 text-white py-3 px-6 rounded-md hover:bg-primary-700 transition-colors min-h-touch-md"
         >
           Convert
         </button>

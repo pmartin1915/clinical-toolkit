@@ -168,7 +168,7 @@ export const BPTracker = () => {
             <div className="flex items-end">
               <button
                 onClick={addReading}
-                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors"
+                className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors min-h-touch-md"
               >
                 Save
               </button>
@@ -227,7 +227,7 @@ export const BPTracker = () => {
             </div>
             
             <div className="bg-blue-50 rounded-lg border border-blue-200 p-4">
-              <div className="text-sm font-medium text-blue-900 mb-2">¡ Quick Tip</div>
+              <div className="text-sm font-medium text-blue-900 mb-2">ï¿½ Quick Tip</div>
               <div className="text-xs text-blue-800">
                 Take readings at the same time each day for better tracking. 
                 Ideal blood pressure is less than 120/80 mmHg.

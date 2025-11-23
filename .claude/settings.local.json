@@ -46,7 +46,17 @@
       "Bash(node:*)",
       "Read(//c/Users/perry/AppData/Local/npm-cache/_logs/**)",
       "Bash(cat:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npx cap sync:*)",
+      "Bash(npx cap open:*)",
+      "Bash(where:*)",
+      "Bash(./gradlew:*)",
+      "Bash(adb shell:*)",
+      "Bash(npx vite build)",
+      "Bash(timeout:*)",
+      "Bash(npx lighthouse:*)",
+      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -B 3 \"\"\"\"<select\"\"\"\" \"\"\"\"{}\"\"\"\" | head -20')",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

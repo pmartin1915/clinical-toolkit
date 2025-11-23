@@ -61,11 +61,13 @@ function App() {
   const handleConditionSelect = (conditionId: string) => {
     setSelectedCondition(conditionId);
     setCurrentView('condition');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigate = (view: 'dashboard' | 'patients') => {
     setCurrentView(view);
     setSelectedCondition(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleWelcomeClose = () => {

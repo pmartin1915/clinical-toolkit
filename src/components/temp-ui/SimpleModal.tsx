@@ -71,14 +71,15 @@ export const SimpleModal: React.FC<SimpleModalProps> = ({
       
       {/* Modal */}
       <div className={clsx(
-        'relative w-full mx-4 rounded-lg shadow-2xl transition-all',
+        'relative w-full mx-4 rounded-lg shadow-2xl transition-all flex flex-col',
+        'max-h-[85vh] sm:max-h-[90vh]',
         modalSizes[size],
         modalVariants[variant]
       )}>
-        
+
         {/* Header */}
         {(title || description || showCloseButton) && (
-          <div className="flex items-start justify-between p-6 pb-4">
+          <div className="flex items-start justify-between p-6 pb-4 flex-shrink-0">
             <div className="flex-1">
               {title && (
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
@@ -94,7 +95,8 @@ export const SimpleModal: React.FC<SimpleModalProps> = ({
             {showCloseButton && (
               <button
                 onClick={() => onOpenChange(false)}
-                className="ml-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                className="ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                aria-label="Close modal"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -102,9 +104,9 @@ export const SimpleModal: React.FC<SimpleModalProps> = ({
           </div>
         )}
 
-        {/* Content */}
+        {/* Content - Scrollable */}
         <div className={clsx(
-          'px-6',
+          'px-6 overflow-y-auto flex-1',
           (!title && !description) ? 'pt-6' : '',
           !footer ? 'pb-6' : ''
         )}>
@@ -113,7 +115,7 @@ export const SimpleModal: React.FC<SimpleModalProps> = ({
 
         {/* Footer */}
         {footer && (
-          <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-lg border-t border-gray-200 dark:border-gray-600">
+          <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-lg border-t border-gray-200 dark:border-gray-600 flex-shrink-0">
             {footer}
           </div>
         )}

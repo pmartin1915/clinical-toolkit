@@ -100,7 +100,7 @@ export const LegalDocument = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-4xl w-full max-h-[85vh] sm:max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
           <div className="flex items-center space-x-3">
@@ -138,14 +138,14 @@ export const LegalDocument = ({
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Footer - Sticky on mobile for better visibility */}
         {showAcceptButton && (
-          <div className="p-6 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
-            <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="p-4 sm:p-6 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 flex-shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="text-sm text-gray-600 dark:text-gray-400 order-2 sm:order-1">
                 {!hasScrolledToBottom && !isAccepted && (
-                  <span className="text-amber-600 dark:text-amber-400">
-                    Please scroll to the bottom to review the complete document
+                  <span className="text-amber-600 dark:text-amber-400 text-xs sm:text-sm">
+                    Please scroll to review the complete document
                   </span>
                 )}
                 {isAccepted && (
@@ -155,10 +155,11 @@ export const LegalDocument = ({
                   </span>
                 )}
               </div>
-              <div className="flex space-x-3">
+              <div className="flex space-x-2 sm:space-x-3 order-1 sm:order-2">
                 <Button
                   variant="outline"
                   onClick={onClose}
+                  className="flex-1 sm:flex-none"
                 >
                   Close
                 </Button>
@@ -166,9 +167,10 @@ export const LegalDocument = ({
                   <Button
                     onClick={onAccept}
                     disabled={!hasScrolledToBottom}
-                    className={!hasScrolledToBottom ? 'opacity-50 cursor-not-allowed' : ''}
+                    className={`flex-1 sm:flex-none ${!hasScrolledToBottom ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    I Understand and Agree
+                    <span className="hidden sm:inline">I Understand and Agree</span>
+                    <span className="sm:hidden">I Agree</span>
                   </Button>
                 )}
               </div>

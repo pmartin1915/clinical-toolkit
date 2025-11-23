@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Book, Calculator, Target, FileText, GraduationCap } from 'lucide-react';
 import type { Condition } from '../types';
 import { PlainLanguageSummary } from '../components/ui/PlainLanguageSummary';
@@ -45,6 +45,11 @@ const toolIcons = {
 export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'guidelines' | 'tools' | 'resources'>('overview');
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
+
+  // Scroll to top when tab or tool changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [activeTab, selectedTool]);
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: Book },
@@ -155,6 +160,10 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
 
       {/* Tabs - Mobile Optimized */}
       <div className="border-b border-gray-200 mb-6">
+        {/* Mobile Swipe Hint - Above tabs */}
+        <div className="sm:hidden mb-2 text-center">
+          <span className="text-xs text-gray-400">Swipe to see all tabs →</span>
+        </div>
         <nav className="-mb-px overflow-x-auto scrollbar-hide scroll-smooth touch-pan-x">
           <div className="flex space-x-2 sm:space-x-8 min-w-max px-1">
             {tabs.map((tab) => {
@@ -196,11 +205,6 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
             />
           ))}
         </div>
-        
-        {/* Mobile Swipe Hint */}
-        <div className="sm:hidden mt-1 text-center">
-          <span className="text-xs text-gray-400">← Swipe to see all tabs →</span>
-        </div>
       </div>
 
       {/* Tab Content */}
@@ -217,14 +221,6 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
         </div>
       ) : (
         <div ref={swipeRef as React.RefObject<HTMLDivElement>} className="touch-pan-y">
-          {/* Swipe hint for mobile */}
-          <div className="sm:hidden mb-4 text-center">
-            <div className="flex items-center justify-center space-x-2 text-gray-400 text-xs">
-              <span>←</span>
-              <span>Swipe to navigate tabs</span>
-              <span>→</span>
-            </div>
-          </div>
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <PlainLanguageSummary conditionId={condition.id} />

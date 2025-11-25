@@ -154,7 +154,7 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
     }
   };
 
-  const updateOptions = (key: keyof ExportOptions, value: any) => {
+  const updateOptions = (key: keyof ExportOptions, value: ExportOptions[keyof ExportOptions]) => {
     setOptions(prev => ({ ...prev, [key]: value }));
   };
 
@@ -217,7 +217,7 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
                           name="template"
                           value={template.id}
                           checked={options.template === template.id}
-                          onChange={(e) => updateOptions('template', e.target.value)}
+                          onChange={(e) => updateOptions('template', e.target.value as ExportOptions['template'])}
                           className="sr-only"
                         />
                         <Icon className="w-5 h-5 mt-0.5 mr-3 flex-shrink-0" />
@@ -248,7 +248,7 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
                         name="format"
                         value={format}
                         checked={options.format === format}
-                        onChange={(e) => updateOptions('format', e.target.value as any)}
+                        onChange={(e) => updateOptions('format', e.target.value as 'pdf' | 'csv' | 'json')}
                         className="sr-only"
                       />
                       <span className="font-medium">{format.toUpperCase()}</span>
@@ -308,8 +308,9 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
                         type="email"
                         value={options.emailOptions?.to || ''}
                         onChange={(e) => updateOptions('emailOptions', {
-                          ...options.emailOptions,
-                          to: e.target.value
+                          to: e.target.value,
+                          subject: options.emailOptions?.subject || `Health Report for ${patient.firstName} ${patient.lastName}`,
+                          body: options.emailOptions?.body || 'Please find the attached health report.'
                         })}
                         placeholder="doctor@example.com"
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-gray-100"
@@ -323,8 +324,9 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
                         type="text"
                         value={options.emailOptions?.subject || `Health Report for ${patient.firstName} ${patient.lastName}`}
                         onChange={(e) => updateOptions('emailOptions', {
-                          ...options.emailOptions,
-                          subject: e.target.value
+                          to: options.emailOptions?.to || '',
+                          subject: e.target.value,
+                          body: options.emailOptions?.body || 'Please find the attached health report.'
                         })}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-gray-100"
                       />
@@ -336,7 +338,8 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
                       <textarea
                         value={options.emailOptions?.body || 'Please find the attached health report.'}
                         onChange={(e) => updateOptions('emailOptions', {
-                          ...options.emailOptions,
+                          to: options.emailOptions?.to || '',
+                          subject: options.emailOptions?.subject || `Health Report for ${patient.firstName} ${patient.lastName}`,
                           body: e.target.value
                         })}
                         rows={3}

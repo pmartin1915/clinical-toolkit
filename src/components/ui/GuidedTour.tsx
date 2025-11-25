@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { X, ArrowRight, ArrowLeft, MapPin, Sparkles } from 'lucide-react';
 
 interface TourStep {
@@ -175,27 +175,27 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
     }
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging) return;
-    
+
     const deltaX = e.clientX - initialMousePos.x;
     const deltaY = e.clientY - initialMousePos.y;
-    
+
     let newX = initialWindowPos.x + deltaX;
     let newY = initialWindowPos.y + deltaY;
-    
+
     // Ensure the modal stays within viewport boundaries
     if (tooltipRef.current) {
       const rect = tooltipRef.current.getBoundingClientRect();
       newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
       newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
     }
-    
+
     setPosition({
       x: newX,
       y: newY
     });
-  };
+  }, [isDragging, initialMousePos, initialWindowPos]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
@@ -210,7 +210,7 @@ export const GuidedTour = ({ isOpen, onClose, onComplete }: GuidedTourProps) => 
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, initialMousePos, initialWindowPos]);
+  }, [isDragging, initialMousePos, initialWindowPos, handleMouseMove]);
 
 
 

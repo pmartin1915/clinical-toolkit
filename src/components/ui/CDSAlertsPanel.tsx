@@ -215,7 +215,7 @@ export const CDSAlertsPanel = ({ isVisible, onClose, alerts: propAlerts }: CDSAl
               {['all', 'critical', 'high', 'medium', 'low'].map(priority => (
                 <button
                   key={priority}
-                  onClick={() => setFilter(priority as any)}
+                  onClick={() => setFilter(priority as 'all' | 'critical' | 'high' | 'medium' | 'low')}
                   className={`px-3 py-2 sm:py-1 rounded-full text-xs font-medium transition-colors touch-manipulation ${
                     filter === priority
                       ? 'bg-blue-100 text-blue-800 border border-blue-200'

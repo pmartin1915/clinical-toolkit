@@ -65,7 +65,7 @@ Object.defineProperty(window, 'confirm', {
 // Suppress console errors during tests unless needed
 const originalError = console.error;
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args: unknown[]) => {
     if (
       typeof args[0] === 'string' &&
       (args[0].includes('Warning: ReactDOM.render is no longer supported') ||
@@ -113,8 +113,12 @@ expect.extend({
 
 // Extend Vitest matchers type
 declare module 'vitest' {
-  interface Assertion<T = any> {
-    toBeWithinMedicalTolerance(expected: number, tolerance?: number): T;
-    toMatchClinicalRange(min: number, max: number): T;
+  interface Assertion {
+    toBeWithinMedicalTolerance(expected: number, tolerance?: number): void;
+    toMatchClinicalRange(min: number, max: number): void;
+  }
+  interface AsymmetricMatchersContaining {
+    toBeWithinMedicalTolerance(expected: number, tolerance?: number): void;
+    toMatchClinicalRange(min: number, max: number): void;
   }
 }

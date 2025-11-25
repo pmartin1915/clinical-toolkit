@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Calculator } from 'lucide-react';
-import { HealthIndicator, getA1CLevel } from '../ui/HealthIndicator';
+import { HealthIndicator } from '../ui/HealthIndicator';
+import { getA1CLevel } from '../../utils/healthMetrics';
 
 export const A1CConverter = () => {
   const [a1c, setA1c] = useState<string>('');

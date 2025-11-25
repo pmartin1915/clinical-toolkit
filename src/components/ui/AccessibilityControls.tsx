@@ -173,7 +173,7 @@ export const AccessibilityControls = () => {
               return (
                 <button
                   key={themeOption.id}
-                  onClick={() => setTheme(themeOption.id as any)}
+                  onClick={() => setTheme(themeOption.id as 'light' | 'dark' | 'system')}
                   className={`p-2 text-xs border rounded-lg transition-colors flex flex-col items-center space-y-1 ${
                     theme === themeOption.id
                       ? 'bg-primary-100 border-primary-300 text-primary-700 dark:bg-primary-900 dark:border-primary-600 dark:text-primary-300'

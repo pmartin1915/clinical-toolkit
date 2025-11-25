@@ -1,5 +1,4 @@
-// @ts-nocheck - TODO: Fix reporter compatibility with Vitest API changes
-import type { Reporter, Task } from 'vitest';
+import type { Reporter, TaskResultPack } from 'vitest';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -10,9 +9,9 @@ interface ClinicalTestFailure {
   stack?: string;
   clinicalContext?: {
     calculator?: string;
-    inputs?: Record<string, any>;
-    expected?: any;
-    actual?: any;
+    inputs?: Record<string, unknown>;
+    expected?: unknown;
+    actual?: unknown;
     reference?: string;
     suggestions?: string[];
   };
@@ -21,29 +20,17 @@ interface ClinicalTestFailure {
 export default class ClinicalReporter implements Reporter {
   private failures: ClinicalTestFailure[] = [];
 
-  onTaskUpdate(tasks: Task[]) {
-    for (const task of tasks) {
-      if (task.result?.state === 'fail' && task.type === 'test') {
-        const error = task.result.errors?.[0];
+  onTaskUpdate(packs: TaskResultPack[]) {
+    for (const [taskId, result] of packs) {
+      if (result && result.state === 'fail') {
+        const error = result.errors?.[0];
 
         const failure: ClinicalTestFailure = {
-          test: task.name,
-          suite: task.suite?.name || 'Unknown',
+          test: taskId,
+          suite: 'Test Suite',
           error: error?.message || 'Unknown error',
           stack: error?.stack,
         };
-
-        // Try to extract clinical context from test meta or error message
-        if (task.meta) {
-          failure.clinicalContext = {
-            calculator: task.meta.calculator as string,
-            inputs: task.meta.inputs as Record<string, any>,
-            expected: task.meta.expected,
-            actual: task.meta.actual,
-            reference: task.meta.reference as string,
-            suggestions: task.meta.suggestions as string[],
-          };
-        }
 
         this.failures.push(failure);
       }

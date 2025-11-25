@@ -191,7 +191,7 @@ export class ExportManager {
     }
 
     // Footer
-    const pageCount = (pdf as any).internal.getNumberOfPages();
+    const pageCount = (pdf as typeof pdf & { internal: { getNumberOfPages: () => number } }).internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       pdf.setPage(i);
       pdf.setFontSize(8);
@@ -259,7 +259,22 @@ export class ExportManager {
   }
 
   public static generateGoalsCSV(goals: GoalTracking[]): Blob {
-    const csvData: any[] = [];
+    const csvData: Array<{
+      GoalTitle: string;
+      Category: string;
+      Target: string;
+      Frequency: string;
+      Status: string;
+      StartDate: string;
+      EndDate: string;
+      CompletionRate: string;
+      TotalCompletions: number;
+      SuccessfulCompletions: number;
+      CompletionDate: string;
+      Completed: string;
+      CompletionValue: string;
+      CompletionNotes: string;
+    }> = [];
     
     goals.forEach(goal => {
       const completionRate = goal.completions.length > 0 
@@ -285,7 +300,7 @@ export class ExportManager {
             ...baseGoalData,
             CompletionDate: completion.date,
             Completed: completion.completed ? 'Yes' : 'No',
-            CompletionValue: completion.value || '',
+            CompletionValue: String(completion.value || ''),
             CompletionNotes: completion.notes || ''
           });
         });
@@ -351,7 +366,13 @@ export class ExportManager {
   }
 
   // Summary statistics for export
-  public static generateSummaryStats(data: ExportData): any {
+  public static generateSummaryStats(data: ExportData): {
+    reportGenerated: string;
+    assessmentsSummary: { total: number; lastThirtyDays: number; byTool: Record<string, number> };
+    vitalsSummary: { total: number; lastThirtyDays: number; byType: Record<string, number> };
+    goalsSummary: { total: number; active: number; completed: number; completionRate: number };
+    educationSummary: { totalModules: number; completedModules: number; averageProgress: number; totalTimeSpent: number };
+  } {
     const now = new Date();
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     
@@ -404,11 +425,14 @@ export class ExportManager {
     };
   }
 
-  private static groupByProperty(array: any[], property: string): Record<string, number> {
-    return array.reduce((acc, item) => {
-      const key = item[property];
+  private static groupByProperty<T, K extends keyof T>(
+    array: T[],
+    property: K
+  ): Record<string, number> {
+    return array.reduce((acc: Record<string, number>, item) => {
+      const key = String(item[property]);
       acc[key] = (acc[key] || 0) + 1;
       return acc;
-    }, {});
+    }, {} as Record<string, number>);
   }
 }

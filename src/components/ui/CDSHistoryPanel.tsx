@@ -152,7 +152,7 @@ export const CDSHistoryPanel = ({ patientId, isOpen, onClose }: CDSHistoryPanelP
             {['all', 'active', 'acknowledged', 'dismissed', 'resolved'].map(status => (
               <button
                 key={status}
-                onClick={() => setFilter(status as any)}
+                onClick={() => setFilter(status as 'all' | 'active' | 'acknowledged' | 'dismissed' | 'resolved')}
                 className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                   filter === status
                     ? 'bg-blue-100 text-blue-800 border border-blue-200'

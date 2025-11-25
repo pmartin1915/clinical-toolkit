@@ -124,9 +124,9 @@ export function isWithinClinicalTolerance(
  */
 export function formatClinicalError(
   calculator: string,
-  inputs: Record<string, any>,
-  expected: any,
-  actual: any,
+  inputs: Record<string, unknown>,
+  expected: unknown,
+  actual: unknown,
   reference: string,
   suggestions: string[]
 ): string {
@@ -241,8 +241,8 @@ export const clinicalReferences = {
  */
 export function createTestMetadata(
   calculator: string,
-  inputs: Record<string, any>,
-  expected: any,
+  inputs: Record<string, unknown>,
+  expected: unknown,
   reference: keyof typeof clinicalReferences,
   suggestions: string[]
 ) {

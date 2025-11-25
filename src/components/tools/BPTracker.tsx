@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Activity, Plus, Trash2, TrendingUp } from 'lucide-react';
-import { HealthIndicator, getBPLevel } from '../ui/HealthIndicator';
+import { HealthIndicator } from '../ui/HealthIndicator';
+import { getBPLevel } from '../../utils/healthMetrics';
 
 interface BPReading {
   id: string;

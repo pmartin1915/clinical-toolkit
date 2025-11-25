@@ -48,7 +48,7 @@ export interface AssessmentResult {
   conditionId: string;
   toolId: string;
   toolName: string;
-  responses: Record<string, any>;
+  responses: Record<string, string | number | boolean | string[] | number[]>;
   score?: number;
   severity?: string;
   recommendations: string[];
@@ -97,7 +97,7 @@ export interface EducationProgress {
   moduleTitle: string;
   completedAt?: string;
   progress: number; // 0-100
-  quizAnswers?: Record<string, any>;
+  quizAnswers?: Record<string, string | number | boolean | string[]>;
   timeSpent: number; // minutes
 }
 
@@ -144,8 +144,8 @@ export interface SyncStatus {
 export interface SyncConflict {
   id: string;
   type: 'patient' | 'assessment' | 'vital' | 'goal';
-  localData: any;
-  remoteData: any;
+  localData: PatientProfile | AssessmentResult | VitalSigns | GoalTracking;
+  remoteData: PatientProfile | AssessmentResult | VitalSigns | GoalTracking;
   timestamp: string;
 }
 
@@ -153,8 +153,8 @@ export interface SyncConflict {
 export interface DatabaseOperation {
   type: 'create' | 'read' | 'update' | 'delete';
   table: string;
-  data?: any;
-  query?: any;
+  data?: PatientProfile | AssessmentResult | VitalSigns | GoalTracking | EducationProgress;
+  query?: Record<string, string | number | boolean | string[]>;
   timestamp: string;
 }
 

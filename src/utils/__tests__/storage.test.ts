@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { PatientProfile, AssessmentResult, VitalSigns } from '../../types/storage';
+import type { storageManager as StorageManagerType } from '../storage';
 
 // Unmock the storage module for this test file (it's mocked globally in setup.ts)
 vi.unmock('../storage');
@@ -32,7 +33,7 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 describe('StorageManager', () => {
-  let storageManager: any;
+  let storageManager: typeof StorageManagerType;
 
   beforeEach(async () => {
     vi.clearAllMocks();

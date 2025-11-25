@@ -20,7 +20,7 @@ export interface CDSAuditLog {
   alertId: string;
   userId?: string;
   timestamp: string;
-  details: Record<string, any>;
+  details: Record<string, unknown>;
 }
 
 class CDSHistoryManager {
@@ -281,10 +281,10 @@ class CDSHistoryManager {
   }
 
   private static logAction(
-    action: CDSAuditLog['action'], 
-    patientId: string, 
-    alertId: string, 
-    details: Record<string, any>
+    action: CDSAuditLog['action'],
+    patientId: string,
+    alertId: string,
+    details: Record<string, unknown>
   ): void {
     const auditEntry: CDSAuditLog = {
       id: this.generateId(),

@@ -16,7 +16,7 @@ export interface CDSCondition {
   type: 'age' | 'gender' | 'medication' | 'allergy' | 'vital-sign' | 'lab-value' | 'assessment-score' | 'diagnosis';
   field: string;
   operator: 'equals' | 'greater-than' | 'less-than' | 'greater-equal' | 'less-equal' | 'contains' | 'not-contains';
-  value: any;
+  value: string | number | boolean | string[];
   unit?: string;
 }
 
@@ -35,7 +35,7 @@ export interface CDSAlert {
   priority: 'low' | 'medium' | 'high' | 'critical';
   action: CDSAction;
   triggeredAt: string;
-  patientContext?: any;
+  patientContext?: PatientContext;
   dismissed?: boolean;
 }
 
@@ -419,7 +419,7 @@ export class CDSEngine {
 
   // Evaluate a single condition
   private static evaluateCondition(condition: CDSCondition, context: PatientContext): boolean {
-    let contextValue: any;
+    let contextValue: string | number | string[] | undefined;
 
     switch (condition.type) {
       case 'age':
@@ -458,7 +458,7 @@ export class CDSEngine {
   }
 
   // Compare values based on operator
-  private static compareValues(contextValue: any, operator: CDSCondition['operator'], ruleValue: any): boolean {
+  private static compareValues(contextValue: string | number | string[] | undefined, operator: CDSCondition['operator'], ruleValue: string | number | boolean | string[]): boolean {
     switch (operator) {
       case 'equals':
         return contextValue === ruleValue;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AlertTriangle, Shield, X, CheckCircle } from 'lucide-react';
 import { CDSEngine, type PatientContext, type CDSAlert } from '../../utils/cdsEngine';
 import type { PatientProfile, VitalSigns, AssessmentResult } from '../../types/storage';
@@ -28,7 +28,7 @@ export const PatientCDSIntegration = ({
   const [lastEvaluation, setLastEvaluation] = useState<string>('');
 
   // Convert PatientProfile to PatientContext for CDS evaluation
-  const buildPatientContext = (): PatientContext => {
+  const buildPatientContext = useCallback((): PatientContext => {
     const context: PatientContext = {};
 
     // Basic demographics
@@ -104,30 +104,30 @@ export const PatientCDSIntegration = ({
     }
 
     return context;
-  };
+  }, [patientData, vitals, assessments]);
 
   // Evaluate patient data with CDS engine
-  const evaluatePatient = () => {
+  const evaluatePatient = useCallback(() => {
     const context = buildPatientContext();
     const currentDataString = JSON.stringify(context);
-    
+
     // Only re-evaluate if data has changed
     if (currentDataString === lastEvaluation) return;
-    
+
     const triggeredAlerts = CDSEngine.evaluatePatient(context);
     const alertsWithState = triggeredAlerts.map(alert => ({
       ...alert,
       isNew: true,
       acknowledged: false
     }));
-    
+
     setAlerts(alertsWithState);
     setLastEvaluation(currentDataString);
-    
+
     if (onAlertsChange) {
       onAlertsChange(triggeredAlerts);
     }
-  };
+  }, [buildPatientContext, lastEvaluation, onAlertsChange]);
 
   // Real-time evaluation when patient data changes
   useEffect(() => {
@@ -136,13 +136,14 @@ export const PatientCDSIntegration = ({
       const timer = setTimeout(evaluatePatient, 500);
       return () => clearTimeout(timer);
     }
-  }, [patientData, vitals, assessments, isRealTime]);
+  }, [patientData, vitals, assessments, isRealTime, evaluatePatient]);
 
   // Manual evaluation trigger
   useEffect(() => {
     if (!isRealTime) {
       evaluatePatient();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const acknowledgeAlert = (alertIndex: number) => {

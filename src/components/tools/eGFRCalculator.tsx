@@ -14,7 +14,7 @@ export const EGFRCalculator = () => {
   const [creatinine, setCreatinine] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<'male' | 'female'>('male');
-  const race = 'other'; // Using race-free CKD-EPI 2021 equation
+  // Using race-free CKD-EPI 2021 equation
   const [units, setUnits] = useState<'mg/dL' | 'μmol/L'>('mg/dL');
   
   const [result, setResult] = useState<eGFRResult | null>(null);
@@ -145,7 +145,7 @@ export const EGFRCalculator = () => {
       recommendations,
       drugAdjustments
     };
-  }, [creatinine, age, gender, race, units]);
+  }, [creatinine, age, gender, units]);
 
   useEffect(() => {
     setResult(calculateEGFR());

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, ChevronRight, AlertTriangle, Info, Clock, Stethoscope, Activity } from 'lucide-react';
 import { EnhancedSymptomSearchEngine } from '../../data/enhancedSymptomDatabase';
 import type { Condition } from '../../types';
@@ -103,6 +103,18 @@ export const EnhancedSearch = ({
     }
   }, [searchTerm, conditions]);
 
+  const handleResultSelect = useCallback((result: SearchResult) => {
+    if (result.type === 'condition') {
+      onConditionSelect(result.id);
+    } else if (result.type === 'symptom' && result.conditions && result.conditions.length > 0) {
+      // For symptoms, navigate to the most relevant condition
+      const primaryCondition = result.conditions[0];
+      onConditionSelect(primaryCondition);
+    }
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  }, [onConditionSelect]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -121,7 +133,7 @@ export const EnhancedSearch = ({
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
-          setHighlightedIndex(prev => 
+          setHighlightedIndex(prev =>
             prev < searchResults.length - 1 ? prev + 1 : prev
           );
           break;
@@ -144,19 +156,7 @@ export const EnhancedSearch = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, searchResults, highlightedIndex]);
-
-  const handleResultSelect = (result: SearchResult) => {
-    if (result.type === 'condition') {
-      onConditionSelect(result.id);
-    } else if (result.type === 'symptom' && result.conditions && result.conditions.length > 0) {
-      // For symptoms, navigate to the most relevant condition
-      const primaryCondition = result.conditions[0];
-      onConditionSelect(primaryCondition);
-    }
-    setIsOpen(false);
-    setHighlightedIndex(-1);
-  };
+  }, [isOpen, searchResults, highlightedIndex, handleResultSelect]);
 
   const handleInputFocus = () => {
     if (searchResults.length > 0) {

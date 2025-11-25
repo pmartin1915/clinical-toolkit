@@ -94,7 +94,7 @@ class StorageManager {
   }
 
   // Generic storage operations
-  private setItem(key: string, value: any): void {
+  private setItem(key: string, value: unknown): void {
     try {
       const serialized = JSON.stringify(value);
       const encrypted = this.encrypt(serialized);

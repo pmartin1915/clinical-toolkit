@@ -111,7 +111,7 @@ describe('ASCVD Risk Calculator', () => {
       const invalidInput = {
         age: 55,
         // Missing other required fields
-      } as any;
+      } as unknown as ASCVDInput;
 
       expect(() => testCalculateASCVD(invalidInput)).toThrow();
     });

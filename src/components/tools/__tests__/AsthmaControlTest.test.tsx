@@ -2,11 +2,34 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AsthmaControlTest } from '../AsthmaControlTest';
-import { storageManager } from '../../../utils/storage';
+
+const mockSaveAssessment = vi.fn();
+const mockGenerateId = vi.fn(() => 'test-id-123');
+
+vi.mock('../../../store/clinicalStore', () => ({
+  useClinicalStore: vi.fn(() => ({
+    saveAssessment: mockSaveAssessment,
+    generateId: mockGenerateId
+  })),
+  useClinicalStore: Object.assign(
+    vi.fn(() => ({
+      saveAssessment: mockSaveAssessment,
+      generateId: mockGenerateId
+    })),
+    {
+      getState: () => ({
+        saveAssessment: mockSaveAssessment,
+        generateId: mockGenerateId
+      })
+    }
+  )
+}));
 
 describe('AsthmaControlTest', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSaveAssessment.mockResolvedValue(undefined);
+    mockGenerateId.mockReturnValue('test-id-123');
   });
 
   it('renders the initial assessment form', () => {
@@ -99,7 +122,7 @@ describe('AsthmaControlTest', () => {
     await user.click(screen.getByText('Save Results'));
 
     await waitFor(() => {
-      expect(storageManager.saveAssessment).toHaveBeenCalledWith(
+      expect(mockSaveAssessment).toHaveBeenCalledWith(
         expect.objectContaining({
           conditionId: 'asthma',
           toolId: 'act',
@@ -128,9 +151,10 @@ describe('AsthmaControlTest', () => {
   it('handles errors gracefully when saving fails', async () => {
     const user = userEvent.setup();
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    // Mock saveAssessment to reject
-    vi.mocked(storageManager.saveAssessment).mockRejectedValueOnce(new Error('Save failed'));
+    
+    // Mock saveAssessment to reject BEFORE rendering
+    mockSaveAssessment.mockReset();
+    mockSaveAssessment.mockRejectedValue(new Error('Save failed'));
 
     render(<AsthmaControlTest />);
 

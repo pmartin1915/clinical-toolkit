@@ -95,6 +95,13 @@ export const diabetes: Condition = {
       ]
     },
     {
+      id: 'bmi-calculator',
+      name: 'BMI Calculator',
+      description: 'Calculate Body Mass Index with weight loss tracking for diabetes management',
+      type: 'calculator',
+      component: 'BMICalculator'
+    },
+    {
       id: 'diabetes-medication-guide',
       name: 'Diabetes Medication Comparison',
       description: 'Compare diabetes medications by efficacy, side effects, and cost',
@@ -156,6 +163,13 @@ export const diabetes: Condition = {
       description: 'Comprehensive cardiovascular risk assessment with 2022 AHA/ACC guidelines, risk enhancers, and treatment recommendations',
       type: 'calculator',
       component: 'EnhancedASCVDCalculator'
+    },
+    {
+      id: 'creatinine-clearance-calculator',
+      name: 'Creatinine Clearance Calculator',
+      description: 'Estimated creatinine clearance using Cockcroft-Gault equation for drug dosing and kidney function assessment',
+      type: 'calculator',
+      component: 'CreatinineClearanceCalculator'
     }
   ],
   resources: [

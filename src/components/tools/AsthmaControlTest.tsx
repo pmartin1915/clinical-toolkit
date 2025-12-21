@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Wind, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
-import { storageManager } from '../../utils/storage';
+import { useClinicalStore } from '../../store/clinicalStore';
 import type { AssessmentResult } from '../../types/storage';
 import { withClinicalToolErrorBoundary } from '../ui/withErrorBoundary';
 
@@ -105,15 +105,15 @@ const AsthmaControlTestComponent = () => {
   const calculateScore = (): number => {
     const totalQuestions = actQuestions.length;
     const completedQuestions = Object.keys(responses).length;
-    
+
     if (completedQuestions !== totalQuestions) return -1;
-    
+
     return Object.values(responses).reduce((sum, score) => sum + score, 0);
   };
 
   const getControlLevel = (score: number) => {
     if (score < 0) return null;
-    
+
     if (score >= 20) {
       return {
         level: 'Well-Controlled Asthma',
@@ -276,11 +276,10 @@ const AsthmaControlTestComponent = () => {
                 <button
                   key={option.score}
                   onClick={() => handleResponse(currentQuestion.id, option.score)}
-                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                    responses[currentQuestion.id] === option.score
+                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${responses[currentQuestion.id] === option.score
                       ? 'border-purple-600 bg-purple-50'
                       : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-gray-900 font-medium">{option.text}</span>
@@ -303,11 +302,10 @@ const AsthmaControlTestComponent = () => {
             <button
               onClick={currentStep === actQuestions.length - 1 ? handleCompleteAssessment : handleNextQuestion}
               disabled={!responses[currentQuestion.id]}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                responses[currentQuestion.id]
+              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${responses[currentQuestion.id]
                   ? 'bg-purple-600 text-white hover:bg-purple-700'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
+                }`}
             >
               {currentStep === actQuestions.length - 1 ? 'Complete Assessment' : 'Next Question'}
             </button>
@@ -333,7 +331,7 @@ const AsthmaControlTestComponent = () => {
                 <div className="flex-1">
                   <h5 className="font-bold text-lg mb-2">{controlLevel.level}</h5>
                   <p className="mb-4">{controlLevel.description}</p>
-                  
+
                   {controlLevel.urgentCare && (
                     <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
                       <div className="flex items-center space-x-2">
@@ -372,7 +370,7 @@ const AsthmaControlTestComponent = () => {
                 <Activity className="w-6 h-6 text-blue-600 flex-shrink-0" />
                 <div className="flex-1">
                   <h5 className="font-bold text-blue-900 mb-3">Step Therapy Recommendations</h5>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <h6 className="font-semibold text-blue-800 mb-1">Current Status:</h6>
@@ -445,7 +443,7 @@ const AsthmaControlTestComponent = () => {
               onClick={async () => {
                 try {
                   const assessmentResult: AssessmentResult = {
-                    id: storageManager.generateId(),
+                    id: useClinicalStore.getState().generateId(),
                     patientId: 'default-patient', // In a real app, this would be selected patient
                     conditionId: 'asthma',
                     toolId: 'act',
@@ -457,7 +455,7 @@ const AsthmaControlTestComponent = () => {
                     timestamp: new Date().toISOString()
                   };
 
-                  await storageManager.saveAssessment(assessmentResult);
+                  await useClinicalStore.getState().saveAssessment(assessmentResult);
                   alert('ACT results saved successfully!');
                   console.log('ACT results saved:', assessmentResult);
                 } catch (error) {

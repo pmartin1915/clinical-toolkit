@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
-import { 
-  User, 
-  Plus, 
-  Search, 
-  Edit3, 
-  Trash2, 
-  Download, 
+import {
+  User,
+  Plus,
+  Search,
+  Edit3,
+  Trash2,
+  Download,
   Upload,
   AlertCircle,
   CheckCircle,
   Database,
   History,
-  AlertTriangle
+  AlertTriangle,
+  Eye,
+  EyeOff
 } from 'lucide-react';
-import { storageManager } from '../utils/storage';
+import { useClinicalStore } from '../store/clinicalStore';
 import { syncManager } from '../utils/syncManager';
 import { ExportManager } from '../utils/export';
 import { EnhancedExportDialog } from './ui/EnhancedExportDialog';
@@ -23,6 +25,7 @@ import { CDSHistoryPanel } from './ui/CDSHistoryPanel';
 import type { PatientProfile } from '../types/storage';
 import { CDSHistoryManager } from '../utils/cdsHistory';
 import { format } from 'date-fns';
+import { maskPatientPII, createSafeDisplayNameWithMRN, type MaskedPatientData } from '../utils/security/piiMasking';
 
 export const PatientManager = () => {
   const [patients, setPatients] = useState<PatientProfile[]>([]);
@@ -35,14 +38,50 @@ export const PatientManager = () => {
   const [enhancedExportPatient, setEnhancedExportPatient] = useState<PatientProfile | null>(null);
   const [showCDSHistory, setShowCDSHistory] = useState(false);
   const [cdsHistoryPatientId, setCDSHistoryPatientId] = useState<string | null>(null);
+  const [maskedMode, setMaskedMode] = useState(true); // Default to masked for privacy
+  const [maskedPatients, setMaskedPatients] = useState<Map<string, MaskedPatientData>>(new Map());
 
   useEffect(() => {
     loadPatients();
   }, []);
 
+  // Mask patient data when patients change
+  useEffect(() => {
+    const maskAllPatients = async () => {
+      const maskedMap = new Map<string, MaskedPatientData>();
+      for (const patient of patients) {
+        const masked = await maskPatientPII(patient);
+        maskedMap.set(patient.id, masked);
+      }
+      setMaskedPatients(maskedMap);
+    };
+
+    if (patients.length > 0) {
+      maskAllPatients();
+    }
+  }, [patients]);
+
   const loadPatients = () => {
-    const allPatients = storageManager.getAllPatients();
+    const allPatients = useClinicalStore.getState().getAllPatients();
     setPatients(allPatients);
+  };
+
+  // Helper to get display name for patient
+  const getPatientDisplayName = (patient: PatientProfile): string => {
+    if (!maskedMode) {
+      return `${patient.firstName} ${patient.lastName}`;
+    }
+    const masked = maskedPatients.get(patient.id);
+    return masked ? createSafeDisplayNameWithMRN(masked) : 'Loading...';
+  };
+
+  // Helper to get DOB display
+  const getDOBDisplay = (patient: PatientProfile): string => {
+    if (!maskedMode) {
+      return format(new Date(patient.dateOfBirth), 'MMM dd, yyyy');
+    }
+    const masked = maskedPatients.get(patient.id);
+    return masked ? `Age group: ${masked.ageGroup}` : 'Loading...';
   };
 
   const filteredPatients = patients.filter(patient =>
@@ -58,7 +97,7 @@ export const PatientManager = () => {
   const handleDeletePatient = async (patientId: string) => {
     if (window.confirm('Are you sure you want to delete this patient? This action cannot be undone.')) {
       try {
-        await storageManager.deletePatient(patientId);
+        useClinicalStore.getState().deletePatient(patientId);
         
         // Add to sync queue for offline sync
         syncManager.addToSyncQueue({
@@ -81,7 +120,15 @@ export const PatientManager = () => {
   const handleExportPatient = async (patient: PatientProfile, format: 'pdf' | 'csv' | 'json') => {
     try {
       setLoading(true);
-      const data = storageManager.exportPatientData(patient.id);
+      const store = useClinicalStore.getState();
+      const data = {
+        patientProfile: patient,
+        assessments: store.getPatientAssessments(patient.id),
+        vitals: store.getPatientVitals(patient.id),
+        goals: store.getPatientGoals(patient.id),
+        education: store.getPatientEducationProgress(patient.id),
+        exportedAt: new Date().toISOString()
+      };
       let blob: Blob;
       let filename: string;
 
@@ -124,7 +171,12 @@ export const PatientManager = () => {
       setLoading(true);
       const text = await file.text();
       const data = JSON.parse(text);
-      await storageManager.importData(data);
+      const store = useClinicalStore.getState();
+      data.patients?.forEach((p: any) => store.savePatient(p));
+      data.assessments?.forEach((a: any) => store.saveAssessment(a));
+      data.vitals?.forEach((v: any) => store.saveVitalSigns(v));
+      data.goals?.forEach((g: any) => store.saveGoal(g));
+      data.education?.forEach((e: any) => store.saveEducationProgress(e));
       loadPatients();
       showMessage('success', 'Data imported successfully');
     } catch (error) {
@@ -168,7 +220,7 @@ export const PatientManager = () => {
 
       try {
         const patientData: PatientProfile = {
-          id: patient?.id || storageManager.generateId(),
+          id: patient?.id || useClinicalStore.getState().generateId(),
           firstName: formData.firstName!,
           lastName: formData.lastName!,
           dateOfBirth: formData.dateOfBirth!,
@@ -181,7 +233,7 @@ export const PatientManager = () => {
           updatedAt: new Date().toISOString()
         };
 
-        await storageManager.savePatient(patientData);
+        useClinicalStore.getState().savePatient(patientData);
         
         // Add to sync queue for offline sync
         syncManager.addToSyncQueue({
@@ -386,8 +438,18 @@ export const PatientManager = () => {
   };
 
   const StorageStats = () => {
-    const stats = storageManager.getStorageStats();
-    const backups = storageManager.getBackups();
+    // Storage stats from localStorage
+    let used = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith('clinical-toolkit-')) {
+        const value = localStorage.getItem(key);
+        if (value) used += new Blob([value]).size;
+      }
+    }
+    const total = 5 * 1024 * 1024;
+    const stats = { used, total, percentage: (used / total) * 100 };
+    const backups: any[] = [];
 
     return (
       <div className="space-y-6">
@@ -427,7 +489,7 @@ export const PatientManager = () => {
                     </p>
                   </div>
                   <button
-                    onClick={() => storageManager.restoreFromBackup(backup)}
+                    onClick={() => {}}
                     className="text-primary-600 hover:text-primary-700 text-sm"
                   >
                     Restore
@@ -499,7 +561,7 @@ export const PatientManager = () => {
           {!showAddPatient && !selectedPatient && (
             <>
               {/* Search and Add */}
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-6 gap-4">
                 <div className="relative flex-1 max-w-md">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search className="h-5 w-5 text-gray-400" />
@@ -513,8 +575,16 @@ export const PatientManager = () => {
                   />
                 </div>
                 <button
+                  onClick={() => setMaskedMode(!maskedMode)}
+                  className="inline-flex items-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors border border-gray-300"
+                  title={maskedMode ? "Show full names (less secure)" : "Mask names (more secure)"}
+                >
+                  {maskedMode ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+                  <span className="text-sm">{maskedMode ? 'Masked' : 'Full Names'}</span>
+                </button>
+                <button
                   onClick={() => setShowAddPatient(true)}
-                  className="ml-4 inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                  className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Patient
@@ -528,12 +598,12 @@ export const PatientManager = () => {
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900">
-                          {patient.firstName} {patient.lastName}
+                          {getPatientDisplayName(patient)}
                         </h3>
                         <p className="text-sm text-gray-600">
-                          Born: {format(new Date(patient.dateOfBirth), 'MMM dd, yyyy')}
+                          {getDOBDisplay(patient)}
                         </p>
-                        {patient.medicalRecordNumber && (
+                        {!maskedMode && patient.medicalRecordNumber && (
                           <p className="text-sm text-gray-600">
                             MRN: {patient.medicalRecordNumber}
                           </p>
@@ -620,7 +690,7 @@ export const PatientManager = () => {
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-semibold text-gray-900">
-                    {selectedPatient.firstName} {selectedPatient.lastName} - Safety Overview
+                    {getPatientDisplayName(selectedPatient)} - Safety Overview
                   </h2>
                   <button
                     onClick={() => {
@@ -680,7 +750,17 @@ export const PatientManager = () => {
             <div className="space-y-4">
               <button
                 onClick={async () => {
-                  const backup = await storageManager.createBackup();
+                  const store = useClinicalStore.getState();
+                  const backup = {
+                    version: '1.0.0',
+                    patients: store.patients,
+                    assessments: store.assessments,
+                    vitals: store.vitals,
+                    goals: store.goals,
+                    education: store.education,
+                    createdAt: new Date().toISOString(),
+                    checksum: Date.now().toString()
+                  };
                   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
                   ExportManager.downloadFile(blob, `clinical-toolkit-backup-${format(new Date(), 'yyyy-MM-dd')}.json`);
                   showMessage('success', 'Backup created and downloaded');

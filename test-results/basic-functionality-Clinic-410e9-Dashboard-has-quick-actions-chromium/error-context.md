@@ -1,0 +1,436 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - generic [ref=e8]:
+            - img [ref=e10]
+            - generic [ref=e14]:
+              - heading "Clinical Wizard" [level=1] [ref=e15]
+              - paragraph [ref=e16]: Evidence-based clinical reference
+          - navigation [ref=e17]:
+            - button "Conditions" [ref=e18] [cursor=pointer]:
+              - img [ref=e20]
+              - text: Conditions
+            - button "Patients" [ref=e23] [cursor=pointer]:
+              - img [ref=e25]
+              - text: Patients
+        - generic [ref=e30]:
+          - button "Tour" [ref=e31] [cursor=pointer]:
+            - img [ref=e33]
+            - text: Tour
+          - generic "Online" [ref=e37]:
+            - img [ref=e38]
+            - generic [ref=e42]: Online
+    - main [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - heading "Clinical Conditions" [level=1] [ref=e46]
+          - paragraph [ref=e47]: Evidence-based management guides for common clinical conditions
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - heading "Quick Health Tools" [level=2] [ref=e50]
+            - paragraph [ref=e51]: Popular calculators and assessments
+          - generic [ref=e52]:
+            - button "Check Blood Pressure Track and categorize your BP readings" [ref=e53] [cursor=pointer]:
+              - generic [ref=e54]:
+                - img [ref=e56]
+                - generic [ref=e59]:
+                  - generic [ref=e60]:
+                    - heading "Check Blood Pressure" [level=3] [ref=e61]
+                    - paragraph [ref=e62]: Track and categorize your BP readings
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e64]':
+                    - img [ref=e65]
+            - button "A1C to Glucose Convert A1C percentage to glucose levels" [ref=e68] [cursor=pointer]:
+              - generic [ref=e69]:
+                - img [ref=e71]
+                - generic [ref=e74]:
+                  - generic [ref=e75]:
+                    - heading "A1C to Glucose" [level=3] [ref=e76]
+                    - paragraph [ref=e77]: Convert A1C percentage to glucose levels
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e79]':
+                    - img [ref=e80]
+            - button "Mood Check Quick depression screening (PHQ-9)" [ref=e83] [cursor=pointer]:
+              - generic [ref=e84]:
+                - img [ref=e86]
+                - generic [ref=e95]:
+                  - generic [ref=e96]:
+                    - heading "Mood Check" [level=3] [ref=e97]
+                    - paragraph [ref=e98]: Quick depression screening (PHQ-9)
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e100]':
+                    - img [ref=e101]
+            - button "Anxiety Check Assess anxiety levels (GAD-7)" [ref=e104] [cursor=pointer]:
+              - generic [ref=e105]:
+                - img [ref=e107]
+                - generic [ref=e110]:
+                  - generic [ref=e111]:
+                    - heading "Anxiety Check" [level=3] [ref=e112]
+                    - paragraph [ref=e113]: Assess anxiety levels (GAD-7)
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e115]':
+                    - img [ref=e116]
+            - button "Heart Risk Comprehensive cardiovascular risk assessment" [ref=e119] [cursor=pointer]:
+              - generic [ref=e120]:
+                - img [ref=e122]
+                - generic [ref=e126]:
+                  - generic [ref=e127]:
+                    - heading "Heart Risk" [level=3] [ref=e128]
+                    - paragraph [ref=e129]: Comprehensive cardiovascular risk assessment
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e131]':
+                    - img [ref=e132]
+            - button "Breathing Check COPD assessment and monitoring" [ref=e135] [cursor=pointer]:
+              - generic [ref=e136]:
+                - img [ref=e138]
+                - generic [ref=e143]:
+                  - generic [ref=e144]:
+                    - heading "Breathing Check" [level=3] [ref=e145]
+                    - paragraph [ref=e146]: COPD assessment and monitoring
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e148]':
+                    - img [ref=e149]
+            - button "Safety Alerts Demo See Clinical Decision Support in action" [ref=e152] [cursor=pointer]:
+              - generic [ref=e153]:
+                - img [ref=e155]
+                - generic [ref=e158]:
+                  - generic [ref=e159]:
+                    - heading "Safety Alerts Demo" [level=3] [ref=e160]
+                    - paragraph [ref=e161]: See Clinical Decision Support in action
+                  - 'generic "Complete: Fully functional with proper validation" [ref=e163]':
+                    - img [ref=e164]
+        - generic [ref=e168]:
+          - img [ref=e170]
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - 'heading "New: Symptom-to-Tool Search" [level=3] [ref=e174]'
+              - button "Close info panel" [ref=e175] [cursor=pointer]:
+                - img [ref=e176]
+            - paragraph [ref=e179]: "You can now search by symptoms to quickly find relevant clinical tools and assessments. Try typing a symptom like those below:"
+            - generic [ref=e180]:
+              - generic [ref=e181]:
+                - img [ref=e182]
+                - generic [ref=e184]:
+                  - paragraph [ref=e185]: "\"shortness of breath\""
+                  - paragraph [ref=e186]: Try typing this to see heart failure and COPD tools
+              - generic [ref=e187]:
+                - img [ref=e188]
+                - generic [ref=e190]:
+                  - paragraph [ref=e191]: "\"chest pain\""
+                  - paragraph [ref=e192]: Leads to cardiovascular assessment tools
+              - generic [ref=e193]:
+                - img [ref=e194]
+                - generic [ref=e196]:
+                  - paragraph [ref=e197]: "\"anxiety\""
+                  - paragraph [ref=e198]: Shows mental health screening tools
+              - generic [ref=e199]:
+                - img [ref=e200]
+                - generic [ref=e203]:
+                  - paragraph [ref=e204]: "\"frequent urination\""
+                  - paragraph [ref=e205]: Points to diabetes and UTI assessments
+            - paragraph [ref=e207]:
+              - strong [ref=e208]: "Pro tip:"
+              - text: The search understands natural language and medical terms. It also shows urgency levels to help prioritize care.
+        - generic [ref=e210]:
+          - generic [ref=e211]:
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - heading "Clinical Search & Symptom Assessment" [level=3] [ref=e215]
+                - paragraph [ref=e216]: Search with medical terminology, ICD-10 codes, or patient-friendly terms. Includes red flags and clinical decision support.
+              - button "Search Tips" [ref=e217] [cursor=pointer]:
+                - img [ref=e218]
+                - generic [ref=e220]: Search Tips
+            - generic [ref=e222]:
+              - img [ref=e223]
+              - textbox "Search conditions or describe symptoms..." [ref=e226]
+            - generic [ref=e227]:
+              - generic [ref=e228]: "Try clinical terms:"
+              - button "\"dyspnea\"" [ref=e229] [cursor=pointer]
+              - button "\"chest pain\"" [ref=e230] [cursor=pointer]
+              - button "\"hemoptysis\"" [ref=e231] [cursor=pointer]
+              - button "\"polyuria\"" [ref=e232] [cursor=pointer]
+              - button "\"ankle pain\"" [ref=e233] [cursor=pointer]
+              - button "\"palpitations\"" [ref=e234] [cursor=pointer]
+              - button "\"R06.02\"" [ref=e235] [cursor=pointer]
+              - button "\"atrial fibrillation\"" [ref=e236] [cursor=pointer]
+          - generic [ref=e237]:
+            - heading "Filter & Sort" [level=3] [ref=e239]
+            - generic [ref=e240]:
+              - generic [ref=e241]:
+                - generic [ref=e242]: Filter conditions by category
+                - generic [ref=e243]:
+                  - img [ref=e244]
+                  - combobox "Filter conditions by category" [ref=e246]:
+                    - option "All Conditions" [selected]
+                    - option "Cardiovascular"
+                    - option "Endocrine"
+                    - option "Mental Health"
+                    - option "Infectious"
+                    - option "Metabolic"
+                    - option "Emergency & Orthopedic"
+              - generic [ref=e247]:
+                - generic [ref=e248]: Sort conditions
+                - generic [ref=e249]:
+                  - img [ref=e250]
+                  - combobox "Sort conditions" [ref=e253]:
+                    - option "Sort A-Z" [selected]
+                    - option "Sort by Prevalence"
+        - generic [ref=e254]:
+          - button "LOW Acute Bacterial Rhinosinusitis (ABRS) Evidence-based diagnosis and antibiotic treatment of acute bacterial sinusitis 1/6 tools complete Try tools →" [ref=e256] [cursor=pointer]:
+            - generic [ref=e257]:
+              - generic [ref=e258]:
+                - generic [ref=e259]:
+                  - generic [ref=e261]: LOW
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e262]':
+                    - img [ref=e263]
+                - heading "Acute Bacterial Rhinosinusitis (ABRS)" [level=3] [ref=e267]
+              - generic [ref=e268]:
+                - paragraph [ref=e269]: Evidence-based diagnosis and antibiotic treatment of acute bacterial sinusitis
+                - generic [ref=e270]:
+                  - generic [ref=e272]: 1/6 tools complete
+                  - generic [ref=e274]: Try tools →
+          - button "LOW Acute Uncomplicated Cystitis (UTI) Evidence-based management of urinary tract infections in adult females 1/6 tools complete Try tools →" [ref=e276] [cursor=pointer]:
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - generic [ref=e279]:
+                  - generic [ref=e281]: LOW
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e282]':
+                    - img [ref=e283]
+                - heading "Acute Uncomplicated Cystitis (UTI)" [level=3] [ref=e287]
+              - generic [ref=e288]:
+                - paragraph [ref=e289]: Evidence-based management of urinary tract infections in adult females
+                - generic [ref=e290]:
+                  - generic [ref=e292]: 1/6 tools complete
+                  - generic [ref=e294]: Try tools →
+          - button "HIGH COPD & Asthma Management Evidence-based diagnosis, staging, and treatment of chronic obstructive pulmonary disease and asthma 1/12 tools complete Try tools →" [ref=e296] [cursor=pointer]:
+            - generic [ref=e297]:
+              - generic [ref=e298]:
+                - generic [ref=e299]:
+                  - generic [ref=e300]:
+                    - img [ref=e301]
+                    - generic [ref=e303]: HIGH
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e304]':
+                    - img [ref=e305]
+                - heading "COPD & Asthma Management" [level=3] [ref=e309]
+              - generic [ref=e310]:
+                - paragraph [ref=e311]: Evidence-based diagnosis, staging, and treatment of chronic obstructive pulmonary disease and asthma
+                - generic [ref=e312]:
+                  - generic [ref=e314]: 1/12 tools complete
+                  - generic [ref=e316]: Try tools →
+          - button "MEDIUM Emergency & Orthopedic Tools Clinical prediction rules and assessment tools for emergency and orthopedic conditions 0/3 tools complete Try tools →" [ref=e318] [cursor=pointer]:
+            - generic [ref=e319]:
+              - generic [ref=e320]:
+                - generic [ref=e321]:
+                  - generic [ref=e322]:
+                    - img [ref=e323]
+                    - generic [ref=e325]: MEDIUM
+                  - 'generic "Partial: Basic functionality but missing features" [ref=e326]':
+                    - img [ref=e327]
+                - heading "Emergency & Orthopedic Tools" [level=3] [ref=e329]
+              - generic [ref=e330]:
+                - paragraph [ref=e331]: Clinical prediction rules and assessment tools for emergency and orthopedic conditions
+                - generic [ref=e332]:
+                  - generic [ref=e334]: 0/3 tools complete
+                  - generic [ref=e336]: Try tools →
+          - button "MEDIUM Generalized Anxiety Disorder (GAD) Evidence-based management of generalized anxiety disorder in adults 1/7 tools complete Try tools →" [ref=e338] [cursor=pointer]:
+            - generic [ref=e339]:
+              - generic [ref=e340]:
+                - generic [ref=e341]:
+                  - generic [ref=e343]: MEDIUM
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e344]':
+                    - img [ref=e345]
+                - heading "Generalized Anxiety Disorder (GAD)" [level=3] [ref=e349]
+              - generic [ref=e350]:
+                - paragraph [ref=e351]: Evidence-based management of generalized anxiety disorder in adults
+                - generic [ref=e352]:
+                  - generic [ref=e354]: 1/7 tools complete
+                  - generic [ref=e356]: Try tools →
+          - button "HIGH Heart Failure Management Evidence-based diagnosis, classification, and treatment of heart failure with reduced and preserved ejection fraction 0/12 tools complete Try tools →" [ref=e358] [cursor=pointer]:
+            - generic [ref=e359]:
+              - generic [ref=e360]:
+                - generic [ref=e361]:
+                  - generic [ref=e362]:
+                    - img [ref=e363]
+                    - generic [ref=e365]: HIGH
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e366]':
+                    - img [ref=e367]
+                - heading "Heart Failure Management" [level=3] [ref=e371]
+              - generic [ref=e372]:
+                - paragraph [ref=e373]: Evidence-based diagnosis, classification, and treatment of heart failure with reduced and preserved ejection fraction
+                - generic [ref=e374]:
+                  - generic [ref=e376]: 0/12 tools complete
+                  - generic [ref=e378]: Try tools →
+          - button "HIGH Hypertension Management Comprehensive guide for diagnosis and treatment of high blood pressure 2/13 tools complete Try tools →" [ref=e380] [cursor=pointer]:
+            - generic [ref=e381]:
+              - generic [ref=e382]:
+                - generic [ref=e383]:
+                  - generic [ref=e384]:
+                    - img [ref=e385]
+                    - generic [ref=e387]: HIGH
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e388]':
+                    - img [ref=e389]
+                - heading "Hypertension Management" [level=3] [ref=e393]
+              - generic [ref=e394]:
+                - paragraph [ref=e395]: Comprehensive guide for diagnosis and treatment of high blood pressure
+                - generic [ref=e396]:
+                  - generic [ref=e398]: 2/13 tools complete
+                  - generic [ref=e400]: Try tools →
+          - button "MEDIUM Hypertriglyceridemia Management Evidence-based approach to elevated triglycerides and pancreatitis prevention 1/5 tools complete Try tools →" [ref=e402] [cursor=pointer]:
+            - generic [ref=e403]:
+              - generic [ref=e404]:
+                - generic [ref=e405]:
+                  - generic [ref=e406]:
+                    - img [ref=e407]
+                    - generic [ref=e409]: MEDIUM
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e410]':
+                    - img [ref=e411]
+                - heading "Hypertriglyceridemia Management" [level=3] [ref=e415]
+              - generic [ref=e416]:
+                - paragraph [ref=e417]: Evidence-based approach to elevated triglycerides and pancreatitis prevention
+                - generic [ref=e418]:
+                  - generic [ref=e420]: 1/5 tools complete
+                  - generic [ref=e422]: Try tools →
+          - button "HIGH Major Depressive Disorder (MDD) Evidence-based diagnosis and treatment of major depressive disorder 1/9 tools complete Try tools →" [ref=e424] [cursor=pointer]:
+            - generic [ref=e425]:
+              - generic [ref=e426]:
+                - generic [ref=e427]:
+                  - generic [ref=e429]: HIGH
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e430]':
+                    - img [ref=e431]
+                - heading "Major Depressive Disorder (MDD)" [level=3] [ref=e435]
+              - generic [ref=e436]:
+                - paragraph [ref=e437]: Evidence-based diagnosis and treatment of major depressive disorder
+                - generic [ref=e438]:
+                  - generic [ref=e440]: 1/9 tools complete
+                  - generic [ref=e442]: Try tools →
+          - button "HIGH Type 2 Diabetes Management Comprehensive guide for diagnosis and treatment of type 2 diabetes mellitus 2/13 tools complete Try tools →" [ref=e444] [cursor=pointer]:
+            - generic [ref=e445]:
+              - generic [ref=e446]:
+                - generic [ref=e447]:
+                  - generic [ref=e449]: HIGH
+                  - 'generic "Incomplete: Not functional or has major issues" [ref=e450]':
+                    - img [ref=e451]
+                - heading "Type 2 Diabetes Management" [level=3] [ref=e455]
+              - generic [ref=e456]:
+                - paragraph [ref=e457]: Comprehensive guide for diagnosis and treatment of type 2 diabetes mellitus
+                - generic [ref=e458]:
+                  - generic [ref=e460]: 2/13 tools complete
+                  - generic [ref=e462]: Try tools →
+        - generic [ref=e463]:
+          - generic [ref=e464]:
+            - generic [ref=e465]: "10"
+            - generic [ref=e466]: Conditions
+            - generic [ref=e467]: Available for reference
+          - generic [ref=e468]:
+            - generic [ref=e469]: "86"
+            - generic [ref=e470]: Tools
+            - generic [ref=e471]: Calculators & assessments
+          - generic [ref=e472]:
+            - generic [ref=e473]: 100%
+            - generic [ref=e474]: Evidence-based
+            - generic [ref=e475]: Current clinical guidelines
+    - contentinfo [ref=e476]:
+      - generic [ref=e477]:
+        - generic [ref=e478]:
+          - generic [ref=e479]:
+            - generic [ref=e480]:
+              - img [ref=e482]
+              - generic [ref=e486]:
+                - heading "Clinical Wizard" [level=3] [ref=e487]
+                - paragraph [ref=e488]: Educational Medical Reference
+            - paragraph [ref=e489]: A comprehensive, evidence-based clinical reference application for healthcare professionals, students, and anyone interested in medical knowledge.
+            - generic [ref=e491]:
+              - img [ref=e492]
+              - generic [ref=e494]:
+                - heading "Educational Use Only" [level=4] [ref=e495]
+                - paragraph [ref=e496]: This application is for educational and informational purposes only. Always consult healthcare professionals for medical advice.
+          - generic [ref=e497]:
+            - heading "Legal Information" [level=4] [ref=e498]
+            - list [ref=e499]:
+              - listitem [ref=e500]:
+                - button "Medical Disclaimer" [ref=e501] [cursor=pointer]:
+                  - img [ref=e503]
+                  - text: Medical Disclaimer
+              - listitem [ref=e505]:
+                - button "Terms of Service" [ref=e506] [cursor=pointer]:
+                  - img [ref=e508]
+                  - text: Terms of Service
+              - listitem [ref=e511]:
+                - button "Privacy Policy" [ref=e512] [cursor=pointer]:
+                  - img [ref=e514]
+                  - text: Privacy Policy
+          - generic [ref=e517]:
+            - heading "Evidence-Based Sources" [level=4] [ref=e518]
+            - list [ref=e519]:
+              - listitem [ref=e520]:
+                - img [ref=e521]
+                - generic [ref=e525]: American Heart Association (AHA)
+              - listitem [ref=e526]:
+                - img [ref=e527]
+                - generic [ref=e531]: American College of Cardiology (ACC)
+              - listitem [ref=e532]:
+                - img [ref=e533]
+                - generic [ref=e537]: American Diabetes Association (ADA)
+              - listitem [ref=e538]:
+                - img [ref=e539]
+                - generic [ref=e543]: American Psychological Association (APA)
+              - listitem [ref=e544]:
+                - img [ref=e545]
+                - generic [ref=e549]: Infectious Diseases Society (IDSA)
+              - listitem [ref=e550]:
+                - img [ref=e551]
+                - generic [ref=e555]: NICE Guidelines
+        - generic [ref=e556]:
+          - generic [ref=e557]:
+            - generic [ref=e558]: © 2025 Clinical Wizard. All rights reserved.
+            - generic [ref=e559]:
+              - generic [ref=e560]: Version 1.0.0
+              - generic [ref=e561]: •
+              - generic [ref=e562]: Built with ❤️ for healthcare education
+          - paragraph [ref=e564]: This application is for educational purposes only and is not intended to replace professional medical advice, diagnosis, or treatment. Always seek the advice of qualified healthcare providers with any questions you may have regarding a medical condition.
+    - button "Open accessibility settings" [ref=e565] [cursor=pointer]:
+      - img [ref=e566]
+  - generic [ref=e571]:
+    - generic [ref=e572]:
+      - generic [ref=e573]:
+        - heading "Legal Requirements" [level=2] [ref=e574]
+        - paragraph [ref=e575]: Please review and accept our legal documents
+      - button "Close modal" [ref=e576] [cursor=pointer]:
+        - img [ref=e577]
+    - generic [ref=e580]:
+      - img [ref=e583]
+      - generic [ref=e585]:
+        - paragraph [ref=e587]: Before using Clinical Wizard, please review and accept our legal documents. These protect both you and us, and ensure you understand how to use this educational tool safely.
+        - generic [ref=e588]:
+          - generic [ref=e590]:
+            - generic [ref=e591]:
+              - img [ref=e592]
+              - generic [ref=e594]:
+                - heading "Medical Disclaimer" [level=3] [ref=e595]
+                - paragraph [ref=e596]: Important medical and educational limitations
+            - button "Read & Accept" [ref=e598] [cursor=pointer]
+          - generic [ref=e600]:
+            - generic [ref=e601]:
+              - img [ref=e602]
+              - generic [ref=e605]:
+                - heading "Terms of Service" [level=3] [ref=e606]
+                - paragraph [ref=e607]: Usage guidelines and service boundaries
+            - button "Read & Accept" [ref=e609] [cursor=pointer]
+          - generic [ref=e611]:
+            - generic [ref=e612]:
+              - img [ref=e613]
+              - generic [ref=e616]:
+                - heading "Privacy Policy" [level=3] [ref=e617]
+                - paragraph [ref=e618]: How we handle your data and privacy
+            - button "Read & Accept" [ref=e620] [cursor=pointer]
+        - generic [ref=e622]:
+          - generic [ref=e623]: Progress
+          - generic [ref=e624]: 0 of 3 completed
+        - generic [ref=e627]:
+          - img [ref=e628]
+          - paragraph [ref=e631]:
+            - strong [ref=e632]: "Legal Requirement:"
+            - text: You must accept all three documents to use Clinical Wizard. This ensures you understand the educational nature of this tool and your responsibilities when using it.
+    - generic [ref=e634]:
+      - button "Accept All Required Documents" [disabled] [ref=e635]
+      - generic [ref=e636]: You must accept all legal documents to use the application
+```

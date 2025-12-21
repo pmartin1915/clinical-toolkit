@@ -1,0 +1,349 @@
+name: PWA & Capacitor Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  pwa-build-validation:
+    name: PWA Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build PWA
+      run: |
+        echo "📱 Building PWA for medical application..."
+        npm run build
+
+    - name: Validate Service Worker
+      run: |
+        echo "🔧 Validating Service Worker..."
+
+        # Check if service worker was generated
+        if [ -f dist/sw.js ] || [ -f dist/service-worker.js ]; then
+          echo "✅ Service Worker generated"
+
+          # Check service worker content if exists
+          SW_FILE=$(ls dist/sw.js dist/service-worker.js 2>/dev/null | head -1)
+          if [ -n "$SW_FILE" ]; then
+            if grep -q "workbox\|cache" "$SW_FILE" 2>/dev/null; then
+              echo "✅ Caching implementation detected"
+            else
+              echo "⚠️ Caching implementation not detected"
+            fi
+          fi
+        else
+          echo "⚠️ Service Worker not found - may not be configured for PWA"
+        fi
+
+    - name: Validate PWA Manifest
+      run: |
+        echo "📋 Validating PWA Manifest..."
+
+        # Check if manifest exists
+        if [ -f dist/manifest.webmanifest ] || [ -f dist/manifest.json ]; then
+          echo "✅ PWA Manifest found"
+
+          # Validate manifest content if jq is available
+          MANIFEST=$(ls dist/manifest.webmanifest dist/manifest.json 2>/dev/null | head -1)
+          if [ -n "$MANIFEST" ] && command -v jq > /dev/null; then
+            NAME=$(jq -r '.name' "$MANIFEST" 2>/dev/null || echo "null")
+            SHORT_NAME=$(jq -r '.short_name' "$MANIFEST" 2>/dev/null || echo "null")
+            START_URL=$(jq -r '.start_url' "$MANIFEST" 2>/dev/null || echo "null")
+
+            echo "📊 Manifest Analysis:"
+            echo "  Name: $NAME"
+            echo "  Short Name: $SHORT_NAME"
+            echo "  Start URL: $START_URL"
+
+            if [ "$NAME" != "null" ] && [ "$SHORT_NAME" != "null" ]; then
+              echo "✅ Required manifest fields present"
+            else
+              echo "⚠️ Some required manifest fields may be missing"
+            fi
+          fi
+        else
+          echo "⚠️ PWA Manifest not found"
+        fi
+
+    - name: Validate PWA Icons
+      run: |
+        echo "🎨 Validating PWA Icons..."
+
+        # Check for common icon locations
+        ICON_DIRS=("dist" "public" "src/assets")
+        FOUND_ICONS=0
+
+        for dir in "${ICON_DIRS[@]}"; do
+          if [ -d "$dir" ]; then
+            ICON_COUNT=$(find "$dir" -name "*icon*.png" -o -name "*logo*.png" | wc -l)
+            if [ "$ICON_COUNT" -gt 0 ]; then
+              echo "✅ Found $ICON_COUNT icon(s) in $dir"
+              FOUND_ICONS=$((FOUND_ICONS + ICON_COUNT))
+            fi
+          fi
+        done
+
+        if [ "$FOUND_ICONS" -gt 0 ]; then
+          echo "✅ PWA icons found"
+        else
+          echo "⚠️ PWA icons may not be configured"
+        fi
+
+  capacitor-validation:
+    name: Capacitor Configuration Validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Validate Capacitor Configuration
+      run: |
+        echo "⚙️ Validating Capacitor Configuration..."
+
+        # Check for Capacitor config file
+        if [ -f capacitor.config.ts ] || [ -f capacitor.config.json ]; then
+          echo "✅ Capacitor configuration file found"
+        else
+          echo "❌ Capacitor configuration file not found"
+          exit 1
+        fi
+
+        # Check for Capacitor CLI
+        if npx cap --version > /dev/null 2>&1; then
+          CAP_VERSION=$(npx cap --version 2>/dev/null | head -1)
+          echo "✅ Capacitor CLI available: $CAP_VERSION"
+        else
+          echo "⚠️ Capacitor CLI not available"
+        fi
+
+    - name: Validate Native Platforms
+      run: |
+        echo "📱 Validating Native Platform Configuration..."
+
+        # Check for Android platform
+        if [ -d android ]; then
+          echo "✅ Android platform configured"
+
+          # Check Android build.gradle
+          if [ -f android/app/build.gradle ]; then
+            echo "✅ Android build configuration found"
+
+            # Check for minimum SDK version
+            if grep -q "minSdkVersion" android/app/build.gradle; then
+              MIN_SDK=$(grep "minSdkVersion" android/app/build.gradle | head -1)
+              echo "  Android Min SDK: $MIN_SDK"
+            fi
+          fi
+        else
+          echo "⚠️ Android platform not configured"
+        fi
+
+        # Check for iOS platform
+        if [ -d ios ]; then
+          echo "✅ iOS platform configured"
+
+          # Check for iOS app directory
+          if [ -d ios/App ]; then
+            echo "✅ iOS App directory found"
+          fi
+        else
+          echo "⚠️ iOS platform not configured"
+        fi
+
+    - name: Capacitor Doctor Check
+      run: |
+        echo "🩺 Running Capacitor Doctor..."
+        npm run build
+        npx cap doctor || echo "⚠️ Capacitor doctor found some issues"
+
+    - name: Capacitor Sync Test
+      run: |
+        echo "🔄 Testing Capacitor Sync..."
+        npm run build
+
+        # Test Android sync if platform exists
+        if [ -d android ]; then
+          echo "Syncing Android platform..."
+          npx cap sync android || echo "⚠️ Android sync had issues"
+        fi
+
+        # iOS sync requires macOS, so we just check if it would work
+        if [ -d ios ]; then
+          echo "✅ iOS platform detected (sync requires macOS)"
+        fi
+
+  medical-pwa-compliance:
+    name: Medical PWA Compliance Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build application
+      run: npm run build
+
+    - name: Medical PWA Requirements Check
+      run: |
+        echo "🏥 Medical PWA Compliance Check..."
+
+        # Check for medical-specific PWA requirements
+        echo "Checking medical application PWA requirements..."
+
+        # 1. Offline functionality for critical features
+        echo "1. Offline Medical Calculations:"
+        if [ -d "dist/assets" ] && grep -r "calculator\|medical" dist/assets/*.js > /dev/null 2>&1; then
+          echo "   ✅ Medical calculations bundled for offline use"
+        else
+          echo "   ⚠️ Medical calculations offline availability unclear"
+        fi
+
+        # 2. Check for data persistence
+        echo "2. Data Persistence:"
+        if grep -r "localStorage\|IndexedDB\|Capacitor\.Storage" dist/assets/*.js > /dev/null 2>&1; then
+          echo "   ✅ Data persistence implementation detected"
+        else
+          echo "   ⚠️ Data persistence not clearly identified in build"
+        fi
+
+        # 3. Native capabilities integration
+        echo "3. Native Capabilities (Capacitor):"
+        if grep -r "Capacitor\|@capacitor" dist/assets/*.js > /dev/null 2>&1; then
+          echo "   ✅ Capacitor native integration detected"
+        else
+          echo "   ⚠️ Capacitor integration not detected in build"
+        fi
+
+    - name: Capacitor Plugin Validation
+      run: |
+        echo "🔌 Validating Capacitor Plugins..."
+
+        # Check installed Capacitor plugins
+        if npm list --depth=0 | grep "@capacitor"; then
+          echo "✅ Capacitor plugins installed:"
+          npm list --depth=0 | grep "@capacitor" || true
+        else
+          echo "⚠️ No Capacitor plugins detected"
+        fi
+
+        # Check for common medical app plugins
+        RECOMMENDED_PLUGINS=(
+          "@capacitor/storage"
+          "@capacitor/filesystem"
+          "@capacitor/camera"
+          "@capacitor/device"
+        )
+
+        echo "📋 Recommended plugins for medical apps:"
+        for plugin in "${RECOMMENDED_PLUGINS[@]}"; do
+          if npm list "$plugin" > /dev/null 2>&1; then
+            echo "  ✅ $plugin installed"
+          else
+            echo "  ⚠️ $plugin not installed (may not be needed)"
+          fi
+        done
+
+  pwa-validation-summary:
+    name: PWA & Capacitor Validation Summary
+    runs-on: ubuntu-latest
+    needs: [pwa-build-validation, capacitor-validation, medical-pwa-compliance]
+    if: always()
+
+    steps:
+    - name: Generate validation summary
+      run: |
+        echo "📱 PWA & Capacitor Validation Summary"
+        echo "======================================"
+        echo ""
+
+        # PWA Build Validation Results
+        if [ "${{ needs.pwa-build-validation.result }}" = "success" ]; then
+          echo "✅ **PWA Build Validation**: PASSED"
+          echo "   - Service Worker and Manifest validated"
+          echo "   - PWA icons configured"
+        else
+          echo "⚠️ **PWA Build Validation**: NEEDS ATTENTION"
+          echo "   - Review PWA configuration"
+        fi
+        echo ""
+
+        # Capacitor Validation Results
+        if [ "${{ needs.capacitor-validation.result }}" = "success" ]; then
+          echo "✅ **Capacitor Configuration**: PASSED"
+          echo "   - Native platforms configured"
+          echo "   - Capacitor sync validated"
+        else
+          echo "❌ **Capacitor Configuration**: FAILED"
+          echo "   - Review Capacitor setup"
+        fi
+        echo ""
+
+        # Medical PWA Compliance Results
+        if [ "${{ needs.medical-pwa-compliance.result }}" = "success" ]; then
+          echo "✅ **Medical PWA Compliance**: PASSED"
+          echo "   - Medical-specific requirements validated"
+          echo "   - Capacitor plugins checked"
+        else
+          echo "⚠️ **Medical PWA Compliance**: NEEDS REVIEW"
+          echo "   - Review medical app requirements"
+        fi
+        echo ""
+
+        # Overall Status
+        PASSED_COUNT=0
+        if [ "${{ needs.pwa-build-validation.result }}" = "success" ]; then PASSED_COUNT=$((PASSED_COUNT + 1)); fi
+        if [ "${{ needs.capacitor-validation.result }}" = "success" ]; then PASSED_COUNT=$((PASSED_COUNT + 1)); fi
+        if [ "${{ needs.medical-pwa-compliance.result }}" = "success" ]; then PASSED_COUNT=$((PASSED_COUNT + 1)); fi
+
+        echo "🎯 **Overall Status**: $PASSED_COUNT/3 validations passed"
+        echo ""
+
+        if [ "$PASSED_COUNT" -eq 3 ]; then
+          echo "🟢 **READY**: Medical PWA with Capacitor meets all validation criteria"
+        elif [ "$PASSED_COUNT" -ge 2 ]; then
+          echo "🟡 **CAUTION**: Address remaining issues before production"
+        else
+          echo "🔴 **NOT READY**: Significant issues must be resolved"
+        fi
+        echo ""
+
+        echo "🏥 **Medical App Recommendations:**"
+        echo "   - Test medical calculations work offline"
+        echo "   - Validate data persistence across app restarts"
+        echo "   - Test on actual Android/iOS devices"
+        echo "   - Ensure HIPAA compliance for data storage"

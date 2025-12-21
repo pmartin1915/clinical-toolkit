@@ -2,11 +2,30 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { COPDAssessment } from '../COPDAssessment';
-import { storageManager } from '../../../utils/storage';
+
+const mockSaveAssessment = vi.fn();
+const mockGenerateId = vi.fn(() => 'test-id-456');
+
+vi.mock('../../../store/clinicalStore', () => ({
+  useClinicalStore: Object.assign(
+    vi.fn(() => ({
+      saveAssessment: mockSaveAssessment,
+      generateId: mockGenerateId
+    })),
+    {
+      getState: () => ({
+        saveAssessment: mockSaveAssessment,
+        generateId: mockGenerateId
+      })
+    }
+  )
+}));
 
 describe('COPDAssessment', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSaveAssessment.mockResolvedValue(undefined);
+    mockGenerateId.mockReturnValue('test-id-456');
   });
 
   it('renders the initial COPD assessment interface', () => {
@@ -110,7 +129,7 @@ describe('COPDAssessment', () => {
     await user.click(screen.getByText('Save Results'));
     
     await waitFor(() => {
-      expect(storageManager.saveAssessment).toHaveBeenCalledWith(
+      expect(mockSaveAssessment).toHaveBeenCalledWith(
         expect.objectContaining({
           conditionId: 'copd',
           toolId: 'cat',

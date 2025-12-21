@@ -1,5 +1,6 @@
 import React, { type ErrorInfo, type ReactNode } from 'react';
 import { AlertTriangle, Shield, RefreshCw, FileText } from 'lucide-react';
+import { sanitizeErrorMessage } from '../../utils/security/piiMasking';
 
 interface ClinicalErrorBoundaryState {
   hasError: boolean;
@@ -36,12 +37,16 @@ export class ClinicalErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     const errorId = this.state.errorId || `ERR-${Date.now()}`;
-    
+
+    // Sanitize error messages to prevent PHI exposure
+    const sanitizedMessage = sanitizeErrorMessage(error);
+    const sanitizedStack = error.stack ? sanitizeErrorMessage(error.stack) : undefined;
+
     console.error(`Clinical Tool Error [${errorId}]:`, {
       tool: this.props.toolName,
-      error: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
+      error: sanitizedMessage,
+      stack: sanitizedStack,
+      componentStack: errorInfo.componentStack ? sanitizeErrorMessage(errorInfo.componentStack) : undefined,
       timestamp: new Date().toISOString(),
       errorId
     });

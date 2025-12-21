@@ -1,0 +1,3 @@
+# Netlify local state and cache
+state.json
+.netlify/state.json

@@ -1,0 +1,135 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - generic [ref=e8]:
+            - img [ref=e10]
+            - generic [ref=e14]:
+              - heading "Clinical Wizard" [level=1] [ref=e15]
+              - paragraph [ref=e16]: Evidence-based clinical reference
+          - navigation [ref=e17]:
+            - button "Conditions" [ref=e18] [cursor=pointer]:
+              - img [ref=e20]
+              - text: Conditions
+            - button "Patients" [ref=e23] [cursor=pointer]:
+              - img [ref=e25]
+              - text: Patients
+        - generic [ref=e30]:
+          - button "Tour" [ref=e31] [cursor=pointer]:
+            - img [ref=e33]
+            - text: Tour
+          - generic "Online" [ref=e37]:
+            - img [ref=e38]
+            - generic [ref=e42]: Online
+    - main [ref=e43]:
+      - paragraph [ref=e47]: Loading...
+    - contentinfo [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]:
+              - img [ref=e54]
+              - generic [ref=e58]:
+                - heading "Clinical Wizard" [level=3] [ref=e59]
+                - paragraph [ref=e60]: Educational Medical Reference
+            - paragraph [ref=e61]: A comprehensive, evidence-based clinical reference application for healthcare professionals, students, and anyone interested in medical knowledge.
+            - generic [ref=e63]:
+              - img [ref=e64]
+              - generic [ref=e66]:
+                - heading "Educational Use Only" [level=4] [ref=e67]
+                - paragraph [ref=e68]: This application is for educational and informational purposes only. Always consult healthcare professionals for medical advice.
+          - generic [ref=e69]:
+            - heading "Legal Information" [level=4] [ref=e70]
+            - list [ref=e71]:
+              - listitem [ref=e72]:
+                - button "Medical Disclaimer" [ref=e73] [cursor=pointer]:
+                  - img [ref=e75]
+                  - text: Medical Disclaimer
+              - listitem [ref=e77]:
+                - button "Terms of Service" [ref=e78] [cursor=pointer]:
+                  - img [ref=e80]
+                  - text: Terms of Service
+              - listitem [ref=e83]:
+                - button "Privacy Policy" [ref=e84] [cursor=pointer]:
+                  - img [ref=e86]
+                  - text: Privacy Policy
+          - generic [ref=e89]:
+            - heading "Evidence-Based Sources" [level=4] [ref=e90]
+            - list [ref=e91]:
+              - listitem [ref=e92]:
+                - img [ref=e93]
+                - generic [ref=e97]: American Heart Association (AHA)
+              - listitem [ref=e98]:
+                - img [ref=e99]
+                - generic [ref=e103]: American College of Cardiology (ACC)
+              - listitem [ref=e104]:
+                - img [ref=e105]
+                - generic [ref=e109]: American Diabetes Association (ADA)
+              - listitem [ref=e110]:
+                - img [ref=e111]
+                - generic [ref=e115]: American Psychological Association (APA)
+              - listitem [ref=e116]:
+                - img [ref=e117]
+                - generic [ref=e121]: Infectious Diseases Society (IDSA)
+              - listitem [ref=e122]:
+                - img [ref=e123]
+                - generic [ref=e127]: NICE Guidelines
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - generic [ref=e130]: © 2025 Clinical Wizard. All rights reserved.
+            - generic [ref=e131]:
+              - generic [ref=e132]: Version 1.0.0
+              - generic [ref=e133]: •
+              - generic [ref=e134]: Built with ❤️ for healthcare education
+          - paragraph [ref=e136]: This application is for educational purposes only and is not intended to replace professional medical advice, diagnosis, or treatment. Always seek the advice of qualified healthcare providers with any questions you may have regarding a medical condition.
+    - button "Open accessibility settings" [ref=e137] [cursor=pointer]:
+      - img [ref=e138]
+  - generic [ref=e143]:
+    - generic [ref=e144]:
+      - generic [ref=e145]:
+        - heading "Legal Requirements" [level=2] [ref=e146]
+        - paragraph [ref=e147]: Please review and accept our legal documents
+      - button "Close modal" [ref=e148] [cursor=pointer]:
+        - img [ref=e149]
+    - generic [ref=e152]:
+      - img [ref=e155]
+      - generic [ref=e157]:
+        - paragraph [ref=e159]: Before using Clinical Wizard, please review and accept our legal documents. These protect both you and us, and ensure you understand how to use this educational tool safely.
+        - generic [ref=e160]:
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - img [ref=e164]
+              - generic [ref=e166]:
+                - heading "Medical Disclaimer" [level=3] [ref=e167]
+                - paragraph [ref=e168]: Important medical and educational limitations
+            - button "Read & Accept" [ref=e170] [cursor=pointer]
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - img [ref=e174]
+              - generic [ref=e177]:
+                - heading "Terms of Service" [level=3] [ref=e178]
+                - paragraph [ref=e179]: Usage guidelines and service boundaries
+            - button "Read & Accept" [ref=e181] [cursor=pointer]
+          - generic [ref=e183]:
+            - generic [ref=e184]:
+              - img [ref=e185]
+              - generic [ref=e188]:
+                - heading "Privacy Policy" [level=3] [ref=e189]
+                - paragraph [ref=e190]: How we handle your data and privacy
+            - button "Read & Accept" [ref=e192] [cursor=pointer]
+        - generic [ref=e194]:
+          - generic [ref=e195]: Progress
+          - generic [ref=e196]: 0 of 3 completed
+        - generic [ref=e199]:
+          - img [ref=e200]
+          - paragraph [ref=e203]:
+            - strong [ref=e204]: "Legal Requirement:"
+            - text: You must accept all three documents to use Clinical Wizard. This ensures you understand the educational nature of this tool and your responsibilities when using it.
+    - generic [ref=e206]:
+      - button "Accept All Required Documents" [disabled] [ref=e207]
+      - generic [ref=e208]: You must accept all legal documents to use the application
+```

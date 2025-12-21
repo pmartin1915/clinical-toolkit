@@ -7,6 +7,13 @@ import type {
   VitalSigns,
   GoalTracking
 } from '../types/storage';
+import {
+  maskPatientPII,
+  createSafeDisplayName,
+  createSafeDisplayNameWithMRN,
+  sanitizeErrorMessage,
+  createAuditLogEntry
+} from './security/piiMasking';
 
 interface EmailOptions {
   to: string;
@@ -36,9 +43,13 @@ export class EnhancedExportManager {
 
   // Enhanced PDF Generation with Templates
   public static async generateEnhancedPatientReport(
-    data: ExportData, 
+    data: ExportData,
     options: PDFOptions = {}
   ): Promise<Blob> {
+    // Mask patient PII for HIPAA compliance
+    const maskedPatient = await maskPatientPII(data.patientProfile);
+    const maskedDisplayName = createSafeDisplayNameWithMRN(maskedPatient);
+
     const pdf = new jsPDF();
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
@@ -104,13 +115,13 @@ export class EnhancedExportManager {
     // Executive Summary (for provider template)
     if (opts.template === 'provider' || opts.template === 'summary') {
       addSection('Executive Summary');
-      const summary = this.generateExecutiveSummary(data);
+      const summary = await this.generateExecutiveSummary(data);
       yPosition = addText(summary, margin, yPosition, pageWidth - 2 * margin);
     }
 
-    // Patient Information
+    // Patient Information (with masked PII)
     addSection('Patient Information');
-    yPosition = this.addPatientInfo(pdf, data.patientProfile, margin, yPosition, pageWidth);
+    yPosition = this.addPatientInfo(pdf, data.patientProfile, margin, yPosition, pageWidth, maskedPatient);
 
     // Health Indicators Dashboard
     if (opts.template === 'detailed' && opts.includeCharts) {
@@ -212,22 +223,26 @@ export class EnhancedExportManager {
     }
   }
 
-  private static generateExecutiveSummary(data: ExportData): string {
+  private static async generateExecutiveSummary(data: ExportData): Promise<string> {
     const patient = data.patientProfile;
+    const maskedPatient = await maskPatientPII(patient);
+    const maskedDisplayName = createSafeDisplayName(maskedPatient);
+
     const recentAssessments = data.assessments
       .filter(a => new Date(a.timestamp) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
       .length;
-    
+
     const vitalTrends = this.analyzeVitalTrends(data.vitals);
     const goalProgress = this.analyzeGoalProgress(data.goals);
 
-    return `Patient ${patient.firstName} ${patient.lastName} (DOB: ${format(new Date(patient.dateOfBirth), 'MMM dd, yyyy')}) 
-has ${patient.conditions.length} documented condition(s): ${patient.conditions.join(', ')}. 
-${recentAssessments} assessment(s) completed in the last 30 days. 
+    // Use masked patient identifiers - HIPAA compliant
+    return `Patient ${maskedDisplayName}
+has ${patient.conditions.length} documented condition(s): ${patient.conditions.join(', ')}.
+${recentAssessments} assessment(s) completed in the last 30 days.
 Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
   }
 
-  private static addPatientInfo(pdf: jsPDF, patient: PatientProfile, margin: number, yPosition: number, pageWidth: number): number {
+  private static addPatientInfo(pdf: jsPDF, patient: PatientProfile, margin: number, yPosition: number, pageWidth: number, maskedPatient: Awaited<ReturnType<typeof maskPatientPII>>): number {
     // Create a bordered info box
     pdf.setDrawColor(this.SECONDARY_COLOR);
     pdf.setFillColor(248, 250, 252);
@@ -235,29 +250,36 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
     pdf.roundedRect(margin, yPosition, pageWidth - 2 * margin, boxHeight, 3, 3, 'FD');
 
     yPosition += 10;
-    
+
     // Two column layout
     const colWidth = (pageWidth - 2 * margin - 20) / 2;
-    
+
     pdf.setFontSize(10);
+    // Use masked patient identifiers - HIPAA compliant
     pdf.setFont('helvetica', 'bold');
-    pdf.text('Name:', margin + 10, yPosition);
+    pdf.text('Patient:', margin + 10, yPosition);
     pdf.setFont('helvetica', 'normal');
-    pdf.text(`${patient.firstName} ${patient.lastName}`, margin + 40, yPosition);
+    pdf.text(maskedPatient.displayInitials, margin + 50, yPosition);
 
     pdf.setFont('helvetica', 'bold');
-    pdf.text('DOB:', margin + colWidth + 10, yPosition);
+    pdf.text('Age Group:', margin + colWidth + 10, yPosition);
     pdf.setFont('helvetica', 'normal');
-    pdf.text(format(new Date(patient.dateOfBirth), 'MMM dd, yyyy'), margin + colWidth + 35, yPosition);
+    pdf.text(maskedPatient.ageGroup, margin + colWidth + 60, yPosition);
 
     yPosition += 12;
 
-    if (patient.medicalRecordNumber) {
+    if (maskedPatient.maskedMRN) {
       pdf.setFont('helvetica', 'bold');
       pdf.text('MRN:', margin + 10, yPosition);
       pdf.setFont('helvetica', 'normal');
-      pdf.text(patient.medicalRecordNumber, margin + 40, yPosition);
+      pdf.text(maskedPatient.maskedMRN, margin + 50, yPosition);
     }
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('Patient ID:', margin + colWidth + 10, yPosition);
+    pdf.setFont('helvetica', 'normal');
+    const shortHashedId = maskedPatient.hashedId.substring(0, 12) + '...';
+    pdf.text(shortHashedId, margin + colWidth + 60, yPosition);
 
     yPosition += 12;
 
@@ -327,21 +349,23 @@ Vital signs trend: ${vitalTrends}. Goal completion rate: ${goalProgress}%.`;
 
   // Email Integration
   public static async sendReportByEmail(
-    reportBlob: Blob, 
-    _filename: string, 
+    reportBlob: Blob,
+    _filename: string,
     options: EmailOptions
   ): Promise<boolean> {
     try {
       // Create email with attachment
       this.createEmailWithAttachment(reportBlob);
-      
+
       // Use mailto for now - can be enhanced with actual email service
       const mailtoLink = this.generateMailtoLink(options);
       window.open(mailtoLink);
-      
+
       return true;
     } catch (error) {
-      console.error('Email send failed:', error);
+      // Sanitize error message to prevent PHI exposure
+      const sanitizedError = sanitizeErrorMessage(error as Error);
+      console.error('Email send failed:', sanitizedError);
       return false;
     }
   }

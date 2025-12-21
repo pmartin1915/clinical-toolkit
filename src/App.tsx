@@ -5,9 +5,11 @@ import { WelcomeModal } from './components/ui/WelcomeModal';
 import { GuidedTour } from './components/ui/GuidedTour';
 import { AccessibilityControls } from './components/ui/AccessibilityControls';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { storageManager } from './utils/storage';
 import { syncManager } from './utils/syncManager';
 import { needsLegalConsent } from './utils/legalConsent';
+import { migrateFromStorageManager, checkMigrationStatus } from './utils/dataMigration';
+import { useClinicalStore } from './store/clinicalStore';
+import { initWebVitals } from './utils/performance/webVitals';
 
 // Lazy load heavy components
 const Dashboard = lazy(() => import('./pages/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -45,8 +47,20 @@ function App() {
   const [showTour, setShowTour] = useState(false);
 
   useEffect(() => {
+    // Migrate old data if needed
+    const migrationStatus = checkMigrationStatus();
+    if (!migrationStatus.migrated && migrationStatus.hasOldData) {
+      console.info('🔄 Migrating data to encrypted storage...');
+      const result = migrateFromStorageManager();
+      if (result.success) {
+        console.info(`✅ Migration successful! Migrated ${result.migratedCount} items`);
+      } else {
+        console.error('❌ Migration failed:', result.errors);
+      }
+    }
+
     // Check if user needs legal consent or this is a first-time visitor
-    if (needsLegalConsent() || storageManager.isFirstVisit()) {
+    if (needsLegalConsent() || useClinicalStore.getState().isFirstVisit()) {
       setShowWelcome(true);
     }
 
@@ -55,6 +69,12 @@ function App() {
       if (hasUpdates) {
         console.log('App update available');
       }
+    });
+
+    // Initialize Web Vitals tracking
+    initWebVitals({
+      reportToConsole: import.meta.env.DEV,
+      reportToLocalStorage: import.meta.env.DEV,
     });
   }, []);
 
@@ -72,18 +92,18 @@ function App() {
 
   const handleWelcomeClose = () => {
     setShowWelcome(false);
-    storageManager.markWelcomed();
+    useClinicalStore.getState().markWelcomed();
     
     // Show tour after welcome modal if user hasn't completed it
     setTimeout(() => {
-      if (storageManager.shouldShowTour()) {
+      if (useClinicalStore.getState().shouldShowTour()) {
         setShowTour(true);
       }
     }, 500);
   };
 
   const handleTourComplete = () => {
-    storageManager.markTourCompleted();
+    useClinicalStore.getState().markTourCompleted();
   };
 
   const renderContent = () => {

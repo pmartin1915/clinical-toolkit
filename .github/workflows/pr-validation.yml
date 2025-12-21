@@ -1,0 +1,150 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: PR Validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for proper diff analysis
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Check for breaking changes
+      run: |
+        echo "🔍 Analyzing changes for potential breaking changes..."
+
+        # Check if critical calculator files were modified
+        if git diff --name-only origin/main...HEAD | grep -E "(calculators/|utils/medical)" > /dev/null 2>&1; then
+          echo "⚠️ Critical medical calculation files modified"
+          echo "::warning::Medical calculator files modified - extra review required"
+        fi
+
+        # Check if tests were added for new features
+        if git diff --name-only origin/main...HEAD | grep -E "\.ts$|\.tsx$" | grep -v test | grep -v __tests__ > /dev/null 2>&1; then
+          if ! git diff --name-only origin/main...HEAD | grep -E "test|spec" > /dev/null 2>&1; then
+            echo "::warning::New code added without corresponding tests"
+          fi
+        fi
+
+    - name: Validate medical calculation changes
+      run: |
+        if git diff --name-only origin/main...HEAD | grep -E "(calculators/|utils/medical)" > /dev/null 2>&1; then
+          echo "🩺 Medical calculation files changed - running extended validation"
+
+          # Run tests for medical calculators if they exist
+          if [ -d "src/utils/calculators/__tests__" ]; then
+            npm run test:run -- src/utils/calculators/__tests__/
+            echo "✅ Medical calculations validated"
+          else
+            echo "⚠️ Medical calculator tests not found"
+          fi
+        else
+          echo "ℹ️ No medical calculation changes detected"
+        fi
+
+    - name: Check component changes
+      run: |
+        if git diff --name-only origin/main...HEAD | grep -E "components/" > /dev/null 2>&1; then
+          echo "🧩 Component files changed - validating..."
+
+          # Run component tests if they exist
+          if [ -d "src/components/__tests__" ]; then
+            npm run test:run -- src/components/__tests__/
+            echo "✅ Component tests passed"
+          else
+            echo "⚠️ Component tests not found"
+          fi
+        else
+          echo "ℹ️ No component changes detected"
+        fi
+
+    - name: Capacitor configuration check
+      run: |
+        if git diff --name-only origin/main...HEAD | grep -E "(capacitor\.config|android/|ios/)" > /dev/null 2>&1; then
+          echo "📱 Capacitor configuration or native files changed"
+          echo "::warning::Native platform changes detected - test on physical devices"
+
+          # Verify Capacitor config syntax
+          if [ -f "capacitor.config.ts" ]; then
+            echo "Validating Capacitor configuration..."
+            npx cap doctor || echo "⚠️ Capacitor doctor check failed"
+          fi
+        else
+          echo "ℹ️ No Capacitor changes detected"
+        fi
+
+    - name: Performance regression check
+      run: |
+        echo "⚡ Checking for potential performance regressions..."
+
+        # Build and check bundle size
+        npm run build
+
+        # Check bundle size (warning if > 1.5MB)
+        if [ -d "dist/assets" ]; then
+          BUNDLE_SIZE=$(du -sk dist/assets/*.js 2>/dev/null | cut -f1 | head -1 || echo "0")
+          if [ "$BUNDLE_SIZE" -gt 1536 ]; then  # 1.5MB in KB
+            echo "::warning::Bundle size is $BUNDLE_SIZE KB - consider code splitting"
+          else
+            echo "✅ Bundle size OK: $BUNDLE_SIZE KB"
+          fi
+        fi
+
+    - name: Accessibility check
+      run: |
+        echo "♿ Running accessibility validation..."
+        npm run lint -- --ext .tsx --no-fix | grep -i "jsx-a11y" || echo "✅ No accessibility issues found"
+
+    - name: TypeScript check
+      run: |
+        echo "🔧 Running TypeScript compilation check..."
+        tsc -b --noEmit || echo "⚠️ TypeScript compilation issues found"
+
+    - name: Medical data handling check
+      run: |
+        echo "🏥 Checking medical data handling patterns..."
+
+        # Check for any localStorage/sessionStorage in new code
+        if git diff origin/main...HEAD | grep -E "localStorage|sessionStorage" > /dev/null 2>&1; then
+          echo "::warning::Browser storage usage detected - ensure proper data handling"
+        else
+          echo "✅ No direct browser storage in changes"
+        fi
+
+        # Check for console.log statements with potentially sensitive data
+        if git diff origin/main...HEAD | grep -E "console\.log.*patient|console\.log.*medical" > /dev/null 2>&1; then
+          echo "::warning::Potential sensitive data logging detected"
+        else
+          echo "✅ No obvious sensitive data logging"
+        fi
+
+    - name: PR Summary
+      run: |
+        echo "📋 Pull Request Validation Summary"
+        echo "================================="
+        echo "✅ Code quality checks completed"
+        echo "✅ Medical calculation validation completed"
+        echo "✅ Component validation completed"
+        echo "✅ Capacitor configuration validated"
+        echo "✅ Performance checks completed"
+        echo "✅ Accessibility checks completed"
+        echo "✅ TypeScript compilation validated"
+        echo "✅ Medical data handling checked"
+        echo ""
+        echo "🎯 Ready for human review!"

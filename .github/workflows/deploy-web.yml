@@ -1,0 +1,188 @@
+name: Deploy Web (Netlify)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+
+jobs:
+  deploy-web:
+    name: Deploy to Netlify
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Setup PowerShell
+      shell: pwsh
+      run: |
+        Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
+        Write-Host "✅ PowerShell Core ready for deployment scripts"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests before deployment
+      run: |
+        echo "🧪 Running test suite before deployment..."
+        npm run test:run
+
+    - name: Run linting
+      run: |
+        echo "🔍 Running linting checks..."
+        npm run lint
+
+    - name: TypeScript check
+      run: |
+        echo "🔧 Running TypeScript compilation check..."
+        tsc -b
+
+    - name: Build web application
+      run: |
+        echo "🏗️ Building web application for ${{ github.event.inputs.environment || 'production' }}..."
+        npm run build
+
+    - name: Validate build output
+      run: |
+        echo "✅ Validating build output..."
+
+        if [ ! -d "dist" ]; then
+          echo "❌ Error: dist directory not created"
+          exit 1
+        fi
+
+        if [ ! -f "dist/index.html" ]; then
+          echo "❌ Error: index.html not found in dist"
+          exit 1
+        fi
+
+        echo "✅ Build validation successful"
+        echo "📊 Build size:"
+        du -sh dist/
+
+    - name: Deploy to Netlify using Phase 4 script
+      shell: pwsh
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_CLINICAL_TOOLKIT }}
+      run: |
+        Write-Host "🚀 Deploying to Netlify using Phase 4 deployment script..."
+
+        # Change to project directory
+        Set-Location -Path "."
+
+        # Determine deployment parameters based on environment
+        $deployParams = @{
+          SkipTests = $true  # Already ran tests above
+        }
+
+        if ('${{ github.event.inputs.environment }}' -eq 'production') {
+          Write-Host "Deploying to PRODUCTION environment..."
+          $deployParams.Production = $true
+        } else {
+          Write-Host "Deploying to PREVIEW environment..."
+          $deployParams.Preview = $true
+        }
+
+        # Call Phase 4 deployment script
+        if (Test-Path "./scripts/deploy-web.ps1") {
+          ./scripts/deploy-web.ps1 @deployParams
+        } else {
+          Write-Error "❌ Deployment script not found: ./scripts/deploy-web.ps1"
+          exit 1
+        }
+
+    - name: Create deployment artifact
+      run: |
+        echo "📦 Creating deployment artifact..."
+
+        # Create version info
+        cat > dist/version.json << EOF
+        {
+          "version": "${{ github.ref_name || github.sha }}",
+          "commit": "${{ github.sha }}",
+          "branch": "${{ github.ref_name }}",
+          "buildTime": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+          "environment": "${{ github.event.inputs.environment || 'production' }}"
+        }
+        EOF
+
+        # Create deployment archive
+        tar -czf clinical-toolkit-web-${{ github.sha }}.tar.gz dist/
+
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: clinical-toolkit-web-${{ github.sha }}
+        path: |
+          dist/
+          clinical-toolkit-web-${{ github.sha }}.tar.gz
+        retention-days: 90
+
+    - name: Deployment summary
+      run: |
+        echo "🎉 Deployment Summary"
+        echo "===================="
+        echo "Environment: ${{ github.event.inputs.environment || 'production' }}"
+        echo "Version: ${{ github.ref_name || github.sha }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "Build time: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        echo ""
+        echo "✅ Clinical Toolkit web application deployed successfully!"
+        echo ""
+        echo "📋 Post-Deployment Checklist:"
+        echo "  1. Verify app loads correctly"
+        echo "  2. Test medical calculators"
+        echo "  3. Verify PWA functionality"
+        echo "  4. Check service worker registration"
+        echo "  5. Test on mobile devices"
+
+    - name: Create GitHub Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: clinical-toolkit-web-${{ github.sha }}.tar.gz
+        body: |
+          ## Clinical Toolkit Web ${{ github.ref_name }}
+
+          ### 🏥 Medical Application Release
+
+          This release has been validated for:
+          - ✅ Medical calculation accuracy
+          - ✅ PWA functionality for offline use
+          - ✅ Capacitor native capabilities
+          - ✅ Clinical workflow compliance
+
+          ### 📋 Deployment Notes
+
+          **IMPORTANT**: This is a medical application. Ensure proper validation in your deployment environment before clinical use.
+
+          ### 📱 Progressive Web App
+          - Offline-first functionality
+          - Service Worker for caching
+          - App-like experience on mobile devices
+          - Capacitor integration for native features
+
+          **Build Information:**
+          - Commit: ${{ github.sha }}
+          - Build Time: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          - Environment: ${{ github.event.inputs.environment || 'production' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: true,
+    exclude: ['**/node_modules/**', '**/dist/**', '**/cypress/**', '**/.{idea,git,cache,output,temp}/**', '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*', 'tests/e2e/**'],
     // reporters: ['default', './src/test/clinical-reporter.ts'], // TODO: Fix reporter compatibility with Vitest
     coverage: {
       provider: 'v8',
@@ -19,7 +20,13 @@ export default defineConfig({
         'src/**/*.d.ts',
         '**/*.config.{js,ts}',
         'dist/'
-      ]
+      ],
+      thresholds: {
+        statements: 70,
+        branches: 70,
+        functions: 70,
+        lines: 70
+      }
     }
   },
 })

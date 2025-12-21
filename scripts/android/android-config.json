@@ -1,0 +1,27 @@
+{
+  "packageName": "com.clinicaltoolkit.app",
+  "appName": "Clinical Toolkit",
+  "paths": {
+    "androidDir": "android",
+    "gradleWrapper": "gradlew.bat",
+    "gradleWrapperUnix": "gradlew",
+    "apk": {
+      "debug": "android/app/build/outputs/apk/debug/app-debug.apk",
+      "release": "android/app/build/outputs/apk/release/app-release.apk"
+    },
+    "logs": "scripts/logs"
+  },
+  "timeouts": {
+    "emulatorStartup": 120,
+    "buildTimeout": 300,
+    "gradleTimeout": 600
+  },
+  "logcat": {
+    "defaultFilter": "ReactNativeJS:V *:S",
+    "packageFilter": "{{packageName}}:V *:S"
+  },
+  "buildVariants": {
+    "debug": "assembleDebug",
+    "release": "assembleRelease"
+  }
+}

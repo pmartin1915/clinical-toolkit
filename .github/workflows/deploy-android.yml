@@ -1,0 +1,188 @@
+name: Deploy Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        type: choice
+        options:
+          - debug
+          - release
+      bundle:
+        description: 'Build AAB instead of APK'
+        type: boolean
+        default: false
+
+jobs:
+  deploy-android:
+    name: Build Android App
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Setup Java 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Setup PowerShell
+      shell: pwsh
+      run: |
+        Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
+        Write-Host "✅ PowerShell Core ready for deployment scripts"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build Android using Phase 4 script
+      shell: pwsh
+      env:
+        ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
+      run: |
+        Write-Host "📱 Building Android app using Phase 4 deployment script..."
+
+        # Ensure ANDROID_HOME is set
+        if (-not $env:ANDROID_HOME) {
+          $env:ANDROID_HOME = $env:ANDROID_SDK_ROOT
+          Write-Host "Set ANDROID_HOME to: $env:ANDROID_HOME"
+        }
+
+        # Prepare deployment parameters
+        $deployParams = @{
+          BuildType = '${{ github.event.inputs.build_type }}'
+          SkipTests = $true  # Tests already run in CI workflow
+        }
+
+        if ('${{ github.event.inputs.bundle }}' -eq 'true') {
+          Write-Host "Building AAB (Android App Bundle)..."
+          $deployParams.Bundle = $true
+        } else {
+          Write-Host "Building APK..."
+        }
+
+        # Call Phase 4 deployment script
+        if (Test-Path "./scripts/deploy-android.ps1") {
+          ./scripts/deploy-android.ps1 @deployParams
+        } else {
+          Write-Error "❌ Deployment script not found: ./scripts/deploy-android.ps1"
+          exit 1
+        }
+
+    - name: Verify build output
+      run: |
+        echo "✅ Verifying Android build output..."
+
+        # Check for debug APK
+        if [ '${{ github.event.inputs.build_type }}' = 'debug' ]; then
+          if [ -f "android/app/build/outputs/apk/debug/app-debug.apk" ]; then
+            echo "✅ Debug APK found"
+            ls -lh android/app/build/outputs/apk/debug/app-debug.apk
+          else
+            echo "❌ Debug APK not found"
+            exit 1
+          fi
+        fi
+
+        # Check for release APK
+        if [ '${{ github.event.inputs.build_type }}' = 'release' ] && [ '${{ github.event.inputs.bundle }}' != 'true' ]; then
+          if [ -f "android/app/build/outputs/apk/release/app-release.apk" ]; then
+            echo "✅ Release APK found"
+            ls -lh android/app/build/outputs/apk/release/app-release.apk
+          else
+            echo "⚠️ Release APK not found (may need signing)"
+          fi
+        fi
+
+        # Check for AAB
+        if [ '${{ github.event.inputs.bundle }}' = 'true' ]; then
+          if [ -f "android/app/build/outputs/bundle/release/app-release.aab" ]; then
+            echo "✅ Release AAB found"
+            ls -lh android/app/build/outputs/bundle/release/app-release.aab
+          else
+            echo "⚠️ Release AAB not found"
+          fi
+        fi
+
+    - name: Upload APK artifact
+      if: github.event.inputs.bundle != 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-apk-${{ github.event.inputs.build_type }}-${{ github.sha }}
+        path: |
+          android/app/build/outputs/apk/debug/*.apk
+          android/app/build/outputs/apk/release/*.apk
+        retention-days: 30
+
+    - name: Upload AAB artifact
+      if: github.event.inputs.bundle == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-aab-${{ github.sha }}
+        path: android/app/build/outputs/bundle/release/*.aab
+        retention-days: 30
+
+    - name: Build summary
+      run: |
+        echo "🎉 Android Build Summary"
+        echo "========================"
+        echo "Build Type: ${{ github.event.inputs.build_type }}"
+        echo "Package Type: ${{ github.event.inputs.bundle == 'true' && 'AAB (Bundle)' || 'APK' }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "Build time: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        echo ""
+        echo "✅ Android build completed successfully!"
+        echo ""
+        echo "📋 Next Steps:"
+        echo "  1. Download the artifact from the Actions tab"
+        if [ '${{ github.event.inputs.build_type }}' = 'debug' ]; then
+          echo "  2. Install on test device: adb install app-debug.apk"
+          echo "  3. Test medical calculators"
+          echo "  4. Verify offline functionality"
+        else
+          echo "  2. Sign the APK/AAB if not already signed"
+          echo "  3. Upload to Google Play Console (for AAB)"
+          echo "  4. Test on production devices"
+          echo "  5. Verify medical calculation accuracy"
+        fi
+
+  android-signing-info:
+    name: Android Signing Information
+    runs-on: ubuntu-latest
+    if: github.event.inputs.build_type == 'release'
+
+    steps:
+    - name: Display signing information
+      run: |
+        echo "🔐 Android Release Signing Information"
+        echo "======================================"
+        echo ""
+        echo "⚠️ For production releases, you need to configure signing:"
+        echo ""
+        echo "1. Generate a keystore (if not already done):"
+        echo "   keytool -genkey -v -keystore my-release-key.jks -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000"
+        echo ""
+        echo "2. Add the following secrets to GitHub:"
+        echo "   - ANDROID_KEYSTORE (base64 encoded .jks file)"
+        echo "   - ANDROID_KEYSTORE_PASSWORD"
+        echo "   - ANDROID_KEY_ALIAS"
+        echo "   - ANDROID_KEY_PASSWORD"
+        echo ""
+        echo "3. Update android/app/build.gradle with signing config"
+        echo ""
+        echo "4. Re-run this workflow after configuring secrets"
+        echo ""
+        echo "📚 Documentation: https://developer.android.com/studio/publish/app-signing"

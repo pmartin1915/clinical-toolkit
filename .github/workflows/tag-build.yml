@@ -1,0 +1,67 @@
+name: Tag-Based Build
+
+on:
+  push:
+    tags:
+      - 'clinical-toolkit-v*.*.*'
+      - 'clinical-toolkit-v*.*.*-alpha.*'
+      - 'clinical-toolkit-v*.*.*-beta.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG=${GITHUB_REF#refs/tags/clinical-toolkit-v}
+          echo "version=$TAG" >> $GITHUB_OUTPUT
+          if [[ $TAG == *"-alpha."* ]]; then
+            echo "profile=development" >> $GITHUB_OUTPUT
+          elif [[ $TAG == *"-beta."* ]]; then
+            echo "profile=preview" >> $GITHUB_OUTPUT
+          else
+            echo "profile=production" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Build via Phase 6 script
+        shell: pwsh
+        working-directory: scripts
+        run: |
+          ./build-mobile.ps1 -App ClinicalToolkit -Platform android -Profile ${{ steps.version.outputs.profile }} -SkipTests -SkipLint
+      
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: scripts/build-artifacts/ClinicalToolkit/android/**/*.apk
+          tag_name: ${{ github.ref_name }}
+          name: Clinical Toolkit ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+      
+      - name: Notify build status
+        if: always()
+        shell: pwsh
+        working-directory: scripts
+        run: |
+          $status = if ('${{ job.status }}' -eq 'success') { 'success' } else { 'failure' }
+          ./notify-build.ps1 -Status $status -App ClinicalToolkit -Platform android -Profile ${{ steps.version.outputs.profile }} -DownloadUrl "https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

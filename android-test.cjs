@@ -31,9 +31,11 @@ const CONFIG = {
   EMULATOR_CHECK_INTERVAL: 5000, // Check every 5 seconds
   BUILD_TIMEOUT: 300000, // 5 minutes max for build
   SYNC_TIMEOUT: 60000, // 1 minute for sync
+  GRADLE_BUILD_TIMEOUT: 600000, // 10 minutes for Gradle build
   LOG_FILE: 'android-test.log',
   PORTS_TO_CHECK: [5173, 8100, 3000, 8080], // Dev server ports
   VITE_PORT: 5173,
+  NO_STUDIO: process.argv.includes('--no-studio'), // CLI-only mode flag
 };
 
 // ============================================================================
@@ -489,6 +491,79 @@ async function launchAndroidStudio() {
 }
 
 // ============================================================================
+// Gradle Build (CLI-only mode)
+// ============================================================================
+
+async function buildWithGradle() {
+  logStep(6, 10, 'Building APK with Gradle (no Android Studio)...');
+
+  return new Promise((resolve, reject) => {
+    const gradlewPath = path.join('android', process.platform === 'win32' ? 'gradlew.bat' : 'gradlew');
+
+    if (!fs.existsSync(gradlewPath)) {
+      logError('Gradle wrapper not found');
+      reject(new Error('Gradle wrapper not found'));
+      return;
+    }
+
+    logInfo('Running Gradle build (this may take several minutes on first run)...');
+
+    const gradleProcess = spawn(gradlewPath, ['assembleDebug'], {
+      cwd: 'android',
+      stdio: 'pipe',
+      shell: true,
+      timeout: CONFIG.GRADLE_BUILD_TIMEOUT
+    });
+
+    let stdout = '';
+    let stderr = '';
+
+    gradleProcess.stdout.on('data', (data) => {
+      stdout += data.toString();
+      process.stdout.write('.');
+    });
+
+    gradleProcess.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    gradleProcess.on('close', (code) => {
+      console.log(''); // New line after dots
+
+      if (code === 0) {
+        logSuccess('Gradle build completed successfully');
+
+        // Verify APK was created
+        const apkPath = path.join('android', 'app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk');
+        if (fs.existsSync(apkPath)) {
+          const sizeInMB = (fs.statSync(apkPath).size / (1024 * 1024)).toFixed(2);
+          logInfo(`APK created: ${apkPath} (${sizeInMB} MB)`);
+          resolve(true);
+        } else {
+          logWarning('Build reported success but APK not found');
+          resolve(false);
+        }
+      } else {
+        logError(`Gradle build failed with code ${code}`);
+        if (stderr) {
+          logError('Build errors:');
+          const errorLines = stderr.split('\n').filter(line =>
+            line.includes('error') || line.includes('ERROR') || line.includes('FAILURE')
+          ).slice(0, 10);
+          errorLines.forEach(line => logError(`  ${line}`));
+        }
+        reject(new Error('Gradle build failed'));
+      }
+    });
+
+    gradleProcess.on('error', (error) => {
+      logError(`Gradle process error: ${error.message}`);
+      reject(error);
+    });
+  });
+}
+
+// ============================================================================
 // Alternative: Direct ADB Install and Launch
 // ============================================================================
 
@@ -654,6 +729,9 @@ async function main() {
 
   logInfo(`Starting at: ${new Date().toLocaleString()}`);
   logInfo(`Log file: ${CONFIG.LOG_FILE}`);
+  if (CONFIG.NO_STUDIO) {
+    logInfo('Mode: CLI-only (--no-studio flag detected)');
+  }
   console.log('');
 
   const results = {
@@ -663,6 +741,8 @@ async function main() {
     buildCompleted: false,
     syncCompleted: false,
     studioLaunched: false,
+    gradleBuilt: false,
+    apkInstalled: false,
     healthChecksPassed: false,
     allPassed: false,
   };
@@ -695,12 +775,25 @@ async function main() {
       throw new Error('Sync failed');
     }
 
-    // Step 6: Launch Android Studio
-    results.studioLaunched = await launchAndroidStudio();
+    // Step 6: Build APK or Launch Android Studio
+    if (CONFIG.NO_STUDIO) {
+      // CLI-only mode: Build with Gradle and install
+      results.gradleBuilt = await buildWithGradle();
+      if (!results.gradleBuilt) {
+        throw new Error('Gradle build failed');
+      }
 
-    // Step 7: Try to install/launch APK (optional)
-    logStep(7, 10, 'Checking for existing APK...');
-    await installAndLaunchAPK();
+      // Step 7: Install and launch APK
+      logStep(7, 10, 'Installing APK to emulator...');
+      results.apkInstalled = await installAndLaunchAPK();
+    } else {
+      // Default mode: Launch Android Studio
+      results.studioLaunched = await launchAndroidStudio();
+
+      // Step 7: Try to install/launch APK (optional, if APK already exists)
+      logStep(7, 10, 'Checking for existing APK...');
+      await installAndLaunchAPK();
+    }
 
     // Step 8: Health checks
     results.healthChecksPassed = await runHealthChecks();

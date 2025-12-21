@@ -9,10 +9,21 @@ import type {
   VitalSigns,
   GoalTracking
 } from '../types/storage';
+import {
+  maskPatientPII,
+  createSafeDisplayName,
+  createSafeDisplayNameWithMRN,
+  sanitizeErrorMessage,
+  createAuditLogEntry
+} from './security/piiMasking';
 
 export class ExportManager {
   // PDF Report Generation
   public static async generatePatientReport(data: ExportData): Promise<Blob> {
+    // Mask patient PII for HIPAA compliance
+    const maskedPatient = await maskPatientPII(data.patientProfile);
+    const maskedDisplayName = createSafeDisplayNameWithMRN(maskedPatient);
+
     const pdf = new jsPDF();
     const pageWidth = pdf.internal.pageSize.getWidth();
     const margin = 20;
@@ -53,11 +64,11 @@ export class ExportManager {
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'normal');
     const patient = data.patientProfile;
-    yPosition = addText(`Name: ${patient.firstName} ${patient.lastName}`, margin, yPosition);
-    yPosition = addText(`Date of Birth: ${format(new Date(patient.dateOfBirth), 'MMMM dd, yyyy')}`, margin, yPosition);
-    if (patient.medicalRecordNumber) {
-      yPosition = addText(`MRN: ${patient.medicalRecordNumber}`, margin, yPosition);
-    }
+
+    // Use masked patient identifiers - HIPAA compliant
+    yPosition = addText(`Patient: ${maskedDisplayName}`, margin, yPosition);
+    yPosition = addText(`Age Group: ${maskedPatient.ageGroup}`, margin, yPosition);
+    yPosition = addText(`Patient ID (Hashed): ${maskedPatient.hashedId.substring(0, 12)}...`, margin, yPosition);
     yPosition = addText(`Conditions: ${patient.conditions.join(', ')}`, margin, yPosition, pageWidth - 2 * margin);
     if (patient.allergies.length > 0) {
       yPosition = addText(`Allergies: ${patient.allergies.join(', ')}`, margin, yPosition, pageWidth - 2 * margin);
@@ -337,28 +348,42 @@ export class ExportManager {
     URL.revokeObjectURL(url);
   }
 
-  // Generate filename with patient info and timestamp
-  public static generateFilename(patient: PatientProfile, type: 'pdf' | 'csv' | 'json', category?: string): string {
+  // Generate filename with patient info and timestamp (HIPAA compliant - uses masked initials)
+  public static async generateFilename(patient: PatientProfile, type: 'pdf' | 'csv' | 'json', category?: string): Promise<string> {
     const timestamp = format(new Date(), 'yyyy-MM-dd_HH-mm');
-    const patientName = `${patient.firstName}_${patient.lastName}`.replace(/[^a-zA-Z0-9_-]/g, '');
+
+    // Use masked initials instead of full name for HIPAA compliance
+    const maskedPatient = await maskPatientPII(patient);
+    const patientIdentifier = maskedPatient.displayInitials.replace(/\./g, '');
+
     const categoryStr = category ? `_${category}` : '';
-    return `${patientName}${categoryStr}_${timestamp}.${type}`;
+    return `clinical-toolkit_${patientIdentifier}${categoryStr}_${timestamp}.${type}`;
   }
 
   // Batch export for multiple patients
   public static async generateBatchReport(patients: PatientProfile[], getData: (id: string) => ExportData): Promise<Blob> {
     const JSZip = (await import('jszip')).default;
     const zip = new JSZip();
-    
+
     for (const patient of patients) {
       try {
         const data = getData(patient.id);
         const pdfBlob = await this.generatePatientReport(data);
-        const filename = this.generateFilename(patient, 'pdf');
-        
+        const filename = await this.generateFilename(patient, 'pdf');
+
         zip.file(filename, pdfBlob);
+
+        // Create audit log entry for export
+        const maskedPatient = await maskPatientPII(patient);
+        const auditEntry = createAuditLogEntry('EXPORT_PATIENT_REPORT', maskedPatient, {
+          format: 'pdf',
+          batchExport: true
+        });
+        console.info('📋 Patient report exported:', auditEntry);
       } catch (error) {
-        console.error(`Error generating report for patient ${patient.id}:`, error);
+        const maskedPatient = await maskPatientPII(patient);
+        const sanitizedError = sanitizeErrorMessage(error as Error, maskedPatient);
+        console.error(`Error generating report for patient ${maskedPatient.displayInitials}:`, sanitizedError);
       }
     }
 

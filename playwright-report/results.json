@@ -1,0 +1,1043 @@
+{
+  "config": {
+    "configFile": "D:\\Project\\healthcare-apps\\clinical-toolkit\\playwright.config.ts",
+    "rootDir": "D:/Project/healthcare-apps/clinical-toolkit/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "D:/Project/healthcare-apps/clinical-toolkit/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Project/healthcare-apps/clinical-toolkit/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Project/healthcare-apps/clinical-toolkit/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "D:/Project/healthcare-apps/clinical-toolkit/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Project/healthcare-apps/clinical-toolkit/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "D:/Project/healthcare-apps/clinical-toolkit/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Project/healthcare-apps/clinical-toolkit/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "D:/Project/healthcare-apps/clinical-toolkit/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Project/healthcare-apps/clinical-toolkit/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "D:/Project/healthcare-apps/clinical-toolkit/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 6,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:5173",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "basic-functionality.spec.ts",
+      "file": "basic-functionality.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Clinical Toolkit - Basic Functionality",
+          "file": "basic-functionality.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "App loads successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13006,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:18.043Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-7c06476b42521d6ba3d6",
+              "file": "basic-functionality.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "Dashboard has quick actions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 15778,
+                      "error": {
+                        "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n",
+                        "stack": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28",
+                        "location": {
+                          "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                          "column": 28,
+                          "line": 30
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                            "column": 28,
+                            "line": 30
+                          },
+                          "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m\n\u001b[2m    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:17.838Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                        "column": 28,
+                        "line": 30
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-76471ce8bfd32e0358e5",
+              "file": "basic-functionality.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "Educational disclaimer is present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 14445,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:17.901Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-191a592b631afa0d7bb7",
+              "file": "basic-functionality.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "Mobile viewport works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 14347,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:18.090Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-c2f1fc35ceb56cf0e8ad",
+              "file": "basic-functionality.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "App loads successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 11754,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:18.045Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-45f0134e0eeaa1431483",
+              "file": "basic-functionality.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "Dashboard has quick actions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 16790,
+                      "error": {
+                        "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    ...\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n",
+                        "stack": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    ...\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28",
+                        "location": {
+                          "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                          "column": 28,
+                          "line": 30
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                            "column": 28,
+                            "line": 30
+                          },
+                          "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    ...\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m\n\u001b[2m    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:18.134Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-firefox\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-firefox\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                        "column": 28,
+                        "line": 30
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-d116e1849e69afaf355f",
+              "file": "basic-functionality.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "Educational disclaimer is present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8778,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:39.733Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-f2c68b9f46f5aa4bd1e3",
+              "file": "basic-functionality.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "Mobile viewport works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 4267,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:33.509Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-09ecfa74150566a63b8d",
+              "file": "basic-functionality.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "App loads successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5656,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:40.155Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-530592e2ca44f9175661",
+              "file": "basic-functionality.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "Dashboard has quick actions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 7178,
+                      "error": {
+                        "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 5 elements:\n    1) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    2) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    5) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n",
+                        "stack": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 5 elements:\n    1) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    2) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    5) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28",
+                        "location": {
+                          "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                          "column": 28,
+                          "line": 30
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                            "column": 28,
+                            "line": 30
+                          },
+                          "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 5 elements:\n    1) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    2) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    5) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m\n\u001b[2m    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:41.053Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-webkit\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                        "column": 28,
+                        "line": 30
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-3b2f21f8b0b11732a62e",
+              "file": "basic-functionality.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "Educational disclaimer is present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5827,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:41.060Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-49bf6efb45c2600b7b40",
+              "file": "basic-functionality.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "Mobile viewport works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 5581,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:41.471Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-1c98d7a9bc62639ca03b",
+              "file": "basic-functionality.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "App loads successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 4078,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:43.311Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-c8477bdfdfbec4b82085",
+              "file": "basic-functionality.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "Dashboard has quick actions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 5386,
+                      "error": {
+                        "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n",
+                        "stack": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28",
+                        "location": {
+                          "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                          "column": 28,
+                          "line": 30
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                            "column": 28,
+                            "line": 30
+                          },
+                          "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m\n\u001b[2m    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:52.507Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-Mobile-Chrome\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-Mobile-Chrome\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                        "column": 28,
+                        "line": 30
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-e692defd6480871343e7",
+              "file": "basic-functionality.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "Educational disclaimer is present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3966,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:52.519Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-d08f588884167a63f922",
+              "file": "basic-functionality.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "Mobile viewport works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4134,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:52.457Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-cbc91c952335d8e74709",
+              "file": "basic-functionality.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "App loads successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 3918,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:53.736Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-f86fb3c0ad73cccbaec7",
+              "file": "basic-functionality.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "Dashboard has quick actions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 5966,
+                      "error": {
+                        "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n",
+                        "stack": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28",
+                        "location": {
+                          "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                          "column": 28,
+                          "line": 30
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                            "column": 28,
+                            "line": 30
+                          },
+                          "message": "Error: locator.isVisible: Error: strict mode violation: getByRole('button', { name: /accept|agree|continue|close/i }) resolved to 6 elements:\n    1) <button aria-label=\"Close info panel\" class=\"p-3 min-h-touch-md min-w-touch-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors rounded-md hover:bg-blue-100\">…</button> aka getByRole('button', { name: 'Close info panel' })\n    2) <button aria-label=\"Close modal\" class=\"ml-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700\">…</button> aka getByRole('button', { name: 'Close modal' })\n    3) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).first()\n    4) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(1)\n    5) <button class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-4 py-3 text-sm min-h-touch-md\">Read & Accept</button> aka getByRole('button', { name: 'Read & Accept' }).nth(2)\n    6) <button disabled class=\"inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 px-8 py-4 text-lg min-h-touch-lg flex-1\">Accept All Required Documents</button> aka getByRole('button', { name: 'Accept All Required Documents' })\n\nCall log:\n\u001b[2m    - checking visibility of getByRole('button', { name: /accept|agree|continue|close/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[90m// Close welcome modal if present\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m acceptButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/accept|agree|continue|close/i\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39misVisible()) {\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m       \u001b[36mawait\u001b[39m acceptButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     }\u001b[0m\n\u001b[2m    at D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts:30:28\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:53.607Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-Mobile-Safari\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-Mobile-Safari\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Project\\healthcare-apps\\clinical-toolkit\\test-results\\basic-functionality-Clinic-410e9-Dashboard-has-quick-actions-Mobile-Safari\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\Project\\healthcare-apps\\clinical-toolkit\\tests\\e2e\\basic-functionality.spec.ts",
+                        "column": 28,
+                        "line": 30
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-7db05a27476114460dfe",
+              "file": "basic-functionality.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "Educational disclaimer is present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4300,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:54:55.514Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-e3eae3222f381a37d53c",
+              "file": "basic-functionality.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "Mobile viewport works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3566,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-12T09:55:00.878Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e1fed252e99486c803c-65c4a92ebea175050fd2",
+              "file": "basic-functionality.spec.ts",
+              "line": 62,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-12-12T09:54:11.219Z",
+    "duration": 54421.964,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

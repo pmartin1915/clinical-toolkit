@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Wind, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
-import { storageManager } from '../../utils/storage';
+import { useClinicalStore } from '../../store/clinicalStore';
 import type { AssessmentResult } from '../../types/storage';
 import { withClinicalToolErrorBoundary } from '../ui/withErrorBoundary';
 
@@ -408,8 +408,9 @@ const COPDAssessmentComponent = () => {
             <button
               onClick={async () => {
                 try {
+                  const store = useClinicalStore.getState();
                   const assessmentResult: AssessmentResult = {
-                    id: storageManager.generateId(),
+                    id: store.generateId(),
                     patientId: 'default-patient', // In a real app, this would be selected patient
                     conditionId: 'copd',
                     toolId: 'cat',
@@ -421,7 +422,7 @@ const COPDAssessmentComponent = () => {
                     timestamp: new Date().toISOString()
                   };
 
-                  await storageManager.saveAssessment(assessmentResult);
+                  store.saveAssessment(assessmentResult);
                   alert('CAT results saved successfully!');
                   console.log('CAT results saved:', assessmentResult);
                 } catch (error) {

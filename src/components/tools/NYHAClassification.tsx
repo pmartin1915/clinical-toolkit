@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Heart, Activity, AlertTriangle, CheckCircle } from 'lucide-react';
-import { storageManager } from '../../utils/storage';
+import { useClinicalStore } from '../../store/clinicalStore';
 import type { AssessmentResult } from '../../types/storage';
 import { withClinicalToolErrorBoundary } from '../ui/withErrorBoundary';
 
@@ -334,8 +334,9 @@ const NYHAClassificationComponent = () => {
             <button
               onClick={async () => {
                 try {
+                  const store = useClinicalStore.getState();
                   const assessmentResult: AssessmentResult = {
-                    id: storageManager.generateId(),
+                    id: store.generateId(),
                     patientId: 'default-patient', // In a real app, this would be selected patient
                     conditionId: 'heart-failure',
                     toolId: 'nyha',
@@ -347,7 +348,7 @@ const NYHAClassificationComponent = () => {
                     timestamp: new Date().toISOString()
                   };
                   
-                  await storageManager.saveAssessment(assessmentResult);
+                  store.saveAssessment(assessmentResult);
                   alert('NYHA classification saved successfully!');
                   console.log('NYHA classification saved:', assessmentResult);
                 } catch (error) {

@@ -15,7 +15,7 @@ import {
   Clock
 } from 'lucide-react';
 import { EnhancedExportManager } from '../../utils/enhancedExport';
-import { storageManager } from '../../utils/storage';
+import { useClinicalStore } from '../../store/clinicalStore';
 import type { PatientProfile } from '../../types/storage';
 
 interface EnhancedExportDialogProps {
@@ -104,7 +104,15 @@ export const EnhancedExportDialog = ({ isOpen, onClose, patient }: EnhancedExpor
 
     try {
       // Get patient data
-      const exportData = storageManager.exportPatientData(patient.id);
+      const store = useClinicalStore.getState();
+      const exportData = {
+        patientProfile: patient,
+        assessments: store.getPatientAssessments(patient.id),
+        vitals: store.getPatientVitals(patient.id),
+        goals: store.getPatientGoals(patient.id),
+        education: store.getPatientEducationProgress(patient.id),
+        exportedAt: new Date().toISOString()
+      };
       
       if (options.format === 'pdf') {
         // Generate enhanced PDF

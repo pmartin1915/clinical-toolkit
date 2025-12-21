@@ -1,5 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { useClinicalStore } from '../../../store/clinicalStore';
+import type { AssessmentResult } from '../../../types/storage';
 
 // Simple test component
 const TestComponent = ({ title }: { title: string }) => {
@@ -7,6 +9,12 @@ const TestComponent = ({ title }: { title: string }) => {
 };
 
 describe('Basic Testing Framework', () => {
+  // Reset the store before each test
+  beforeEach(() => {
+    useClinicalStore.getState().clearAllData();
+    localStorage.clear();
+  });
+
   it('renders a simple component', () => {
     render(<TestComponent title="Test Title" />);
     
@@ -14,21 +22,23 @@ describe('Basic Testing Framework', () => {
     expect(screen.getByText('Test Title')).toBeInTheDocument();
   });
 
-  it('can access mocked storage manager', async () => {
-    const { storageManager } = await import('../../../utils/storage');
-    
-    expect(storageManager.generateId).toBeDefined();
-    expect(storageManager.saveAssessment).toBeDefined();
-    
-    const id = storageManager.generateId();
+  it('can access the clinical store', () => {
+    const { getState } = useClinicalStore;
+    const { generateId, saveAssessment } = getState();
+
+    expect(generateId).toBeDefined();
+    expect(saveAssessment).toBeDefined();
+
+    const id = generateId();
     expect(typeof id).toBe('string');
-    expect(id).toMatch(/^test-id-/);
+    // The new generateId is different, so the regex needs to be updated
+    expect(id).toMatch(/^[0-9a-z]+$/);
   });
 
-  it('can test async operations', async () => {
-    const { storageManager } = await import('../../../utils/storage');
-    
-    const mockAssessment = {
+  it('can perform operations with the clinical store', () => {
+    const { getState } = useClinicalStore;
+
+    const mockAssessment: AssessmentResult = {
       id: 'test-assessment',
       patientId: 'test-patient',
       conditionId: 'test-condition',
@@ -41,8 +51,12 @@ describe('Basic Testing Framework', () => {
       timestamp: new Date().toISOString()
     };
 
-    await expect(storageManager.saveAssessment(mockAssessment)).resolves.toBeUndefined();
-    expect(storageManager.saveAssessment).toHaveBeenCalledWith(mockAssessment);
+    // saveAssessment is synchronous in the store
+    getState().saveAssessment(mockAssessment);
+
+    const assessments = getState().getPatientAssessments('test-patient');
+    expect(assessments).toHaveLength(1);
+    expect(assessments[0]).toEqual(mockAssessment);
   });
 
   it('can mock localStorage operations', () => {

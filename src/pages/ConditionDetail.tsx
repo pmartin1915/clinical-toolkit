@@ -1,33 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { ArrowLeft, Book, Calculator, Target, FileText, GraduationCap } from 'lucide-react';
 import type { Condition } from '../types';
 import { PlainLanguageSummary } from '../components/ui/PlainLanguageSummary';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
-import { A1CConverter } from '../components/tools/A1CConverter';
-import { GAD7Assessment } from '../components/tools/GAD7Assessment';
-import { EnhancedASCVDCalculator } from '../components/tools/EnhancedASCVDCalculator';
-import { PHQ9Assessment } from '../components/tools/PHQ9Assessment';
-import { BPTracker } from '../components/tools/BPTracker';
-import { TriglycerideCalculator } from '../components/tools/TriglycerideCalculator';
-import { UTIAssessment } from '../components/tools/UTIAssessment';
-import { UTIDiagnostic } from '../components/tools/UTIDiagnostic';
-import { SinusitisAssessment } from '../components/tools/SinusitisAssessment';
-import { SinusitisDiagnostic } from '../components/tools/SinusitisDiagnostic';
-import { HypertensionManagement } from '../components/tools/HypertensionManagement';
-import { DiabetesTreatment } from '../components/tools/DiabetesTreatment';
-import { DepressionTreatment } from '../components/tools/DepressionTreatment';
-import { MedicationInteractionChecker } from '../components/tools/MedicationInteractionChecker';
-import { RiskStratification } from '../components/tools/RiskStratification';
-import { PatientEducation } from '../components/tools/PatientEducation';
-import { SelfManagement } from '../components/tools/SelfManagement';
-import { COPDAssessment } from '../components/tools/COPDAssessment';
-import { AsthmaControlTest } from '../components/tools/AsthmaControlTest';
-import { NYHAClassification } from '../components/tools/NYHAClassification';
-import { CHA2DS2VAScCalculator } from '../components/tools/CHA2DS2VAScCalculator';
-import { EGFRCalculator } from '../components/tools/eGFRCalculator';
-import { OttawaAnkleRules } from '../components/tools/OttawaAnkleRules';
-import { DrugDosingCalculator } from '../components/tools/DrugDosingCalculator';
-import { WellsScore } from '../components/tools/WellsScore';
+import { trackLazyLoad } from '../utils/performance/lazyLoadTracker';
+// Lazy-loaded tool components for better performance
+const A1CConverter = lazy(() => trackLazyLoad(() => import('../components/tools/A1CConverter').then(m => ({ default: m.A1CConverter })), 'A1CConverter'));
+const GAD7Assessment = lazy(() => trackLazyLoad(() => import('../components/tools/GAD7Assessment').then(m => ({ default: m.GAD7Assessment })), 'GAD7Assessment'));
+const EnhancedASCVDCalculator = lazy(() => trackLazyLoad(() => import('../components/tools/EnhancedASCVDCalculator').then(m => ({ default: m.EnhancedASCVDCalculator })), 'EnhancedASCVDCalculator'));
+const PHQ9Assessment = lazy(() => trackLazyLoad(() => import('../components/tools/PHQ9Assessment').then(m => ({ default: m.PHQ9Assessment })), 'PHQ9Assessment'));
+const BMICalculator = lazy(() => trackLazyLoad(() => import('../components/calculators/BMICalculator').then(m => ({ default: m.BMICalculator })), 'BMICalculator'));
+const BPTracker = lazy(() => trackLazyLoad(() => import('../components/tools/BPTracker').then(m => ({ default: m.BPTracker })), 'BPTracker'));
+const TriglycerideCalculator = lazy(() => trackLazyLoad(() => import('../components/tools/TriglycerideCalculator').then(m => ({ default: m.TriglycerideCalculator })), 'TriglycerideCalculator'));
+const UTIAssessment = lazy(() => trackLazyLoad(() => import('../components/tools/UTIAssessment').then(m => ({ default: m.UTIAssessment })), 'UTIAssessment'));
+const UTIDiagnostic = lazy(() => trackLazyLoad(() => import('../components/tools/UTIDiagnostic').then(m => ({ default: m.UTIDiagnostic })), 'UTIDiagnostic'));
+const SinusitisAssessment = lazy(() => trackLazyLoad(() => import('../components/tools/SinusitisAssessment').then(m => ({ default: m.SinusitisAssessment })), 'SinusitisAssessment'));
+const SinusitisDiagnostic = lazy(() => trackLazyLoad(() => import('../components/tools/SinusitisDiagnostic').then(m => ({ default: m.SinusitisDiagnostic })), 'SinusitisDiagnostic'));
+const HypertensionManagement = lazy(() => trackLazyLoad(() => import('../components/tools/HypertensionManagement').then(m => ({ default: m.HypertensionManagement })), 'HypertensionManagement'));
+const DiabetesTreatment = lazy(() => trackLazyLoad(() => import('../components/tools/DiabetesTreatment').then(m => ({ default: m.DiabetesTreatment })), 'DiabetesTreatment'));
+const DepressionTreatment = lazy(() => trackLazyLoad(() => import('../components/tools/DepressionTreatment').then(m => ({ default: m.DepressionTreatment })), 'DepressionTreatment'));
+const MedicationInteractionChecker = lazy(() => trackLazyLoad(() => import('../components/tools/MedicationInteractionChecker').then(m => ({ default: m.MedicationInteractionChecker })), 'MedicationInteractionChecker'));
+const RiskStratification = lazy(() => trackLazyLoad(() => import('../components/tools/RiskStratification').then(m => ({ default: m.RiskStratification })), 'RiskStratification'));
+const PatientEducation = lazy(() => trackLazyLoad(() => import('../components/tools/PatientEducation').then(m => ({ default: m.PatientEducation })), 'PatientEducation'));
+const SelfManagement = lazy(() => trackLazyLoad(() => import('../components/tools/SelfManagement').then(m => ({ default: m.SelfManagement })), 'SelfManagement'));
+const COPDAssessment = lazy(() => trackLazyLoad(() => import('../components/tools/COPDAssessment').then(m => ({ default: m.COPDAssessment })), 'COPDAssessment'));
+const AsthmaControlTest = lazy(() => trackLazyLoad(() => import('../components/tools/AsthmaControlTest').then(m => ({ default: m.AsthmaControlTest })), 'AsthmaControlTest'));
+const NYHAClassification = lazy(() => trackLazyLoad(() => import('../components/tools/NYHAClassification').then(m => ({ default: m.NYHAClassification })), 'NYHAClassification'));
+const CHA2DS2VAScCalculator = lazy(() => trackLazyLoad(() => import('../components/tools/CHA2DS2VAScCalculator').then(m => ({ default: m.CHA2DS2VAScCalculator })), 'CHA2DS2VAScCalculator'));
+const EGFRCalculator = lazy(() => trackLazyLoad(() => import('../components/tools/eGFRCalculator').then(m => ({ default: m.EGFRCalculator })), 'EGFRCalculator'));
+const CreatinineClearanceCalculator = lazy(() => trackLazyLoad(() => import('../components/tools/CreatinineClearanceCalculator').then(m => ({ default: m.CreatinineClearanceCalculator })), 'CreatinineClearanceCalculator'));
+const OttawaAnkleRules = lazy(() => trackLazyLoad(() => import('../components/tools/OttawaAnkleRules').then(m => ({ default: m.OttawaAnkleRules })), 'OttawaAnkleRules'));
+const DrugDosingCalculator = lazy(() => trackLazyLoad(() => import('../components/tools/DrugDosingCalculator').then(m => ({ default: m.DrugDosingCalculator })), 'DrugDosingCalculator'));
+const WellsScore = lazy(() => trackLazyLoad(() => import('../components/tools/WellsScore').then(m => ({ default: m.WellsScore })), 'WellsScore'));
 
 interface ConditionDetailProps {
   condition: Condition;
@@ -93,6 +97,8 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
         return <PHQ9Assessment />;
       case 'depression-treatment':
         return <DepressionTreatment />;
+      case 'bmi-calculator':
+        return <BMICalculator />;
       case 'bp-tracker':
         return <BPTracker />;
       case 'hypertension-management':
@@ -125,6 +131,8 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
         return <CHA2DS2VAScCalculator />;
       case 'egfr-calculator':
         return <EGFRCalculator />;
+      case 'creatinine-clearance-calculator':
+        return <CreatinineClearanceCalculator />;
       case 'ottawa-ankle-rules':
         return <OttawaAnkleRules />;
       case 'drug-dosing-calculator':
@@ -217,7 +225,16 @@ export const ConditionDetail = ({ condition, onBack }: ConditionDetailProps) => 
             <ArrowLeft className="w-4 h-4 mr-1" />
             Back to Tools
           </button>
-          {renderTool(selectedTool)}
+          <Suspense fallback={
+            <div className="flex items-center justify-center py-12">
+              <div className="text-center">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mb-3"></div>
+                <p className="text-gray-600">Loading tool...</p>
+              </div>
+            </div>
+          }>
+            {renderTool(selectedTool)}
+          </Suspense>
         </div>
       ) : (
         <div ref={swipeRef as React.RefObject<HTMLDivElement>} className="touch-pan-y">

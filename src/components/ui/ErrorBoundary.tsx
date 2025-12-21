@@ -1,5 +1,6 @@
 import React, { type ErrorInfo, type ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { sanitizeErrorMessage } from '../../utils/security/piiMasking';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -31,8 +32,15 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+    // Sanitize error messages to prevent PHI exposure
+    const sanitizedMessage = sanitizeErrorMessage(error);
+    const sanitizedStack = error.stack ? sanitizeErrorMessage(error.stack) : undefined;
+
+    console.error('ErrorBoundary caught an error:', {
+      message: sanitizedMessage,
+      stack: sanitizedStack
+    });
+
     this.setState({
       error,
       errorInfo
@@ -50,11 +58,16 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   private reportError = (error: Error, errorInfo: ErrorInfo) => {
+    // Sanitize all error data before reporting to prevent PHI exposure
+    const sanitizedMessage = sanitizeErrorMessage(error);
+    const sanitizedStack = error.stack ? sanitizeErrorMessage(error.stack) : undefined;
+    const sanitizedComponentStack = errorInfo.componentStack ? sanitizeErrorMessage(errorInfo.componentStack) : undefined;
+
     // In a real application, you would report to a service like Sentry
     console.log('Reporting error to monitoring service:', {
-      error: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
+      error: sanitizedMessage,
+      stack: sanitizedStack,
+      componentStack: sanitizedComponentStack,
       toolName: this.props.toolName,
       level: this.props.level,
       timestamp: new Date().toISOString(),

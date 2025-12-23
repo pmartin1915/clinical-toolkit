@@ -261,7 +261,7 @@ export function migrateBPReadingsFromLocalStorage(): {
         // Add pulse as separate vital if present
         if (reading.pulse) {
           const pulseVital: VitalSigns = {
-            id: `${reading.id}-pulse` || store.generateId(),
+            id: reading.id ? `${reading.id}-pulse` : store.generateId(),
             patientId: 'default-patient',
             type: 'heart_rate',
             value: Number(reading.pulse),

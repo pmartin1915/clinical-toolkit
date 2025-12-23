@@ -11,7 +11,7 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
 import { render } from '@testing-library/react';
-import React, { type ReactElement } from 'react';
+import React from 'react';
 
 // Components and Stores
 import { ErrorBoundary } from '../../../components/ui/ErrorBoundary';

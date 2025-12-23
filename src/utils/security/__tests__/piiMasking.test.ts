@@ -4,7 +4,7 @@
  * Tests HIPAA-compliant masking and hashing of Protected Health Information (PHI)
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   maskPatientPII,
   createSafeDisplayName,
@@ -14,7 +14,6 @@ import {
   createAuditLogEntry,
   maskPatientBatch,
   type PIIMaskingConfig,
-  type MaskedPatientData
 } from '../piiMasking';
 import type { PatientProfile } from '../../../types/storage';
 

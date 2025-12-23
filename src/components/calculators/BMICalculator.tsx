@@ -34,8 +34,8 @@ export const BMICalculator = () => {
   };
 
   const calculateBMI = useCallback((): BMIResult | null => {
-    let weightValue = parseFloat(inputs.weight);
-    let heightValue = parseFloat(inputs.height);
+    const weightValue = parseFloat(inputs.weight);
+    const heightValue = parseFloat(inputs.height);
 
     if (isNaN(weightValue) || isNaN(heightValue)) {
       setWeightError(null); // Clear previous errors

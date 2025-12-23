@@ -11,7 +11,6 @@ import type {
 } from '../types/storage';
 import {
   maskPatientPII,
-  createSafeDisplayName,
   createSafeDisplayNameWithMRN,
   sanitizeErrorMessage,
   createAuditLogEntry

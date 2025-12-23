@@ -9,10 +9,8 @@ import type {
 } from '../types/storage';
 import {
   maskPatientPII,
-  createSafeDisplayName,
   createSafeDisplayNameWithMRN,
   sanitizeErrorMessage,
-  createAuditLogEntry
 } from './security/piiMasking';
 
 interface EmailOptions {
@@ -48,7 +46,7 @@ export class EnhancedExportManager {
   ): Promise<Blob> {
     // Mask patient PII for HIPAA compliance
     const maskedPatient = await maskPatientPII(data.patientProfile);
-    const maskedDisplayName = createSafeDisplayNameWithMRN(maskedPatient);
+    const _maskedDisplayName = createSafeDisplayNameWithMRN(maskedPatient); // TODO: Use in PDF header
 
     const pdf = new jsPDF();
     const pageWidth = pdf.internal.pageSize.getWidth();

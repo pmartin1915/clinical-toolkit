@@ -11,8 +11,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Vite (build tool)
 - Tailwind CSS
 - Capacitor 7 (Android native)
-- Vitest (testing)
+- Vitest (testing) - 321 tests passing
+- Playwright (E2E testing)
 - GitHub Actions (CI/CD)
+
+**Shared Dependencies:**
+- `@healthcare-apps/core` - Encryption, storage, error handling (AES-256-GCM)
 
 ## Essential Commands
 
@@ -96,6 +100,7 @@ App.tsx (ThemeProvider + routing logic)
 **State Management:**
 - **No Redux/Zustand for app state** - Uses React hooks and local state
 - **Persistence**: localStorage via `src/utils/storage.ts`
+- **Encrypted Storage**: Sensitive data via `@healthcare-apps/core` (AES-256-GCM, PBKDF2 600k iterations)
 - **Sync**: Service worker + `src/utils/syncManager.ts`
 
 ### Key Files & Directories

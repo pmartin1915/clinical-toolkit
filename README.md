@@ -121,15 +121,24 @@ See [TESTING_GUIDE.md](TESTING_GUIDE.md) for comprehensive testing documentation
 ## 🏗️ Architecture
 
 ### **Tech Stack**
-- **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **PWA**: Vite PWA Plugin + Workbox
-- **Mobile**: Capacitor 7 (Android support)
-- **Testing**: Vitest + Testing Library
-- **CI/CD**: GitHub Actions
-- **State Management**: React Hooks + Local Storage
-- **Icons**: Lucide React
+
+| Category             | Technology                            |
+| -------------------- | ------------------------------------- |
+| **Frontend**         | React 18 + TypeScript                 |
+| **Build Tool**       | Vite 7                                |
+| **Styling**          | Tailwind CSS                          |
+| **PWA**              | Vite PWA Plugin + Workbox             |
+| **Mobile**           | Capacitor 7 (Android, iOS, Desktop)   |
+| **Testing**          | Vitest + Playwright (321 tests)       |
+| **Encryption**       | @healthcare-apps/core (AES-256-GCM)   |
+| **State Management** | Zustand with encrypted persistence    |
+| **CI/CD**            | GitHub Actions                        |
+| **Icons**            | Lucide React                          |
+
+**Related Documentation:**
+
+- [CLAUDE.md](CLAUDE.md) - AI assistant guidance
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - System architecture
 
 ### **Project Structure**
 ```
